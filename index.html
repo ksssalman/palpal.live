@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PalPal - Clarity for Every Moment</title>
+    <title>PalPal - Moment by Moment</title>
     <style>
         * {
             margin: 0;
@@ -14,195 +14,180 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             overflow-x: hidden;
         }
 
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        .container {
             text-align: center;
             padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: drift 20s linear infinite;
-        }
-
-        @keyframes drift {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        .content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
+            max-width: 900px;
+            width: 100%;
         }
 
         .logo {
             font-size: 4rem;
             font-weight: 800;
-            color: white;
             margin-bottom: 1rem;
-            animation: fadeInUp 0.8s ease-out;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
         }
 
         .tagline {
             font-size: 1.5rem;
-            color: rgba(255,255,255,0.95);
-            margin-bottom: 0.5rem;
-            animation: fadeInUp 0.8s ease-out 0.2s backwards;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.8);
+            color: #e0e7ff;
             margin-bottom: 3rem;
-            animation: fadeInUp 0.8s ease-out 0.4s backwards;
-            font-style: italic;
+            font-weight: 300;
+            letter-spacing: 1px;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease-out 0.6s backwards;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            font-weight: 600;
+        .construction-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            margin-bottom: 3rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
-        .btn-primary {
+        .construction-icon {
+            font-size: 1.5rem;
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .construction-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .cta-button {
+            display: inline-block;
             background: white;
             color: #667eea;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
-        }
-
-        .features {
-            background: white;
-            padding: 5rem 2rem;
-            position: relative;
-        }
-
-        .features-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .features-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
+            padding: 1.25rem 3rem;
+            font-size: 1.25rem;
             font-weight: 700;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 4rem;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            background: #f0f4ff;
         }
 
-        .feature-card {
-            padding: 2rem;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .projects-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .projects-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-button {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 2rem;
             cursor: pointer;
         }
 
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
         }
 
-        .feature-icon {
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
         }
 
-        .feature-title {
+        .project-title {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #333;
-            font-weight: 600;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
         }
 
-        .feature-description {
-            color: #666;
+        .project-description {
+            font-size: 1rem;
+            color: #e0e7ff;
             line-height: 1.6;
+            margin-bottom: 1rem;
         }
 
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
+        .project-status {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.3);
+            color: #86efac;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(34, 197, 94, 0.5);
         }
 
-        .wave svg {
-            position: relative;
-            display: block;
-            width: calc(100% + 1.3px);
-            height: 80px;
+        .footer {
+            margin-top: 4rem;
+            color: #e0e7ff;
+            font-size: 0.9rem;
         }
 
         @media (max-width: 768px) {
@@ -214,112 +199,123 @@
                 font-size: 1.2rem;
             }
 
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
             }
 
-            .btn {
-                width: 100%;
-                max-width: 300px;
+            .projects-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <div class="content">
-            <h1 class="logo">PalPal</h1>
-            <p class="tagline">Clarity for Every Moment</p>
-            <p class="subtitle">Pal means friend and moment. </p>
-            <div class="cta-buttons">
-                <a href="#" class="btn btn-primary">
-                    <span>Launch Web App</span>
-                    <span>→</span>
-                </a>
-                <a href="#" class="btn btn-secondary">
-                    <span>Watch Tutorials</span>
-                    <span>▶</span>
-                </a>
+    <div class="container">
+        <!-- Welcome Section -->
+        <div id="welcomeSection">
+            <div class="logo">PalPal</div>
+            <div class="tagline">moment by moment, pal</div>
+            
+            <div class="construction-badge">
+                <span class="construction-icon">🚧</span>
+                <span class="construction-text">Website Under Construction</span>
             </div>
-			<p class = "tagline"> This site is currently under construction. </p>
-        </div>
-    </section>
 
-    <section class="features">
-        <div class="wave">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#667eea"></path>
-            </svg>
-        </div>
-        <div class="features-container">
-            <h2 class="features-title">Transform Your Life</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🎓</div>
-                    <h3 class="feature-title">Expert Tutorials</h3>
-                    <p class="feature-description">Learn from comprehensive video guides on our YouTube channel, designed to help you navigate life's challenges with confidence.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">✨</div>
-                    <h3 class="feature-title">Powerful Web App</h3>
-                    <p class="feature-description">Access our suite of tools and services that bring clarity and insight to every moment of your journey.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌟</div>
-                    <h3 class="feature-title">Better Living</h3>
-                    <p class="feature-description">Discover practical solutions and wisdom that make a real difference in your daily life and long-term growth.</p>
-                </div>
+            <a href="#projects" class="cta-button" id="exploreButton">
+                Explore Projects →
+            </a>
+
+            <div class="footer">
+                Building something special, one moment at a time
             </div>
         </div>
-    </section>
+
+        <!-- Projects Section -->
+        <div id="projectsSection" class="projects-section">
+            <button class="back-button" id="backButton">
+                ← Back to Home
+            </button>
+
+            <div class="logo" style="font-size: 2.5rem; margin-bottom: 1rem;">Our Projects</div>
+            <p style="font-size: 1.1rem; color: #e0e7ff; margin-bottom: 2rem;">
+                Explore the tools we're building to help you every moment
+            </p>
+
+            <div class="projects-grid">
+                <a href="https://work-tracker-sigma.vercel.app/" target="_blank" class="project-card">
+                    <div class="project-icon">💼</div>
+                    <div class="project-title">Work Tracker</div>
+                    <div class="project-description">
+                        Track your work sessions with ease. Clock in and out, tag your activities, and get detailed reports on how you spend your time.
+                    </div>
+                    <span class="project-status">🟢 Live</span>
+                </a>
+
+                <div class="project-card" style="opacity: 0.6; cursor: not-allowed;">
+                    <div class="project-icon">📝</div>
+                    <div class="project-title">Task Manager</div>
+                    <div class="project-description">
+                        Organize your tasks and stay on top of your goals. Coming soon to help you manage every moment.
+                    </div>
+                    <span class="project-status" style="background: rgba(234, 179, 8, 0.3); color: #fcd34d; border-color: rgba(234, 179, 8, 0.5);">
+                        🟡 Coming Soon
+                    </span>
+                </div>
+
+                <div class="project-card" style="opacity: 0.6; cursor: not-allowed;">
+                    <div class="project-icon">📊</div>
+                    <div class="project-title">Analytics Dashboard</div>
+                    <div class="project-description">
+                        Visualize your productivity patterns and gain insights into your work habits.
+                    </div>
+                    <span class="project-status" style="background: rgba(234, 179, 8, 0.3); color: #fcd34d; border-color: rgba(234, 179, 8, 0.5);">
+                        🟡 Coming Soon
+                    </span>
+                </div>
+            </div>
+
+            <div class="footer" style="margin-top: 3rem;">
+                More projects on the way!
+            </div>
+        </div>
+    </div>
 
     <script>
-        document.querySelectorAll('.feature-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                this.querySelectorAll('.feature-title, .feature-description').forEach(el => {
-                    el.style.color = 'white';
-                });
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.background = 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)';
-                this.querySelector('.feature-title').style.color = '#333';
-                this.querySelector('.feature-description').style.color = '#666';
-            });
+        const exploreButton = document.getElementById('exploreButton');
+        const backButton = document.getElementById('backButton');
+        const welcomeSection = document.getElementById('welcomeSection');
+        const projectsSection = document.getElementById('projectsSection');
+
+        exploreButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            welcomeSection.style.display = 'none';
+            projectsSection.classList.add('active');
+            window.history.pushState({page: 'projects'}, '', '#projects');
         });
 
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const ripple = document.createElement('span');
-                ripple.style.cssText = `
-                    position: absolute;
-                    width: 20px;
-                    height: 20px;
-                    background: rgba(255,255,255,0.6);
-                    border-radius: 50%;
-                    pointer-events: none;
-                    animation: ripple 0.6s ease-out;
-                `;
-                this.style.position = 'relative';
-                this.style.overflow = 'hidden';
-                this.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 600);
-            });
+        backButton.addEventListener('click', () => {
+            projectsSection.classList.remove('active');
+            welcomeSection.style.display = 'block';
+            window.history.pushState({page: 'home'}, '', '#');
         });
 
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
+        // Handle browser back button
+        window.addEventListener('popstate', () => {
+            if (window.location.hash === '#projects') {
+                welcomeSection.style.display = 'none';
+                projectsSection.classList.add('active');
+            } else {
+                projectsSection.classList.remove('active');
+                welcomeSection.style.display = 'block';
             }
-        `;
-        document.head.appendChild(style);
+        });
+
+        // Check initial hash on load
+        if (window.location.hash === '#projects') {
+            welcomeSection.style.display = 'none';
+            projectsSection.classList.add('active');
+        }
     </script>
 </body>
 </html>
