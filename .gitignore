@@ -1,0 +1,32 @@
+# Environment variables - NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# Firebase config with credentials
+firebase-config.js
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+.nyc_output/
