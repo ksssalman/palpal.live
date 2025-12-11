@@ -20,6 +20,7 @@ npm run build
 ### 2. Copy Build Files to PalPal
 
 Copy the contents of the Work Tracker `dist/` folder to:
+
 ```
 palpal.live/projects/work-tracker/
 ```
@@ -33,10 +34,10 @@ In your Work Tracker `vite.config.js`, ensure the base is set correctly:
 ```javascript
 export default {
   build: {
-    outDir: 'dist',
+    outDir: "dist",
   },
-  base: '/projects/work-tracker/',  // Important for routing
-}
+  base: "/projects/work-tracker/", // Important for routing
+};
 ```
 
 ### 4. Access Shared Services
@@ -50,26 +51,30 @@ const userId = palpalAuth.getUserId();
 
 // Require authentication
 if (!palpalAuth.isAuthenticated()) {
-  navigate('/auth');
+  navigate("/auth");
 }
 
 // Initialize database
 palpalDB.init();
 
 // Get user's work sessions
-const sessions = await palpalDB.getAllProjectData('work-tracker', 'sessions');
+const sessions = await palpalDB.getAllProjectData("work-tracker", "sessions");
 
 // Add new session
-const sessionId = await palpalDB.addProjectData('work-tracker', 'sessions', {
+const sessionId = await palpalDB.addProjectData("work-tracker", "sessions", {
   startTime: new Date(),
-  tags: ['development', 'coding'],
-  duration: 3600
+  tags: ["development", "coding"],
+  duration: 3600,
 });
 
 // Listen to real-time updates
-const unsubscribe = palpalDB.listenProjectData('work-tracker', 'sessions', (data) => {
-  console.log('Sessions updated:', data);
-});
+const unsubscribe = palpalDB.listenProjectData(
+  "work-tracker",
+  "sessions",
+  (data) => {
+    console.log("Sessions updated:", data);
+  }
+);
 ```
 
 ### 5. Firebase Firestore Structure for Work Tracker
@@ -95,10 +100,10 @@ Remove any hardcoded API calls to Vercel. Use the shared Firebase services inste
 
 ```javascript
 // OLD (remove this)
-fetch('https://api.work-tracker.vercel.app/sessions')
+fetch("https://api.work-tracker.vercel.app/sessions");
 
 // NEW (use this)
-const sessions = await palpalDB.getAllProjectData('work-tracker', 'sessions');
+const sessions = await palpalDB.getAllProjectData("work-tracker", "sessions");
 ```
 
 ### 7. Environment Variables (Optional)
@@ -111,6 +116,7 @@ VITE_PROJECT_NAME=work-tracker
 ```
 
 Access them in your React app:
+
 ```javascript
 const projectName = import.meta.env.VITE_PROJECT_NAME;
 ```
@@ -154,38 +160,42 @@ palpal.live/
 palpalDB.init();
 
 // Create
-await palpalDB.addProjectData('work-tracker', 'sessions', {
+await palpalDB.addProjectData("work-tracker", "sessions", {
   startTime: new Date(),
   tags: [],
-  notes: 'Description'
+  notes: "Description",
 });
 
 // Read
-const sessions = await palpalDB.getAllProjectData('work-tracker', 'sessions');
+const sessions = await palpalDB.getAllProjectData("work-tracker", "sessions");
 
 // Update
-await palpalDB.updateProjectData('work-tracker', 'sessions', sessionId, {
+await palpalDB.updateProjectData("work-tracker", "sessions", sessionId, {
   endTime: new Date(),
-  duration: 3600
+  duration: 3600,
 });
 
 // Delete
-await palpalDB.deleteProjectData('work-tracker', 'sessions', sessionId);
+await palpalDB.deleteProjectData("work-tracker", "sessions", sessionId);
 
 // Query
 const todaySessions = await palpalDB.queryProjectData(
-  'work-tracker',
-  'sessions',
-  'date',
-  '==',
-  new Date().toISOString().split('T')[0]
+  "work-tracker",
+  "sessions",
+  "date",
+  "==",
+  new Date().toISOString().split("T")[0]
 );
 
 // Real-time listening
-const unsubscribe = palpalDB.listenProjectData('work-tracker', 'sessions', (sessions) => {
-  // This callback fires whenever sessions change
-  console.log('Sessions:', sessions);
-});
+const unsubscribe = palpalDB.listenProjectData(
+  "work-tracker",
+  "sessions",
+  (sessions) => {
+    // This callback fires whenever sessions change
+    console.log("Sessions:", sessions);
+  }
+);
 ```
 
 ## Adding More Projects
@@ -208,6 +218,7 @@ To add Task Manager or Analytics, follow the same pattern:
 ## Support
 
 All projects share:
+
 - Firebase authentication (`palpalAuth`)
 - Firestore database (`palpalDB`)
 - Common styles (`projects/shared/styles.css`)
