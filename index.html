@@ -48,31 +48,9 @@
             letter-spacing: 1px;
         }
 
-        .construction-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            margin-bottom: 3rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .construction-icon {
-            font-size: 1.5rem;
-            animation: rotate 2s linear infinite;
-        }
-
         @keyframes rotate {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
-        }
-
-        .construction-text {
-            font-size: 1.1rem;
-            font-weight: 600;
         }
 
         .cta-button {
@@ -228,11 +206,12 @@
         <!-- Welcome Section -->
         <div id="welcomeSection">
             <div class="logo">PalPal</div>
-            <div class="tagline">moment by moment, pal</div>
-        
-
-            <a href="#projects" class="cta-button" id="exploreButton">
+            <div class="tagline">moment by moment, pal</div>            <a href="#projects" class="cta-button" id="exploreButton">
                 Explore Projects →
+            </a>
+
+            <a href="auth.html" class="cta-button" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.3); display: inline-block; margin-left: 1rem;">
+                Sign In →
             </a>
 
             <div class="footer">
