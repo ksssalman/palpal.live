@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PalPal - Moment by Moment</title>
+  <meta name="description" content="PalPal - Building tools to help you every moment">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .container {
+      text-align: center;
+      padding: 2rem;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .logo {
+      font-size: 4rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #fff, #e0e7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -2px;
+    }
+
+    .tagline {
+      font-size: 1.5rem;
+      color: #e0e7ff;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      padding: 1.25rem 3rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      margin-bottom: 4rem;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      background: #f0f4ff;
+    }
+
+    .projects-section {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .projects-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .back-button {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      margin-bottom: 2rem;
+      cursor: pointer;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateX(-5px);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: white;
+      display: block;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-description {
+      font-size: 1rem;
+      color: #e0e7ff;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .project-status {
+      display: inline-block;
+      background: rgba(34, 197, 94, 0.3);
+      color: #86efac;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+    }
+
+    .footer {
+      margin-top: 4rem;
+      color: #e0e7ff;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 3rem;
+      }
+
+      .tagline {
+        font-size: 1.2rem;
+      }
+
+      .cta-button {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Firebase SDK (auto-configured by Firebase Hosting) -->
+  <script defer src="/__/firebase/10.7.0/firebase-app-compat.js"></script>
+  <script defer src="/__/firebase/10.7.0/firebase-auth-compat.js"></script>
+  <script defer src="/__/firebase/10.7.0/firebase-firestore-compat.js"></script>
+  <script defer src="/__/firebase/init.js"></script>
+
+  <div class="container">
+    <!-- Welcome Section -->
+    <div id="welcomeSection">
+      <div class="logo">PalPal</div>
+      <div class="tagline">moment by moment, pal</div>
+      <a href="#projects" class="cta-button" id="exploreButton">
+        Explore Projects →
+      </a>
+
+      <a href="auth.html" class="cta-button"
+        style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.3); display: inline-block; margin-left: 1rem;">
+        Sign In →
+      </a>
+
+      <div class="footer">
+        Building something special, one moment at a time
+      </div>
+    </div>
+
+    <!-- Projects Section -->
+    <div id="projectsSection" class="projects-section">
+      <button class="back-button" id="backButton">
+        ← Back to Home
+      </button>
+
+      <div class="logo" style="font-size: 2.5rem; margin-bottom: 1rem;">Our Projects</div>
+      <p style="font-size: 1.1rem; color: #e0e7ff; margin-bottom: 2rem;">
+        Explore the tools we're building to help you every moment
+      </p>
+
+      <div class="projects-grid">
+        <a href="https://work-tracker.palpal.live/" class="project-card">
+          <div class="project-icon">💼</div>
+          <div class="project-title">Work Tracker</div>
+          <div class="project-description">
+            Track your work sessions with ease. Clock in and out, tag your activities, and get detailed
+            reports on how you spend your time.
+          </div>
+          <span class="project-status">🟢 Live</span>
+        </a>
+
+        <div class="project-card" style="opacity: 0.6; cursor: not-allowed;">
+          <div class="project-icon">📝</div>
+          <div class="project-title">Task Manager</div>
+          <div class="project-description">
+            Organize your tasks and stay on top of your goals. Coming soon to help you manage every moment.
+          </div>
+          <span class="project-status"
+            style="background: rgba(234, 179, 8, 0.3); color: #fcd34d; border-color: rgba(234, 179, 8, 0.5);">
+            🟡 Coming Soon
+          </span>
+        </div>
+
+        <div class="project-card" style="opacity: 0.6; cursor: not-allowed;">
+          <div class="project-icon">📊</div>
+          <div class="project-title">Analytics Dashboard</div>
+          <div class="project-description">
+            Visualize your productivity patterns and gain insights into your work habits.
+          </div>
+          <span class="project-status"
+            style="background: rgba(234, 179, 8, 0.3); color: #fcd34d; border-color: rgba(234, 179, 8, 0.5);">
+            🟡 Coming Soon
+          </span>
+        </div>
+      </div>
+
+      <div class="footer" style="margin-top: 3rem;">
+        More projects on the way!
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const exploreButton = document.getElementById('exploreButton');
+    const backButton = document.getElementById('backButton');
+    const welcomeSection = document.getElementById('welcomeSection');
+    const projectsSection = document.getElementById('projectsSection');
+
+    exploreButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      welcomeSection.style.display = 'none';
+      projectsSection.classList.add('active');
+      window.history.pushState({ page: 'projects' }, '', '#projects');
+    });
+
+    backButton.addEventListener('click', () => {
+      projectsSection.classList.remove('active');
+      welcomeSection.style.display = 'block';
+      window.history.pushState({ page: 'home' }, '', '#');
+    });
+
+    // Handle browser back button
+    window.addEventListener('popstate', () => {
+      if (window.location.hash === '#projects') {
+        welcomeSection.style.display = 'none';
+        projectsSection.classList.add('active');
+      } else {
+        projectsSection.classList.remove('active');
+        welcomeSection.style.display = 'block';
+      }
+    });
+
+    // Check initial hash on load
+    if (window.location.hash === '#projects') {
+      welcomeSection.style.display = 'none';
+      projectsSection.classList.add('active');
+    }
+  </script>
+</body>
+
+</html>
