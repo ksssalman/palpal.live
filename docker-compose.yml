@@ -1,0 +1,10 @@
+services:
+  palpal-live:
+    build: .
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    # Mount firebase-config.js if you want to edit it live, or if it's gitignored and you want to ensure it's there?
+    # Actually, for a pure dockerise command, we usually rely on the build context. 
+    # But enabling a volume mount for the config can be helpful for dev.
+    # For now, we will stick to a simple deployment config.
