@@ -4,6 +4,7 @@
     "description": "PalPal.live - Moment by Moment",
     "scripts": {
         "dev": "firebase serve",
+        "build": "echo 'No build required' && exit 0",
         "deploy": "firebase deploy",
         "build:work-tracker": "cd \"../../../../Side Projects/Work Tracker\" && npm run build"
     },
