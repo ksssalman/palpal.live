@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/projects/work-tracker/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work Tracker - PalPal</title>
+
+  <!-- Shared PalPal Styles -->
+  <link rel="stylesheet" href="/projects/shared/styles.css">
+
+  <!-- Firebase SDK (compat) for compatibility with PalPal shared scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+  <!-- Shared PalPal Services -->
+  <!-- These paths work when served via palpal.live/projects/work-tracker/ -->
+  <script src="/firebase-config.js"></script>
+  <script src="/projects/shared/palpal-auth.js"></script>
+  <script src="/projects/shared/palpal-db.js"></script>
+
+  <script>
+    // Initialize shared services if they are available
+    window.addEventListener('load', () => {
+      if (window.palpalAuth) {
+        window.palpalAuth.init((user) => {
+          console.log('Work Tracker: Shared auth initialized', user ? 'User: ' + user.email : 'No user');
+        });
+      }
+      if (window.palpalDB) {
+        window.palpalDB.init();
+        console.log('Work Tracker: Shared DB initialized');
+      }
+    });
+  </script>
+  <script type="module" crossorigin src="/projects/work-tracker/assets/index-DCIVWP_k.js"></script>
+  <link rel="stylesheet" crossorigin href="/projects/work-tracker/assets/index-bAMZOygr.css">
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>
