@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "palpal-541342"
-  }
+  },
+  "targets": {
+    "palpal-541342": {
+      "hosting": {
+        "work-tracker": [
+          "work-tracker-36911"
+        ],
+        "palpal-live": [
+          "palpal-541342"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
