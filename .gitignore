@@ -15,7 +15,10 @@ yarn.lock
 dist/
 build/
 *.log
-projects/work-tracker/assets/index-DaartGS0.js
+
+# Sensitive compiled assets - never commit these for public repos
+projects/work-tracker/assets/index-*.js
+projects/work-tracker/assets/index-*.css
 
 # IDE
 .vscode/
