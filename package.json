@@ -1,0 +1,13 @@
+{
+    "name": "palpal-live",
+    "version": "1.0.0",
+    "description": "PalPal.live - Moment by Moment",
+    "scripts": {
+        "dev": "firebase serve",
+        "deploy": "firebase deploy",
+        "build:work-tracker": "cd \"../../../../Side Projects/Work Tracker\" && npm run build"
+    },
+    "devDependencies": {
+        "firebase-tools": "^13.35.1"
+    }
+}

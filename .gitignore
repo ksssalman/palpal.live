@@ -30,3 +30,6 @@ Thumbs.db
 # Testing
 coverage/
 .nyc_output/
+
+# Project Junctions
+public/projects/work-tracker/
