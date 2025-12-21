@@ -7,7 +7,6 @@
         "build": "echo 'No build required' && exit 0",
         "deploy": "firebase deploy",
         "build:work-tracker": "cd \"../../../../Side Projects/Work Tracker\" && npm run build"
-        "build": "webpack --config webpack.config.js"  // Example build script
     },
     "devDependencies": {
         "firebase-tools": "^13.35.1"
