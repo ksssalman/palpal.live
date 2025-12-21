@@ -4,11 +4,13 @@
     "description": "PalPal.live - Moment by Moment",
     "scripts": {
         "dev": "firebase serve",
-        "build": "webpack --config webpack.config.js",
+        "build": "echo \"No build step required for static site\"",
         "deploy": "firebase deploy",
         "build:work-tracker": "cd \"../../../../Side Projects/Work Tracker\" && npm run build"
     },
     "devDependencies": {
-        "firebase-tools": "^13.35.1"
+        "firebase-tools": "^13.35.1",
+        "webpack": "^5.104.1",
+        "webpack-cli": "^6.0.1"
     }
 }
