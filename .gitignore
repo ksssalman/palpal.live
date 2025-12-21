@@ -15,6 +15,7 @@ yarn.lock
 dist/
 build/
 *.log
+projects/work-tracker/assets/index-DaartGS0.js
 
 # IDE
 .vscode/
