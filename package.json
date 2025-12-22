@@ -5,8 +5,13 @@
     "scripts": {
         "dev": "firebase serve",
         "build": "echo \"No build step required for static site\"",
-        "deploy": "firebase deploy",
-        "build:work-tracker": "cd \"../../../../Side Projects/Work Tracker\" && npm run build"
+        "deploy": "npm run build:all && firebase deploy --only hosting",
+        "build:all": "powershell -ExecutionPolicy Bypass -File ./build-all.ps1 -SkipDeploy",
+        "build:all:prod": "powershell -ExecutionPolicy Bypass -File ./build-all.ps1",
+        "validate": "node scripts/validate.mjs",
+        "docker:build": "docker compose build",
+        "docker:dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up",
+        "docker:prod": "docker compose up -d"
     },
     "devDependencies": {
         "firebase-tools": "^13.35.1",

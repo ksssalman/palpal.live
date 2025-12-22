@@ -100,42 +100,29 @@
 
         /* About Modal Styles */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
             display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
         .modal-overlay.active {
-            display: flex;
-            opacity: 1;
+            display: block;
         }
 
         .modal-content {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 3rem;
-            max-width: 500px;
-            width: 90%;
+            background: transparent;
+            backdrop-filter: none;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            max-width: none;
+            width: 100%;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
+            box-shadow: none;
+            transform: none;
+            transition: none;
         }
 
         .modal-overlay.active .modal-content {
-            transform: scale(1);
+            transform: none;
         }
 
         .modal-title {
@@ -414,19 +401,20 @@
         </div>
     </nav>
 
-    <div class="modal-overlay" id="aboutModal">
-        <div class="modal-content">
-            <div class="modal-title">About PalPal</div>
-            <p class="modal-text">
-                PalPal is built on the philosophy of helping you cherish and optimize every moment.
-                Whether you're tracking your work sessions or organizing your daily life,
-                we're here to be your companion, one moment at a time.
-            </p>
-            <button class="modal-close" id="closeModal">Got it, Pal!</button>
-        </div>
-    </div>
-
     <div class="auth-container">
+        <!-- About Section -->
+        <div id="aboutModal" class="form-section modal-overlay">
+            <div class="modal-content">
+                <div class="modal-title">About PalPal</div>
+                <p class="modal-text">
+                    PalPal is built on the philosophy of helping you cherish and optimize every moment.
+                    Whether you're tracking your work sessions or organizing your daily life,
+                    we're here to be your companion, one moment at a time.
+                </p>
+                <button class="btn btn-primary" id="closeModal">Got it, Pal!</button>
+            </div>
+        </div>
+
         <!-- Sign In Form -->
         <div id="signInForm" class="form-section active">
             <div class="auth-logo">PalPal</div>
@@ -713,17 +701,15 @@
         const closeModal = document.getElementById('closeModal');
 
         aboutLink.addEventListener('click', () => {
+            document.getElementById('signInForm').classList.remove('active');
+            document.getElementById('signUpForm').classList.remove('active');
+            document.getElementById('userDashboard').classList.remove('active');
             aboutModal.classList.add('active');
         });
 
         closeModal.addEventListener('click', () => {
             aboutModal.classList.remove('active');
-        });
-
-        aboutModal.addEventListener('click', (e) => {
-            if (e.target === aboutModal) {
-                aboutModal.classList.remove('active');
-            }
+            showSignInForm();
         });
 
         // Seamless Auth Logic for Navbar
