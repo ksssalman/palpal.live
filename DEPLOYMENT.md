@@ -56,7 +56,21 @@ PalPal.live uses Firebase Hosting with multiple targets:
 2. **Work Tracker** (`work-tracker` target)
    - Serves from: `projects/work-tracker/` directory
    - Includes: Built work tracker application
-   - URL: https://work-tracker-36911.web.app
+   - URL: https://work-tracker.palpal.live
+   - Note: Custom domain must be configured in Firebase Console (Hosting > Add custom domain)
+
+## Custom Domain Setup
+
+To configure the custom domain for work tracker:
+
+1. Go to [Firebase Console](https://console.firebase.google.com) > Hosting
+2. Select the `work-tracker-36911` site
+3. Click "Add custom domain"
+4. Enter `work-tracker.palpal.live`
+5. Follow the DNS verification steps
+6. Add the required DNS records to your domain provider
+
+Once configured, the work tracker will be accessible at https://work-tracker.palpal.live
 
 ## Local Testing
 

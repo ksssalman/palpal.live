@@ -84,7 +84,7 @@ Firebase configuration supports two hosting targets:
 
 2. **work-tracker** (Sub-Application)
    - Source: `projects/work-tracker/`
-   - URL: https://work-tracker-36911.web.app
+   - URL: https://work-tracker.palpal.live
    - Content: Work tracking application
 
 ## Security
@@ -122,7 +122,7 @@ Firebase configuration supports two hosting targets:
 
 4. **Verify Deployment**:
    - Check https://palpal.live
-   - Check https://work-tracker-36911.web.app
+   - Check https://work-tracker.palpal.live
    - Test authentication flow
    - Verify work tracker loads correctly
 
