@@ -16,9 +16,8 @@ dist/
 build/
 *.log
 
-# Sensitive compiled assets - never commit these for public repos
-projects/work-tracker/assets/index-*.js
-projects/work-tracker/assets/index-*.css
+# Note: Built assets for work-tracker are committed for deployment
+# The source code is in a separate repository
 
 # IDE
 .vscode/
