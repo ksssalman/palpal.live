@@ -36,10 +36,20 @@ The main site serves as the gateway to the ecosystem, providing project discover
 ### Standard Setup
 1. Clone the repository.
 2. Configure your Firebase settings in `firebase-config.js`.
-3. Deploy to Firebase Hosting:
+3. Install dependencies:
    ```bash
-   firebase deploy
+   npm ci
    ```
+4. Test locally:
+   ```bash
+   firebase serve
+   ```
+5. Deploy to Firebase Hosting:
+   ```bash
+   npm run deploy
+   ```
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ### Docker Setup
 The ecosystem is container-ready. To run the entire platform locally:
