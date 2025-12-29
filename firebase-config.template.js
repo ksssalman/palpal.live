@@ -21,7 +21,7 @@ window.firebaseConfig = {
 // It's not committed to version control for security reasons
 
 // Fallback for development/testing
-if (typeof window !== 'undefined' && !window.firebaseConfig) {
+if (typeof window !== 'undefined' && typeof window.firebaseConfig === 'undefined') {
   console.warn('⚠️ firebase-config.js: Firebase configuration not found. Please create firebase-config.js with your Firebase project settings.');
   console.warn('   See firebase-config.template.js for the required format.');
   

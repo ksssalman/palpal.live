@@ -5,7 +5,7 @@
  * Checks that all required files exist for Firebase deployment
  */
 
-import { existsSync } from 'fs';
+import { existsSync, readdirSync } from 'fs';
 import { resolve } from 'path';
 
 const requiredFiles = [
@@ -20,8 +20,12 @@ const requiredFiles = [
   
   // Work tracker files (served from projects/work-tracker/)
   'projects/work-tracker/index.html',
-  'projects/work-tracker/assets/index-C4ghx7R1.css',
-  'projects/work-tracker/assets/index-DaartGS0.js',
+];
+
+// Check for asset files (they may have version hashes)
+const requiredAssetPatterns = [
+  { dir: 'projects/work-tracker/assets', pattern: /^index-.*\.css$/, description: 'Work Tracker CSS' },
+  { dir: 'projects/work-tracker/assets', pattern: /^index-.*\.js$/, description: 'Work Tracker JS' },
 ];
 
 console.log('🔍 Validating deployment files...\n');
@@ -29,6 +33,7 @@ console.log('🔍 Validating deployment files...\n');
 let allValid = true;
 const missingFiles = [];
 
+// Check regular files
 for (const file of requiredFiles) {
   const fullPath = resolve(file);
   const exists = existsSync(fullPath);
@@ -39,6 +44,29 @@ for (const file of requiredFiles) {
     allValid = false;
   } else {
     console.log(`✅ Found: ${file}`);
+  }
+}
+
+// Check for asset files with version hashes
+for (const { dir, pattern, description } of requiredAssetPatterns) {
+  const fullPath = resolve(dir);
+  
+  if (!existsSync(fullPath)) {
+    console.error(`❌ Missing directory: ${dir}`);
+    missingFiles.push(dir);
+    allValid = false;
+    continue;
+  }
+  
+  const files = readdirSync(fullPath);
+  const matchingFiles = files.filter(file => pattern.test(file));
+  
+  if (matchingFiles.length === 0) {
+    console.error(`❌ Missing ${description} matching pattern ${pattern} in ${dir}`);
+    missingFiles.push(`${dir}/${pattern}`);
+    allValid = false;
+  } else {
+    console.log(`✅ Found: ${dir}/${matchingFiles[0]} (${description})`);
   }
 }
 
