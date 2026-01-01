@@ -98,61 +98,7 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* About Modal Styles */
-        .modal-overlay {
-            display: none;
-        }
 
-        .modal-overlay.active {
-            display: block;
-        }
-
-        .modal-content {
-            background: transparent;
-            backdrop-filter: none;
-            border: none;
-            border-radius: 0;
-            padding: 0;
-            max-width: none;
-            width: 100%;
-            text-align: center;
-            box-shadow: none;
-            transform: none;
-            transition: none;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: none;
-        }
-
-        .modal-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-text {
-            color: #e0e7ff;
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .modal-close {
-            background: white;
-            color: #764ba2;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .modal-close:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
 
         .auth-container {
             background: rgba(255, 255, 255, 0.1);
@@ -393,7 +339,7 @@
     <nav class="navbar">
         <a href="index.html" class="nav-logo">PalPal</a>
         <div class="nav-links">
-            <a class="nav-link" id="aboutLink">About</a>
+            <a href="about.html" class="nav-link" id="aboutLink">About</a>
             <a href="index.html#projects" class="nav-link">Projects</a>
             <div id="navAuthContainer">
                 <a href="auth.html" class="nav-auth-btn">Sign In</a>
@@ -403,17 +349,7 @@
 
     <div class="auth-container">
         <!-- About Section -->
-        <div id="aboutModal" class="form-section modal-overlay">
-            <div class="modal-content">
-                <div class="modal-title">About PalPal</div>
-                <p class="modal-text">
-                    PalPal is built on the philosophy of helping you cherish and optimize every moment.
-                    Whether you're tracking your work sessions or organizing your daily life,
-                    we're here to be your companion, one moment at a time.
-                </p>
-                <button class="btn btn-primary" id="closeModal">Got it, Pal!</button>
-            </div>
-        </div>
+
 
         <!-- Sign In Form -->
         <div id="signInForm" class="form-section active">
@@ -695,22 +631,7 @@
             document.getElementById('signUpSuccess').classList.remove('show');
         }
 
-        // Modal Logic
-        const aboutLink = document.getElementById('aboutLink');
-        const aboutModal = document.getElementById('aboutModal');
-        const closeModal = document.getElementById('closeModal');
 
-        aboutLink.addEventListener('click', () => {
-            document.getElementById('signInForm').classList.remove('active');
-            document.getElementById('signUpForm').classList.remove('active');
-            document.getElementById('userDashboard').classList.remove('active');
-            aboutModal.classList.add('active');
-        });
-
-        closeModal.addEventListener('click', () => {
-            aboutModal.classList.remove('active');
-            showSignInForm();
-        });
 
         // Seamless Auth Logic for Navbar
         const navAuthContainer = document.getElementById('navAuthContainer');
