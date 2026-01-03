@@ -12,9 +12,6 @@ function App() {
           <a href="https://palpal.live/#projects" className="text-[#541342]/70 no-underline font-medium text-[0.95rem] transition-all duration-300 hover:text-[#541342] hover:-translate-y-[1px] cursor-pointer">
             Projects
           </a>
-          <a href="https://palpal.live/auth.html" className="bg-[#541342] text-white px-6 py-2.5 rounded-full font-bold text-[0.9rem] no-underline transition-all duration-300 hover:-translate-y-[2px] hover:bg-[#3d0e30] hover:shadow-lg cursor-pointer">
-            Sign In
-          </a>
         </div>
       </nav>
 

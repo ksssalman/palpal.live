@@ -47,7 +47,8 @@ export default function AppWithAuth() {
           // Standalone mode: Will use dedicated Firebase (configured in firebase.ts)
           // Just set ready state - App.tsx handles dedicated auth
           setMode('standalone')
-          setLoading(false)
+          // Defer state update to avoid synchronous render warning
+          setTimeout(() => setLoading(false), 0)
         }
       } catch (err) {
         setError(`Initialization error: ${err instanceof Error ? err.message : 'Unknown'}`)
