@@ -2,18 +2,18 @@
 // Import this CSS file in your project
 
 :root {
-  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --primary-color: #667eea;
-  --secondary-color: #764ba2;
+  --primary-gradient: linear-gradient(135deg, #f9f0f6 0%, #f0e0ec 100%);
+  --primary-color: #541342;
+  --secondary-color: #2a0921;
   --success-color: #22c55e;
   --error-color: #ef4444;
   --warning-color: #eab308;
 
-  --bg-light: rgba(255, 255, 255, 0.1);
-  --bg-lighter: rgba(255, 255, 255, 0.05);
-  --border-light: rgba(255, 255, 255, 0.2);
-  --text-primary: #ffffff;
-  --text-secondary: #e0e7ff;
+  --bg-light: rgba(255, 255, 255, 0.8);
+  --bg-lighter: rgba(255, 255, 255, 0.5);
+  --border-light: rgba(84, 19, 66, 0.1);
+  --text-primary: #541342;
+  --text-secondary: rgba(84, 19, 66, 0.7);
 
   --border-radius: 10px;
   --transition: all 0.3s ease;

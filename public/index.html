@@ -15,13 +15,13 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #f9f0f6 0%, #f0e0ec 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: #541342;
       overflow-x: hidden;
       padding-top: 80px;
       /* Space for fixed navbar */
@@ -38,10 +38,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(84, 19, 66, 0.1);
       z-index: 1000;
       transition: all 0.3s ease;
     }
@@ -49,7 +49,7 @@
     .nav-logo {
       font-size: 1.5rem;
       font-weight: 800;
-      color: white;
+      color: #541342;
       text-decoration: none;
       letter-spacing: -1px;
     }
@@ -61,7 +61,7 @@
     }
 
     .nav-link {
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(84, 19, 66, 0.7);
       text-decoration: none;
       font-weight: 500;
       font-size: 0.95rem;
@@ -70,13 +70,13 @@
     }
 
     .nav-link:hover {
-      color: white;
+      color: #541342;
       transform: translateY(-1px);
     }
 
     .nav-auth-btn {
-      background: white;
-      color: #667eea;
+      background: #541342;
+      color: white;
       padding: 0.6rem 1.5rem;
       border-radius: 50px;
       font-weight: 700;
@@ -89,13 +89,13 @@
     .nav-auth-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      background: #f0f4ff;
+      background: #3d0e30;
     }
 
     .nav-auth-btn.secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(84, 19, 66, 0.1);
+      color: #541342;
+      border: 1px solid rgba(84, 19, 66, 0.2);
     }
 
 
@@ -111,7 +111,7 @@
       font-size: 4rem;
       font-weight: 800;
       margin-bottom: 1rem;
-      background: linear-gradient(45deg, #fff, #e0e7ff);
+      background: linear-gradient(45deg, #541342, #801c63);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -120,7 +120,7 @@
 
     .tagline {
       font-size: 1.5rem;
-      color: #e0e7ff;
+      color: rgba(84, 19, 66, 0.7);
       margin-bottom: 3rem;
       font-weight: 300;
       letter-spacing: 1px;
@@ -138,22 +138,22 @@
 
     .cta-button {
       display: inline-block;
-      background: white;
-      color: #667eea;
+      background: #541342;
+      color: white;
       padding: 1.25rem 3rem;
       font-size: 1.25rem;
       font-weight: 700;
       text-decoration: none;
       border-radius: 50px;
       transition: all 0.3s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       margin-bottom: 4rem;
     }
 
     .cta-button:hover {
       transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-      background: #f0f4ff;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      background: #3d0e30;
     }
 
     .projects-section {
@@ -205,22 +205,21 @@
     }
 
     .project-card {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
+      background: white;
       border-radius: 20px;
       padding: 2rem;
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(84, 19, 66, 0.1);
       transition: all 0.3s ease;
       text-decoration: none;
-      color: white;
+      color: #541342;
       display: block;
+      box-shadow: 0 4px 6px rgba(84, 19, 66, 0.05);
     }
 
     .project-card:hover {
       transform: translateY(-10px);
-      background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 40px rgba(84, 19, 66, 0.1);
+      border-color: rgba(84, 19, 66, 0.2);
     }
 
     .project-icon {
@@ -236,25 +235,25 @@
 
     .project-description {
       font-size: 1rem;
-      color: #e0e7ff;
+      color: rgba(84, 19, 66, 0.7);
       line-height: 1.6;
       margin-bottom: 1rem;
     }
 
     .project-status {
       display: inline-block;
-      background: rgba(34, 197, 94, 0.3);
-      color: #86efac;
+      background: rgba(84, 19, 66, 0.1);
+      color: #541342;
       padding: 0.5rem 1rem;
       border-radius: 20px;
       font-size: 0.875rem;
       font-weight: 600;
-      border: 1px solid rgba(34, 197, 94, 0.5);
+      border: 1px solid rgba(84, 19, 66, 0.2);
     }
 
     .footer {
       margin-top: 4rem;
-      color: #e0e7ff;
+      color: rgba(84, 19, 66, 0.6);
       font-size: 0.9rem;
     }
 
@@ -287,7 +286,10 @@
   <script defer src="/__/firebase/init.js"></script>
 
   <nav class="navbar">
-    <a href="#" class="nav-logo" id="navLogo">PalPal</a>
+    <a href="#" class="nav-logo" id="navLogo" style="display: flex; align-items: center; gap: 10px;">
+      <img src="assets/logo.png" alt="PalPal" style="height: 32px; width: 32px; border-radius: 8px;">
+      PalPal
+    </a>
     <div class="nav-links">
       <a href="about.html" class="nav-link" id="aboutLink">About</a>
       <a href="#projects" class="nav-link" id="navProjectsLink">Projects</a>
@@ -303,7 +305,10 @@
   <div class="container">
     <!-- Welcome Section -->
     <div id="welcomeSection">
-      <div class="logo">PalPal</div>
+      <div class="logo-container" style="display: flex; flex-direction: column; align-items: center;">
+        <img src="assets/logo.png" alt="PalPal Logo" style="width: 100px; height: 100px; margin-bottom: 1rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(84, 19, 66, 0.1);">
+        <div class="logo">PalPal</div>
+      </div>
       <div class="tagline">live every moment, pal</div>
       <a href="#projects" class="cta-button" id="exploreButton">
         Explore Projects →
@@ -321,7 +326,7 @@
       </button>
 
       <div class="logo" style="font-size: 2.5rem; margin-bottom: 1rem;">Our Projects</div>
-      <p style="font-size: 1.1rem; color: #e0e7ff; margin-bottom: 2rem;">
+      <p style="font-size: 1.1rem; color: rgba(84, 19, 66, 0.7); margin-bottom: 2rem;">
         Explore the tools we're building to help you every moment
       </p>
 
@@ -343,7 +348,7 @@
             Organize your tasks and stay on top of your goals. Coming soon to help you manage every moment.
           </div>
           <span class="project-status"
-            style="background: rgba(234, 179, 8, 0.3); color: #fcd34d; border-color: rgba(234, 179, 8, 0.5);">
+            style="background: rgba(234, 179, 8, 0.1); color: #b45309; border: 1px solid rgba(234, 179, 8, 0.3);">
             🟡 Coming Soon
           </span>
         </div>
@@ -355,7 +360,7 @@
             Visualize your productivity patterns and gain insights into your work habits.
           </div>
           <span class="project-status"
-            style="background: rgba(234, 179, 8, 0.3); color: #fcd34d; border-color: rgba(234, 179, 8, 0.5);">
+            style="background: rgba(234, 179, 8, 0.1); color: #b45309; border: 1px solid rgba(234, 179, 8, 0.3);">
             🟡 Coming Soon
           </span>
         </div>
@@ -429,7 +434,7 @@
       if (user) {
         navAuthContainer.innerHTML = `
           <div style="display: flex; align-items: center; gap: 1rem;">
-            <span style="font-size: 0.85rem; color: rgba(255,255,255,0.6); display: none; @media (min-width: 600px) { display: block; }">${user.email}</span>
+            <span style="font-size: 0.85rem; color: rgba(84, 19, 66, 0.6); display: none; @media (min-width: 600px) { display: block; }">${user.email}</span>
             <a href="javascript:void(0)" class="nav-auth-btn secondary" id="signOutBtn">Sign Out</a>
           </div>
         `;

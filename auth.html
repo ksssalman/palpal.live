@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,21 +14,21 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f9f0f6 0%, #f0e0ec 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #541342;
             padding: 1rem;
         }
 
         .auth-container {
-            background: rgba(255, 255, 255, 0.1);
+            background: white;
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 2.5rem;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(84, 19, 66, 0.1);
             max-width: 450px;
             width: 100%;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -37,7 +38,7 @@
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
-            background: linear-gradient(45deg, #fff, #e0e7ff);
+            background: linear-gradient(45deg, #541342, #801c63);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -46,7 +47,7 @@
 
         .auth-subtitle {
             text-align: center;
-            color: #e0e7ff;
+            color: rgba(84, 19, 66, 0.7);
             font-size: 0.95rem;
             margin-bottom: 2rem;
             font-weight: 300;
@@ -66,23 +67,23 @@
         .form-input {
             width: 100%;
             padding: 0.875rem 1rem;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(84, 19, 66, 0.05);
+            border: 1px solid rgba(84, 19, 66, 0.1);
             border-radius: 10px;
-            color: white;
+            color: #541342;
             font-size: 1rem;
             transition: all 0.3s ease;
         }
 
         .form-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(84, 19, 66, 0.4);
         }
 
         .form-input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+            background: white;
+            border-color: #541342;
+            box-shadow: 0 0 0 3px rgba(84, 19, 66, 0.1);
         }
 
         .btn {
@@ -97,25 +98,26 @@
         }
 
         .btn-primary {
-            background: white;
-            color: #667eea;
+            background: #541342;
+            color: white;
             margin-bottom: 1rem;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background: #3d0e30;
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(84, 19, 66, 0.05);
+            color: #541342;
+            border: 1px solid rgba(84, 19, 66, 0.2);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(84, 19, 66, 0.1);
+            border-color: rgba(84, 19, 66, 0.3);
         }
 
         .btn:disabled {
@@ -136,11 +138,11 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(84, 19, 66, 0.2);
         }
 
         .divider-text {
-            color: #e0e7ff;
+            color: rgba(84, 19, 66, 0.6);
             font-size: 0.85rem;
         }
 
@@ -148,11 +150,11 @@
             text-align: center;
             margin-top: 1.5rem;
             font-size: 0.95rem;
-            color: #e0e7ff;
+            color: rgba(84, 19, 66, 0.7);
         }
 
         .toggle-link a {
-            color: white;
+            color: #541342;
             text-decoration: none;
             font-weight: 600;
             cursor: pointer;
@@ -210,8 +212,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
         }
 
         .user-info {
@@ -247,16 +256,101 @@
         .back-home-link a:hover {
             color: white;
         }
+
+        /* Social Login Styles */
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .btn-social:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-social svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .divider-social {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .divider-social::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background: rgba(84, 19, 66, 0.2);
+            z-index: 1;
+        }
+
+        .divider-social span {
+            background: white;
+            /* Match body gradient roughly or use container bg */
+            padding: 0 0.75rem;
+            font-size: 0.8rem;
+            color: rgba(84, 19, 66, 0.6);
+            position: relative;
+            z-index: 2;
+        }
     </style>
 </head>
+
 <body>
     <div class="auth-container">
         <!-- Sign In Form -->
         <div id="signInForm" class="form-section active">
-            <div class="auth-logo">PalPal</div>
+            <div class="auth-logo" style="display: flex; flex-direction: column; align-items: center;">
+                <img src="public/assets/logo.png" alt="PalPal" style="width: 64px; height: 64px; margin-bottom: 10px; border-radius: 12px;">
+                PalPal
+            </div>
             <p class="auth-subtitle">Sign in to your account</p>
 
             <div id="signInError" class="error-message"></div>
+
+            <div class="social-login">
+                <button class="btn btn-social" onclick="handleGoogleSignIn()">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12.545,11.071L12,11.071L12,12.877L15.755,12.877C15.592,13.729 14.856,14.89 12.545,14.89C10.54,14.89 8.913,13.233 8.913,11.196C8.913,9.158 10.54,7.502 12.545,7.502C13.687,7.502 14.453,7.986 14.887,8.404L16.299,7.027C15.402,6.19 14.103,5.689 12.545,5.689C9.502,5.689 7.042,8.157 7.042,11.196C7.042,14.234 9.502,16.702 12.545,16.702C15.723,16.702 17.833,14.464 17.833,11.291C17.833,10.89 17.79,10.49 17.712,10.091L12.545,10.091L12.545,11.071Z">
+                        </path>
+                    </svg>
+                    Google
+                </button>
+                <button class="btn btn-social" onclick="handleFacebookSignIn()">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z">
+                        </path>
+                    </svg>
+                    Facebook
+                </button>
+            </div>
+
+            <div class="divider-social">
+                <span>Or continue with email</span>
+            </div>
 
             <form id="signInFormElement" onsubmit="handleSignIn(event)">
                 <div class="form-group">
@@ -299,12 +393,14 @@
 
                 <div class="form-group">
                     <label class="form-label">Password</label>
-                    <input type="password" id="signUpPassword" class="form-input" placeholder="••••••••" minlength="6" required>
+                    <input type="password" id="signUpPassword" class="form-input" placeholder="••••••••" minlength="6"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Confirm Password</label>
-                    <input type="password" id="signUpPasswordConfirm" class="form-input" placeholder="••••••••" minlength="6" required>
+                    <input type="password" id="signUpPasswordConfirm" class="form-input" placeholder="••••••••"
+                        minlength="6" required>
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="signUpBtn">Create Account</button>
@@ -420,6 +516,34 @@
             }
         }
 
+        async function handleGoogleSignIn() {
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                const result = await firebase.auth().signInWithPopup(provider);
+                console.log('Google signed in:', result.user.email);
+                showUserDashboard(result.user);
+            } catch (error) {
+                console.error('Google sign in error:', error);
+                const errorDiv = document.querySelector('.form-section.active .error-message');
+                errorDiv.textContent = 'Google sign-in failed: ' + error.message;
+                errorDiv.classList.add('show');
+            }
+        }
+
+        async function handleFacebookSignIn() {
+            try {
+                const provider = new firebase.auth.FacebookAuthProvider();
+                const result = await firebase.auth().signInWithPopup(provider);
+                console.log('Facebook signed in:', result.user.email);
+                showUserDashboard(result.user);
+            } catch (error) {
+                console.error('Facebook sign in error:', error);
+                const errorDiv = document.querySelector('.form-section.active .error-message');
+                errorDiv.textContent = 'Facebook sign-in failed: ' + error.message;
+                errorDiv.classList.add('show');
+            }
+        }
+
         async function handleSignUp(event) {
             event.preventDefault();
 
@@ -490,4 +614,5 @@
         }
     </script>
 </body>
+
 </html>

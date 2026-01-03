@@ -41,6 +41,19 @@ async function signInWithGoogle() {
   }
 }
 
+// Sign in with Facebook
+async function signInWithFacebook() {
+  try {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    const result = await firebase.auth().signInWithPopup(provider);
+    console.log("Facebook sign-in successful:", result.user.uid);
+    return result.user;
+  } catch (error) {
+    console.error("Facebook sign-in error:", error.message);
+    throw error;
+  }
+}
+
 // Sign out
 async function signOut() {
   try {
