@@ -4,11 +4,9 @@
     "description": "PalPal.live - Moment by Moment",
     "scripts": {
         "dev": "firebase serve",
-        "build": "echo \"No build step required for static site\"",
-        "deploy": "npm run build:all && firebase deploy --only hosting",
-        "build:all": "powershell -ExecutionPolicy Bypass -File ./build-all.ps1 -SkipDeploy",
-        "build:all:prod": "powershell -ExecutionPolicy Bypass -File ./build-all.ps1",
-        "validate": "node scripts/validate.mjs",
+        "build": "node scripts/validate-deployment.mjs",
+        "deploy": "firebase deploy --only hosting",
+        "validate": "node scripts/validate-deployment.mjs",
         "docker:build": "docker compose build",
         "docker:dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up",
         "docker:prod": "docker compose up -d"
