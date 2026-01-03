@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 body {
-  background-color: #0f172a;
-  /* Matches your slate-900 theme */
+  background: linear-gradient(135deg, #f9f0f6 0%, #f0e0ec 100%);
+  color: #541342;
   display: flex;
   justify-content: center;
   min-height: 100vh;
