@@ -2,22 +2,30 @@
 
 Write-Host "Building Work Tracker..." -ForegroundColor Cyan
 
-$workTrackerPath = "../../../../Side Projects/Work Tracker"
+$workTrackerPath = "./projects/work-tracker"
+
+# Check if directory exists
+if (-not (Test-Path $workTrackerPath)) {
+    Write-Error "Work Tracker directory not found at $workTrackerPath"
+    exit 1
+}
 
 # Build Work Tracker
 Push-Location $workTrackerPath
+
+Write-Host "Installing dependencies..."
+npm install
+
+Write-Host "Building project..."
 npm run build
-Pop-Location
 
-# Copy dist to projects/work-tracker
-$sourceDir = "$workTrackerPath/dist"
-$targetDir = "projects/work-tracker"
-
-if (Test-Path $targetDir) {
-    Remove-Item $targetDir -Recurse -Force
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Build failed!"
+    Pop-Location
+    exit 1
 }
 
-Copy-Item -Path $sourceDir -Destination $targetDir -Recurse
+Pop-Location
 
-Write-Host "Work Tracker built and copied to projects/work-tracker" -ForegroundColor Green
+Write-Host "Work Tracker built successfully." -ForegroundColor Green
 Write-Host "Ready to deploy with: firebase deploy --only hosting" -ForegroundColor Green
