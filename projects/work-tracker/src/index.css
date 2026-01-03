@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #0f172a;
+  /* Matches your slate-900 theme */
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding-top: 40px;
+}

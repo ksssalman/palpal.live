@@ -47,7 +47,7 @@
     },
     {
       "target": "work-tracker",
-      "public": "projects/work-tracker",
+      "public": "projects/work-tracker/dist",
       "ignore": [
         "firebase.json",
         "**/.*",

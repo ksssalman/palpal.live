@@ -1,0 +1,73 @@
+
+> work-tracker@0.0.0 lint
+> eslint .
+
+
+C:\Users\ksssa\Documents\Side Projects\Work Tracker\src\AppWithAuth.tsx
+   8:36  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  15:37  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  53:3   error  Error: This value cannot be modified
+
+Modifying a variable defined outside a component or hook is not allowed. Consider using an effect.
+
+C:\Users\ksssa\Documents\Side Projects\Work Tracker\src\AppWithAuth.tsx:53:3
+  51 |   // User is authenticated or using free version, render the app
+  52 |   // Pass auth state to app via window object
+> 53 |   window.palpalAppState = {
+     |   ^^^^^^ value cannot be modified
+  54 |     user,
+  55 |     isAuthenticated
+  56 |   }  react-hooks/immutability
+
+C:\Users\ksssa\Documents\Side Projects\Work Tracker\src\TimeTrackerWidget.tsx
+   30:36  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+   83:34  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+   83:74  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-explicit-any
+  449:11  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\ksssa\Documents\Side Projects\Work Tracker\src\TimeTrackerWidget.tsx:449:11
+  447 |
+  448 |     const newEntry: TimeEntry = {
+> 449 |       id: Date.now(),
+      |           ^^^^^^^^^^ Cannot call impure function
+  450 |       clockIn: clockInDate.toISOString(),
+  451 |       clockOut: clockOutDate.toISOString(),
+  452 |       tags: [manualTag.trim()],  react-hooks/purity
+
+C:\Users\ksssa\Documents\Side Projects\Work Tracker\src\types\palpal.d.ts
+   5:25   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   6:21   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:39   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  16:11   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  17:18   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  19:44   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:24   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  21:69   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  22:104  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  23:92   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  24:87   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:109  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:140  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  27:83   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:16   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  36:13   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ksssa\Documents\Side Projects\Work Tracker\src\utils\localDB.ts
+   16:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   62:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  138:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  209:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  211:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  215:84  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  225:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  226:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  230:83  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\ksssa\Documents\Side Projects\Work Tracker\src\utils\palpalBridge.ts
+  12:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:68  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 34 problems (34 errors, 0 warnings)
+
