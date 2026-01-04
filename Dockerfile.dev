@@ -19,11 +19,9 @@ RUN npm install
 
 # Copy source code
 WORKDIR /app
-COPY palpal.live/projects ./projects
-COPY palpal.live/src ./src
-COPY palpal.live/public ./public
-COPY palpal.live/*.html ./
-COPY palpal.live/firebase* ./
+COPY projects ./projects
+COPY public ./public
+COPY firebase* ./
 
 # Expose Vite dev server port
 EXPOSE 5173
