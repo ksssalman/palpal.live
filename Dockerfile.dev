@@ -7,7 +7,7 @@ WORKDIR /app
 RUN npm install -g pnpm
 
 # Copy package files for both projects
-COPY palpal.live/package*.json ./
+COPY package*.json ./
 COPY projects/work-tracker/package*.json ./projects/work-tracker/
 
 # Install dependencies for main site
