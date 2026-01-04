@@ -48,7 +48,12 @@ export default function TimeTrackerWidget() {
     try {
       setIsSigningIn(true);
       setSignInError(null);
-      await signInWithPopup(dedicatedAuth, googleProvider);
+      
+      if (bridge && !bridge.isDedicated) {
+        await (window as any).palpalAuth.signInWithGoogle();
+      } else {
+        await signInWithPopup(dedicatedAuth, googleProvider);
+      }
     } catch (e: any) {
       const errorMessage = e?.message || 'Sign in failed. Please try again.';
       setSignInError(errorMessage);
@@ -60,7 +65,11 @@ export default function TimeTrackerWidget() {
 
   const handleSignOut = async () => {
     try {
-      await signOut(dedicatedAuth);
+      if (bridge && !bridge.isDedicated) {
+        await (window as any).palpalAuth.signOut();
+      } else {
+        await signOut(dedicatedAuth);
+      }
     } catch (e) {
       console.error('Sign out failed:', e);
     }

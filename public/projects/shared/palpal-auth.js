@@ -70,6 +70,17 @@ class PalPalAuth {
       throw error;
     }
   }
+
+  // Sign in with Google
+  async signInWithGoogle() {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      await firebase.auth().signInWithPopup(provider);
+    } catch (error) {
+      console.error("Sign in error:", error);
+      throw error;
+    }
+  }
 }
 
 // Create global instance
