@@ -23,21 +23,26 @@ export default function Header({
   onSignOut
 }: HeaderProps) {
   return (
-    <div className="bg-white/30 backdrop-blur-md border-b border-[#541342]/10 text-[#541342] relative rounded-t-2xl">
-      <div className="flex items-center justify-between px-6 py-4">
+    <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white shadow-lg relative">
+      <div className="flex items-center justify-between px-4 py-4">
         <div className="flex items-center gap-2">
-          {/* Title removed for cleaner look */}
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" strokeWidth="2" />
+            <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" strokeWidth="2" />
+            <path d="M3 11h18" stroke="currentColor" strokeWidth="2" />
+          </svg>
+          <h1 className="text-xl font-bold">Work Tracker</h1>
         </div>
 
         <div className="flex items-center gap-4">
           {user ? (
-            <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/10 rounded-full border border-emerald-500/20 backdrop-blur-sm">
-              <Cloud className="w-4 h-4 text-emerald-600" />
-              <span className="text-xs font-bold text-emerald-700">Synced</span>
+            <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/10 rounded-lg border border-emerald-500/30 backdrop-blur-sm">
+              <Cloud className="w-4 h-4 text-emerald-400" />
+              <span className="text-xs font-semibold text-emerald-400">Cloud Synced</span>
               {isDedicated && (
                 <button
                   onClick={onSignOut}
-                  className="ml-2 p-1.5 text-emerald-600 hover:text-emerald-800 hover:bg-emerald-500/20 rounded-full transition-all duration-200"
+                  className="ml-2 p-1.5 text-emerald-400 hover:text-white hover:bg-emerald-500/20 rounded-lg transition-all duration-200"
                   title="Sign Out"
                 >
                   <LogOut className="w-4 h-4" />
@@ -46,36 +51,36 @@ export default function Header({
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-3 px-4 py-2 bg-slate-200/50 rounded-full border border-slate-300/50 backdrop-blur-sm">
-                <CloudOff className="w-4 h-4 text-slate-500" />
-                <span className="text-xs font-bold text-slate-600">Local</span>
+              <div className="flex items-center gap-3 px-4 py-2 bg-slate-700/50 rounded-lg border border-slate-600/50 backdrop-blur-sm">
+                <CloudOff className="w-4 h-4 text-slate-400" />
+                <span className="text-xs font-semibold text-slate-400">Local Only</span>
               </div>
               {isDedicated && (
                 <button
                   onClick={onSignIn}
                   disabled={isSigningIn}
-                  className={`px-5 py-2 rounded-full transition-all duration-200 flex items-center gap-2 font-bold shadow-sm text-sm ${
+                  className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 font-medium shadow-sm ${
                     isSigningIn
-                      ? 'bg-[#541342]/50 text-white cursor-not-allowed'
-                      : 'bg-[#541342] text-white hover:bg-[#3d0e30] hover:shadow-lg hover:-translate-y-0.5'
+                      ? 'bg-blue-500/50 text-white cursor-not-allowed'
+                      : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/20'
                   }`}
                   title={isSigningIn ? 'Signing in...' : 'Enable Cloud Sync'}
                 >
                   {isSigningIn ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Connecting...</span>
+                      <span className="text-sm">Connecting...</span>
                     </>
                   ) : (
                     <>
                       <LogIn className="w-4 h-4" />
-                      <span>Sign In</span>
+                      <span className="text-sm">Sign In</span>
                     </>
                   )}
                 </button>
               )}
               {signInError && (
-                <div className="absolute top-full right-4 mt-2 bg-red-500 text-white px-4 py-2 rounded-xl text-sm shadow-xl z-40 whitespace-nowrap">
+                <div className="absolute top-full right-4 mt-2 bg-red-500/90 text-white px-4 py-2 rounded-lg text-sm shadow-lg z-40 whitespace-nowrap backdrop-blur-sm border border-red-400/30">
                   {signInError}
                 </div>
               )}
@@ -85,7 +90,7 @@ export default function Header({
           <div className="flex gap-2 ml-auto">
             <button
               onClick={() => setView('tracker')}
-              className={`p-2.5 rounded-xl transition-all duration-200 ${view === 'tracker' ? 'bg-[#541342]/10 text-[#541342]' : 'text-[#541342]/60 hover:bg-[#541342]/5'
+              className={`p-2.5 rounded-lg transition-all duration-200 ${view === 'tracker' ? 'bg-white/20 shadow-lg' : 'hover:bg-white/10'
                 }`}
               title="Tracker View"
             >
@@ -96,7 +101,7 @@ export default function Header({
             </button>
             <button
               onClick={() => setView('report')}
-              className={`p-2.5 rounded-xl transition-all duration-200 ${view === 'report' ? 'bg-[#541342]/10 text-[#541342]' : 'text-[#541342]/60 hover:bg-[#541342]/5'
+              className={`p-2.5 rounded-lg transition-all duration-200 ${view === 'report' ? 'bg-white/20 shadow-lg' : 'hover:bg-white/10'
                 }`}
               title="Report View"
             >
