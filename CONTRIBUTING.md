@@ -15,8 +15,12 @@ Thank you for considering contributing to PalPal.live! This document provides gu
 
 1. **Fork and Clone the Repository**
 
+   First, fork the repository on GitHub by clicking the "Fork" button at the top right of the repository page.
+   
+   Then clone your fork:
+
    ```bash
-   git fork https://github.com/ksssalman/palpal.live
+   git clone https://github.com/YOUR_USERNAME/palpal.live
    cd palpal.live
    ```
 
