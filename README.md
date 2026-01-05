@@ -57,6 +57,17 @@ Access the application at `http://localhost:8080`.
 
 ---
 
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for:
+
+- Development setup instructions
+- Coding guidelines and best practices
+- How to submit pull requests
+- Troubleshooting common issues (including git commit problems)
+
+---
+
 ## 🔒 Security
 
 We prioritize your data security and privacy:
