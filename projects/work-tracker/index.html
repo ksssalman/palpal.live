@@ -15,9 +15,26 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
 
+  <!-- Firebase Configuration -->
+  <script>
+    // Firebase API keys are safe to expose in client-side code.
+    // Security is enforced by Firestore rules and Firebase Authentication,
+    // not by keeping the API key secret. The key is public by design.
+    const firebaseConfig = {
+      apiKey: "AIzaSyAOWDCQ_iT2eyJ9fuDVE5e7NyZvZgNNbbM",
+      authDomain: "palpal.live",
+      projectId: "palpal-541342",
+      storageBucket: "palpal-541342.firebasestorage.app",
+      messagingSenderId: "155661868786",
+      appId: "1:155661868786:web:e427251a2a29f346e4fa6b",
+      measurementId: "G-WGBMFMB0MP"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
   <!-- Shared PalPal Services -->
-  <!-- These paths work when served via palpal.live/projects/work-tracker/ -->
-  <script src="/__/firebase/init.js"></script>
   <script src="/projects/shared/palpal-auth.js"></script>
   <script src="/projects/shared/palpal-db.js"></script>
 
