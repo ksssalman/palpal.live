@@ -1,0 +1,21 @@
+{
+  "git.enableCommitSigning": false,
+  "git.alwaysSignOff": false,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "git.postCommitCommand": "none",
+  "editor.formatOnSave": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true
+}

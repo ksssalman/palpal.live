@@ -78,20 +78,44 @@ Enable on the `main` branch:
 
 3. **Require conversation resolution before merging**
 
-4. **Require signed commits**
-   - All commits must be signed with a GPG key
+4. **Signed commits (Optional but Recommended)**
+   - Signing commits with a GPG key is recommended but not required
+   - Helps verify commit authenticity
+   - See setup instructions below if you want to enable it
 
-### Commit Signing
+### Commit Signing (Optional)
 
-Set up GPG signing for commits:
+GPG commit signing is **optional** for this repository. However, if you want to sign your commits for added security:
 
 ```bash
+# Generate a GPG key (if you don't have one)
+gpg --full-generate-key
+
+# List your GPG keys
+gpg --list-secret-keys --keyid-format=long
+
 # Configure Git to sign commits
 git config --global commit.gpgsign true
 git config --global user.signingkey YOUR_GPG_KEY_ID
 
 # Or sign individual commits
 git commit -S -m "Your commit message"
+
+# Add your GPG public key to GitHub
+# 1. Export: gpg --armor --export YOUR_GPG_KEY_ID
+# 2. GitHub Settings → SSH and GPG keys → New GPG key
+```
+
+**Troubleshooting GPG Issues:**
+
+If you encounter GPG signing errors and don't want to use it, you can disable it:
+
+```bash
+# Disable for this repository
+git config commit.gpgsign false
+
+# Or disable globally
+git config --global commit.gpgsign false
 ```
 
 ## 4. Dependency Security

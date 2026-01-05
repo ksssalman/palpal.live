@@ -21,7 +21,9 @@ projects/work-tracker/assets/index-*.js
 projects/work-tracker/assets/index-*.css
 
 # IDE
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
 *.swp
 *.swo
