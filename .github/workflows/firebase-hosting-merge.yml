@@ -12,9 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          if [ ! -f projects/work-tracker/package-lock.json ]; then
+          if [ ! -f package-lock.json ]; then
             echo "Error: package-lock.json is missing." && exit 1;
           fi
+      - run: npm ci
       - run: cd projects/work-tracker && npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

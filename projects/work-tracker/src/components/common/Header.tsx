@@ -3,7 +3,6 @@ import type { View } from '../../types';
 
 interface HeaderProps {
   user: any;
-  isDedicated: boolean;
   isSigningIn: boolean;
   signInError: string | null;
   view: View;
@@ -14,7 +13,6 @@ interface HeaderProps {
 
 export default function Header({
   user,
-  isDedicated,
   isSigningIn,
   signInError,
   view,
@@ -36,49 +34,44 @@ export default function Header({
 
         <div className="flex items-center gap-4">
           {user ? (
-            <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/10 rounded-lg border border-emerald-500/30 backdrop-blur-sm">
+            <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/20 rounded-full border border-emerald-500/40 backdrop-blur-md">
               <Cloud className="w-4 h-4 text-emerald-400" />
-              <span className="text-xs font-semibold text-emerald-400">Cloud Synced</span>
-              {isDedicated && (
-                <button
-                  onClick={onSignOut}
-                  className="ml-2 p-1.5 text-emerald-400 hover:text-white hover:bg-emerald-500/20 rounded-lg transition-all duration-200"
-                  title="Sign Out"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-              )}
+              <span className="text-xs font-bold text-emerald-100">Synced</span>
+              <button
+                onClick={onSignOut}
+                className="ml-2 p-1.5 text-emerald-200 hover:text-white hover:bg-emerald-500/30 rounded-full transition-all duration-200"
+                title="Sign Out"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-3 px-4 py-2 bg-slate-700/50 rounded-lg border border-slate-600/50 backdrop-blur-sm">
-                <CloudOff className="w-4 h-4 text-slate-400" />
-                <span className="text-xs font-semibold text-slate-400">Local Only</span>
+              <div className="flex items-center gap-3 px-4 py-2 bg-white/10 rounded-full border border-white/20 backdrop-blur-md">
+                <CloudOff className="w-4 h-4 text-slate-300" />
+                <span className="text-xs font-bold text-slate-200">Local</span>
               </div>
-              {isDedicated && (
-                <button
-                  onClick={onSignIn}
-                  disabled={isSigningIn}
-                  className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 font-medium shadow-sm ${
-                    isSigningIn
-                      ? 'bg-blue-500/50 text-white cursor-not-allowed'
-                      : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/20'
+              <button
+                onClick={onSignIn}
+                disabled={isSigningIn}
+                className={`px-5 py-2 rounded-full transition-all duration-200 flex items-center gap-2 font-bold shadow-lg text-sm ${isSigningIn
+                  ? 'bg-white/20 text-white/50 cursor-not-allowed'
+                  : 'bg-white text-[#541342] hover:bg-[#541342] hover:text-white hover:shadow-xl hover:-translate-y-0.5'
                   }`}
-                  title={isSigningIn ? 'Signing in...' : 'Enable Cloud Sync'}
-                >
-                  {isSigningIn ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span className="text-sm">Connecting...</span>
-                    </>
-                  ) : (
-                    <>
-                      <LogIn className="w-4 h-4" />
-                      <span className="text-sm">Sign In</span>
-                    </>
-                  )}
-                </button>
-              )}
+                title={isSigningIn ? 'Signing in...' : 'Enable Cloud Sync'}
+              >
+                {isSigningIn ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Connecting...</span>
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="w-4 h-4" />
+                    <span>Sign In</span>
+                  </>
+                )}
+              </button>
               {signInError && (
                 <div className="absolute top-full right-4 mt-2 bg-red-500/90 text-white px-4 py-2 rounded-lg text-sm shadow-lg z-40 whitespace-nowrap backdrop-blur-sm border border-red-400/30">
                   {signInError}

@@ -11,6 +11,7 @@ This project has been set up with Docker to easily build and run the entire appl
 
 1.  **Build and Run**
     Run the following command in the project root:
+
     ```bash
     docker compose up --build
     ```
@@ -23,6 +24,7 @@ This project has been set up with Docker to easily build and run the entire appl
 The Docker setup uses a multi-stage `Dockerfile`:
 
 1.  **Build Stage (Node.js)**:
+
     - Installs dependencies for `projects/work-tracker`.
     - Builds the `work-tracker` using Vite.
 
@@ -34,7 +36,7 @@ The Docker setup uses a multi-stage `Dockerfile`:
 ## Configuration
 
 - **Ports**: The application runs on port `8080` by default. You can change this in `docker-compose.yml`.
-- **Firebase Config**: The `firebase-config.js` file (if present) is copied into the image. Ensure this file exists and contains valid configuration for the app to work correctly.
+- **Firebase Config**: The `public/firebase-config.js` file is copied into the image. Ensure this file exists and contains valid configuration for the app to work correctly.
 
 ## Troubleshooting
 

@@ -28,9 +28,9 @@
 }
 ```
 
-## Step 3: Update firebase-config.js
+## Step 3: Update public/firebase-config.js
 
-Replace the placeholder values in `firebase-config.js` with your actual credentials from Step 2.
+Replace the placeholder values in `public/firebase-config.js` with your actual credentials from Step 2.
 
 ## Step 4: Add Firebase SDK to index.html
 
@@ -193,6 +193,7 @@ onCollectionUpdate("projects", (projects) => {
 ```
 
 ## Environment Variables
+
 For production, store your credentials in environment variables rather than committing them. For a static site, you can use `.env` files with build tools or GitHub Actions secrets.
 
 ## Troubleshooting

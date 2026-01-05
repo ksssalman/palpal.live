@@ -8,5 +8,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    rollupOptions: {
+      external: [
+        // Exclude Firebase Hosting reserved URLs from bundling
+        // These URLs are only available in Firebase Hosting environment
+        /^\/__\//
+      ]
+    }
   },
 })

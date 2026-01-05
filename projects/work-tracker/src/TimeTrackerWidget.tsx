@@ -21,24 +21,24 @@ export default function TimeTrackerWidget() {
   const [tagInput, setTagInput] = useState<string>('');
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [view, setView] = useState<View>('tracker');
-  
+
   // Report State
   const [reportPeriod, setReportPeriod] = useState<ReportPeriod>('week');
   const [customStartDate, setCustomStartDate] = useState<string>('');
   const [customEndDate, setCustomEndDate] = useState<string>('');
-  
+
   const [selectedTags] = useState<string[]>([]);
   const [selectedEntries, setSelectedEntries] = useState<number[]>([]);
-  
+
   // Manual Entry State
   const [editingEntry, setEditingEntry] = useState<number | null>(null);
   const [manualTag, setManualTag] = useState<string>('');
   const [manualClockIn, setManualClockIn] = useState<string>('');
   const [manualClockOut, setManualClockOut] = useState<string>('');
-  
+
   // Modal State
   const [showClearModal, setShowClearModal] = useState<boolean>(false);
-  
+
   // Auth State
   const [signInError, setSignInError] = useState<string | null>(null);
   const [isSigningIn, setIsSigningIn] = useState(false);
@@ -48,7 +48,12 @@ export default function TimeTrackerWidget() {
     try {
       setIsSigningIn(true);
       setSignInError(null);
-      await signInWithPopup(dedicatedAuth, googleProvider);
+
+      if (bridge && !bridge.isDedicated) {
+        await (window as any).palpalAuth.signInWithGoogle();
+      } else {
+        await signInWithPopup(dedicatedAuth, googleProvider);
+      }
     } catch (e: any) {
       const errorMessage = e?.message || 'Sign in failed. Please try again.';
       setSignInError(errorMessage);
@@ -60,7 +65,11 @@ export default function TimeTrackerWidget() {
 
   const handleSignOut = async () => {
     try {
-      await signOut(dedicatedAuth);
+      if (bridge && !bridge.isDedicated) {
+        await (window as any).palpalAuth.signOut();
+      } else {
+        await signOut(dedicatedAuth);
+      }
     } catch (e) {
       console.error('Sign out failed:', e);
     }
@@ -81,10 +90,10 @@ export default function TimeTrackerWidget() {
 
   useEffect(() => {
     const bridge = getPalPalBridge();
-    
+
     const loadInitialData = async () => {
       if (!bridge) return;
-      
+
       const saved = localStorage.getItem('timeEntries');
       if (saved) {
         try {
@@ -93,7 +102,7 @@ export default function TimeTrackerWidget() {
           console.error('Failed to load entries from localStorage:', e);
         }
       }
-      
+
       const current = localStorage.getItem('currentEntry');
       if (current) {
         try {
@@ -102,7 +111,7 @@ export default function TimeTrackerWidget() {
           console.error('Failed to load current entry from localStorage:', e);
         }
       }
-      
+
       if (bridge.isAuthenticated()) {
         try {
           const remoteEntries = await bridge.getAllItems('work-tracker', 'sessions');
@@ -114,7 +123,7 @@ export default function TimeTrackerWidget() {
         }
       }
     };
-    
+
     if (bridge) {
       setUser(bridge.getUser());
       let unsubscribe: (() => void) | undefined;
@@ -271,7 +280,7 @@ export default function TimeTrackerWidget() {
     setManualTag('');
     setManualClockIn('');
     setManualClockOut('');
-    
+
     if (bridge?.isAuthenticated()) {
       try {
         await bridge.saveItem('work-tracker', 'sessions', newEntry);
@@ -488,15 +497,14 @@ export default function TimeTrackerWidget() {
 
   return (
     <div className="w-full max-w-md mx-auto bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl shadow-2xl overflow-hidden">
-      <ClearDataModal 
+      <ClearDataModal
         isOpen={showClearModal}
         onClose={() => setShowClearModal(false)}
         onConfirm={clearAllData}
       />
 
-      <Header 
+      <Header
         user={user}
-        isDedicated={bridge?.isDedicated || false}
         isSigningIn={isSigningIn}
         signInError={signInError}
         view={view}
@@ -508,7 +516,7 @@ export default function TimeTrackerWidget() {
       <div className="p-6">
         {view === 'tracker' ? (
           <>
-            <ClockInSection 
+            <ClockInSection
               currentEntry={currentEntry}
               currentTime={currentTime}
               tagInput={tagInput}
@@ -521,7 +529,7 @@ export default function TimeTrackerWidget() {
               calculateDuration={calculateDuration}
             />
 
-            <RecentEntriesList 
+            <RecentEntriesList
               entries={entries}
               editingEntry={editingEntry}
               setEditingEntry={setEditingEntry}
@@ -573,14 +581,14 @@ export default function TimeTrackerWidget() {
             </div>
           </>
         ) : (
-          <ReportView 
+          <ReportView
             reportPeriod={reportPeriod}
             setReportPeriod={setReportPeriod}
             customStartDate={customStartDate}
             setCustomStartDate={setCustomStartDate}
             customEndDate={customEndDate}
             setCustomEndDate={setCustomEndDate}
-            generateReport={() => {}} // Auto-generated
+            generateReport={() => { }} // Auto-generated
             exportToCSV={exportToCSV}
             tagStats={getTagStats()}
             totalDuration={getTotalDuration()}

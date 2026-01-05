@@ -20,12 +20,16 @@ RUN npm run build
 # Stage 2: Serve the application with Nginx
 FROM nginx:alpine
 
-# Copy the entire root project files to the Nginx serving directory
-# This includes the root index.html, authentication files, and other static assets
-COPY . /usr/share/nginx/html
+# Copy the public directory to the Nginx serving directory
+# This ensures the Docker image serves the same content as Firebase Hosting
+COPY public /usr/share/nginx/html
 
-# Clean up the source directory of work-tracker in the final image
-RUN rm -rf /usr/share/nginx/html/projects/work-tracker
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy and setup entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 # Copy the built work-tracker artifacts to the appropriate location
 COPY --from=builder /app/projects/work-tracker/dist /usr/share/nginx/html/projects/work-tracker
@@ -33,5 +37,6 @@ COPY --from=builder /app/projects/work-tracker/dist /usr/share/nginx/html/projec
 # Expose port 80
 EXPOSE 80
 
-# Start Nginx
+# Start Nginx using the entrypoint script
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
