@@ -60,6 +60,30 @@ class PalPalAuth {
     };
   }
 
+  // Sign in with Google
+  async signInWithGoogle() {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await firebase.auth().signInWithPopup(provider);
+      return result.user;
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      throw error;
+    }
+  }
+
+  // Sign in with Facebook
+  async signInWithFacebook() {
+    try {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      const result = await firebase.auth().signInWithPopup(provider);
+      return result.user;
+    } catch (error) {
+      console.error("Facebook sign-in error:", error);
+      throw error;
+    }
+  }
+
   // Sign out
   async signOut() {
     try {
