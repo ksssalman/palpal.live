@@ -30,18 +30,18 @@ export default function ReportView({
 }: ReportViewProps) {
   return (
     <div className="space-y-6">
-      <div className="bg-white/60 rounded-2xl p-6 border border-white/50 shadow-sm">
-        <h2 className="text-lg font-bold mb-4 flex items-center gap-2 text-[#541342]">
+      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-lg">
+        <h2 className="text-lg font-bold mb-4 flex items-center gap-2 text-white">
           <Filter className="w-5 h-5" />
           Report Settings
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="text-xs font-bold text-[#541342]/60 block mb-1.5">Period</label>
+            <label className="text-xs font-bold text-slate-300 block mb-1.5">Period</label>
             <select
               value={reportPeriod}
               onChange={(e) => setReportPeriod(e.target.value as ReportPeriod)}
-              className="w-full bg-white border border-white/50 rounded-xl px-4 py-3 text-sm text-[#541342] focus:outline-none focus:border-[#541342]/30 focus:ring-2 focus:ring-[#541342]/10 transition-all"
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30 transition-all"
             >
               <option value="today">Today</option>
               <option value="week">This Week</option>
@@ -52,21 +52,21 @@ export default function ReportView({
           {reportPeriod === 'custom' && (
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-xs font-bold text-[#541342]/60 block mb-1.5">Start</label>
+                <label className="text-xs font-bold text-slate-300 block mb-1.5">Start</label>
                 <input
                   type="date"
                   value={customStartDate}
                   onChange={(e) => setCustomStartDate(e.target.value)}
-                  className="w-full bg-white border border-white/50 rounded-xl px-4 py-3 text-sm text-[#541342] focus:outline-none focus:border-[#541342]/30 focus:ring-2 focus:ring-[#541342]/10 transition-all"
+                  className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30 transition-all"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-[#541342]/60 block mb-1.5">End</label>
+                <label className="text-xs font-bold text-slate-300 block mb-1.5">End</label>
                 <input
                   type="date"
                   value={customEndDate}
                   onChange={(e) => setCustomEndDate(e.target.value)}
-                  className="w-full bg-white border border-white/50 rounded-xl px-4 py-3 text-sm text-[#541342] focus:outline-none focus:border-[#541342]/30 focus:ring-2 focus:ring-[#541342]/10 transition-all"
+                  className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30 transition-all"
                 />
               </div>
             </div>
@@ -75,14 +75,14 @@ export default function ReportView({
         <div className="flex gap-3">
           <button
             onClick={generateReport}
-            className="flex-1 bg-[#541342] hover:bg-[#541342]/90 text-white py-3 rounded-xl transition font-bold shadow-lg shadow-[#541342]/20 flex items-center justify-center gap-2"
+            className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition font-semibold flex items-center justify-center gap-2"
           >
             <BarChart2 className="w-4 h-4" />
             Generate Report
           </button>
           <button
             onClick={exportToCSV}
-            className="px-6 bg-white hover:bg-gray-50 text-[#541342] border border-[#541342]/10 py-3 rounded-xl transition font-bold flex items-center justify-center gap-2"
+            className="px-6 bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 py-2 rounded-lg transition font-semibold flex items-center justify-center gap-2"
           >
             <Download className="w-4 h-4" />
             Export CSV
@@ -90,34 +90,34 @@ export default function ReportView({
         </div>
       </div>
 
-      <div className="bg-white/60 rounded-2xl p-6 border border-white/50 shadow-sm">
+      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-lg">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg font-bold text-[#541342]">Summary</h2>
+          <h2 className="text-lg font-bold text-white">Summary</h2>
           <div className="text-right">
-            <p className="text-xs text-[#541342]/60 font-medium mb-1">Total Time</p>
-            <p className="text-2xl font-bold text-[#541342]">{formatDuration(totalDuration)}</p>
+            <p className="text-xs text-slate-400 font-medium mb-1">Total Time</p>
+            <p className="text-2xl font-bold text-emerald-400">{formatDuration(totalDuration)}</p>
           </div>
         </div>
 
         <div className="space-y-4">
           {tagStats.map(stat => (
-            <div key={stat.tag} className="bg-white/50 rounded-xl p-4 border border-white/50">
+            <div key={stat.tag} className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
               <div className="flex justify-between items-center mb-2">
-                <span className="font-bold text-[#541342]">{stat.tag || 'Untagged'}</span>
-                <span className="font-mono text-sm text-[#541342]/80 bg-[#541342]/5 px-2 py-1 rounded-lg">
+                <span className="font-bold text-white">{stat.tag || 'Untagged'}</span>
+                <span className="font-mono text-sm text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">
                   {formatDuration(stat.duration)}
                 </span>
               </div>
-              <div className="w-full bg-[#541342]/5 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-slate-600 rounded-full h-2 overflow-hidden">
                 <div
-                  className="bg-[#541342] h-2 rounded-full transition-all duration-500"
+                  className="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full transition-all duration-500"
                   style={{ width: `${(stat.duration / totalDuration) * 100}%` }}
                 ></div>
               </div>
             </div>
           ))}
           {tagStats.length === 0 && (
-            <div className="text-center py-8 text-[#541342]/40">
+            <div className="text-center py-8 text-slate-400">
               <BarChart2 className="w-12 h-12 mx-auto mb-3 opacity-20" />
               <p>No data available for this period</p>
             </div>
