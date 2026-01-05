@@ -1,11 +1,6 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../../../Side Projects/Work Tracker"
-		}
-	],
-	"settings": {}
+  "folders": {
+    "path": "."
+  },
+  "settings": {}
 }
