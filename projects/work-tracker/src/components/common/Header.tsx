@@ -3,7 +3,6 @@ import type { View } from '../../types';
 
 interface HeaderProps {
   user: any;
-  isDedicated: boolean;
   isSigningIn: boolean;
   signInError: string | null;
   view: View;
@@ -14,7 +13,6 @@ interface HeaderProps {
 
 export default function Header({
   user,
-  isDedicated,
   isSigningIn,
   signInError,
   view,
