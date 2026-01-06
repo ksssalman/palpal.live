@@ -85,12 +85,62 @@
       text-decoration: none;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      white-space: nowrap;
     }
 
     .nav-auth-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       background: #3d0e30;
+    }
+
+    /* Mobile Menu Styles */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #541342;
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      padding: 1rem;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 999;
+      border-bottom: 1px solid rgba(84, 19, 66, 0.1);
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      padding: 0.75rem 1rem;
+      color: #541342;
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu a:hover {
+      background: rgba(84, 19, 66, 0.05);
+      padding-left: 1.5rem;
     }
 
     .nav-auth-btn.secondary {
@@ -273,13 +323,12 @@
       }
 
       .nav-links {
-        gap: 0.5rem;
+        display: none;
       }
 
-      /* Hide navigation links on mobile */
-      #aboutLink,
-      #navProjectsLink {
-        display: none !important;
+      /* Show mobile menu button */
+      .mobile-menu-btn {
+        display: block;
       }
 
       .container {
@@ -323,9 +372,17 @@
         font-size: 1.1rem;
       }
 
+      .mobile-menu-btn {
+        font-size: 1.25rem;
+      }
+
+      .mobile-menu {
+        top: 60px;
+      }
+
       .nav-auth-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
+        padding: 0.5rem 0.9rem;
+        font-size: 0.8rem;
       }
 
       .container {
@@ -379,9 +436,17 @@
         <a href="auth.html" class="nav-auth-btn">Sign In</a>
       </div>
     </div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
   </nav>
 
-
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="about.html" class="mobile-menu-link">About</a>
+    <a href="#projects" class="mobile-menu-link">Projects</a>
+    <div id="mobileAuthContainer">
+      <a href="auth.html" class="nav-auth-btn" style="display: block; text-align: center;">Sign In</a>
+    </div>
+  </div>
 
   <div class="container">
     <!-- Welcome Section -->
@@ -508,8 +573,34 @@
     // Modal Logic
 
 
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+      });
+
+      // Close menu when clicking on a link
+      const mobileLinks = mobileMenu.querySelectorAll('a');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('active');
+        });
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.remove('active');
+        }
+      });
+    }
+
     // Seamless Auth Logic
     const navAuthContainer = document.getElementById('navAuthContainer');
+    const mobileAuthContainer = document.getElementById('mobileAuthContainer');
 
     function updateNavAuth(user) {
       if (user) {
@@ -519,12 +610,21 @@
             <a href="javascript:void(0)" class="nav-auth-btn secondary" id="signOutBtn">Sign Out</a>
           </div>
         `;
+        mobileAuthContainer.innerHTML = `
+          <a href="javascript:void(0)" class="nav-auth-btn" id="mobileSignOutBtn" style="display: block; text-align: center;">Sign Out</a>
+        `;
         document.getElementById('signOutBtn').addEventListener('click', () => {
+          firebase.auth().signOut();
+        });
+        document.getElementById('mobileSignOutBtn').addEventListener('click', () => {
           firebase.auth().signOut();
         });
       } else {
         navAuthContainer.innerHTML = `
           <a href="auth.html" class="nav-auth-btn">Sign In</a>
+        `;
+        mobileAuthContainer.innerHTML = `
+          <a href="auth.html" class="nav-auth-btn" style="display: block; text-align: center;">Sign In</a>
         `;
       }
     }
