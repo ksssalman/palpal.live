@@ -578,7 +578,6 @@ export default function TimeTrackerWidget() {
         user={user}
         isSigningIn={isSigningIn}
         signInError={signInError}
-        isTemporaryData={isTemporaryData}
         view={view}
         setView={setView}
         onSignIn={handleSignIn}

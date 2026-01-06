@@ -1,11 +1,10 @@
-import { BarChart3, LogIn, LogOut, AlertCircle } from 'lucide-react';
+import { BarChart3, LogIn, LogOut } from 'lucide-react';
 import type { View } from '../../types';
 
 interface HeaderProps {
   user: any;
   isSigningIn: boolean;
   signInError: string | null;
-  isTemporaryData: boolean;
   view: View;
   setView: (view: View) => void;
   onSignIn: () => void;
@@ -16,7 +15,6 @@ export default function Header({
   user,
   isSigningIn,
   signInError,
-  isTemporaryData,
   view,
   setView,
   onSignIn,
@@ -46,12 +44,6 @@ export default function Header({
             </button>
           ) : (
             <div className="flex items-center gap-2">
-              {isTemporaryData && (
-                <div className="flex items-center gap-3 px-4 py-2 bg-amber-500/20 rounded-full border border-amber-500/40 backdrop-blur-md">
-                  <AlertCircle className="w-4 h-4 text-amber-300" />
-                  <span className="text-xs font-bold text-amber-200">Temporary Data</span>
-                </div>
-              )}
               <button
                 onClick={onSignIn}
                 disabled={isSigningIn}
