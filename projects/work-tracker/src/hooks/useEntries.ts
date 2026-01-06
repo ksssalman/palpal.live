@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-// Hook for managing time entries
+
+// Hook for managing work sessions
 import type { TimeEntry } from '../types';
 import type { PalPalBridge } from '../utils/palpalBridge';
 
 export function useEntries(user: any, bridge: PalPalBridge | null) {
-  const [entries, setEntries] = useState<TimeEntry[]>([]);
-  const [currentEntry, setCurrentEntry] = useState<TimeEntry | null>(null);
+  const [sessions, setSessions] = useState<TimeEntry[]>([]);
+  const [currentSession, setCurrentSession] = useState<TimeEntry | null>(null);
   const [isTemporaryData, setIsTemporaryData] = useState(false);
 
   // Load Data Logic
@@ -15,24 +16,24 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
         // AUTHENTICATED: Load from cloud (Firebase via Bridge)
         if (bridge && bridge.isAuthenticated()) {
           try {
-            const remoteEntries = await bridge.getAllItems('work-tracker', 'sessions');
-            if (remoteEntries && remoteEntries.length > 0) {
-              const sortedEntries = (remoteEntries as TimeEntry[]).sort((a, b) =>
+            const remoteSessions = await bridge.getAllItems('work-tracker', 'sessions');
+            if (remoteSessions && remoteSessions.length > 0) {
+              const sortedSessions = (remoteSessions as TimeEntry[]).sort((a, b) =>
                 new Date(b.clockIn).getTime() - new Date(a.clockIn).getTime()
               );
-              setEntries(sortedEntries);
+              setSessions(sortedSessions);
               setIsTemporaryData(false);
             } else {
-              setEntries([]);
+              setSessions([]);
               setIsTemporaryData(false);
             }
           } catch (e) {
             console.error('Failed to load cloud data:', e);
             // Fallback to local
-            const saved = localStorage.getItem('timeEntries');
+            const saved = localStorage.getItem('timeSessions');
             if (saved) {
               try {
-                setEntries(JSON.parse(saved) as TimeEntry[]);
+                setSessions(JSON.parse(saved) as TimeEntry[]);
                 setIsTemporaryData(false);
               } catch (err) {
                 console.error('Failed to parse local backup:', err);
@@ -42,27 +43,27 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
         }
       } else {
         // USER NOT AUTHENTICATED: Load from local storage
-        const saved = localStorage.getItem('timeEntries');
+        const saved = localStorage.getItem('timeSessions');
         if (saved) {
           try {
-            setEntries(JSON.parse(saved) as TimeEntry[]);
+            setSessions(JSON.parse(saved) as TimeEntry[]);
             setIsTemporaryData(true);
           } catch (e) {
-            console.error('Failed to load entries from localStorage:', e);
+            console.error('Failed to load sessions from localStorage:', e);
           }
         } else {
-          setEntries([]);
+          setSessions([]);
           setIsTemporaryData(false);
         }
       }
 
-      // Load current entry from local
-      const current = localStorage.getItem('currentEntry');
+      // Load current session from local
+      const current = localStorage.getItem('currentSession');
       if (current) {
         try {
-          setCurrentEntry(JSON.parse(current) as TimeEntry);
+          setCurrentSession(JSON.parse(current) as TimeEntry);
         } catch (e) {
-          console.error('Failed to load current entry from localStorage:', e);
+          console.error('Failed to load current session from localStorage:', e);
         }
       }
     };
@@ -72,44 +73,48 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
 
   // Persistence
   useEffect(() => {
-    localStorage.setItem('timeEntries', JSON.stringify(entries));
-  }, [entries]);
+
+    localStorage.setItem('timeSessions', JSON.stringify(sessions));
+  }, [sessions]);
 
   useEffect(() => {
-     if (currentEntry) {
-      localStorage.setItem('currentEntry', JSON.stringify(currentEntry));
+
+     if (currentSession) {
+      localStorage.setItem('currentSession', JSON.stringify(currentSession));
     } else {
-      localStorage.removeItem('currentEntry');
+      localStorage.removeItem('currentSession');
     }
-  }, [currentEntry]);
+  }, [currentSession]);
 
   // Actions
+
   const startSession = (initialTags: string[] = []) => {
     // If already running, do nothing or user should have stopped it
-    if (currentEntry) return;
+    if (currentSession) return;
 
-    const entry: TimeEntry = {
+    const session: TimeEntry = {
       id: Date.now(),
       clockIn: new Date().toISOString(),
       clockOut: null,
       tags: initialTags
     };
-    setCurrentEntry(entry);
+    setCurrentSession(session);
   };
 
+
   const stopSession = async () => {
-    if (currentEntry) {
-      const completedEntry: TimeEntry = {
-        ...currentEntry,
+    if (currentSession) {
+      const completedSession: TimeEntry = {
+        ...currentSession,
         clockOut: new Date().toISOString()
       };
-      const newEntries = [completedEntry, ...entries];
-      setEntries(newEntries);
-      setCurrentEntry(null);
+      const newSessions = [completedSession, ...sessions];
+      setSessions(newSessions);
+      setCurrentSession(null);
 
       if (user && bridge?.isAuthenticated()) {
         try {
-          await bridge.saveItem('work-tracker', 'sessions', completedEntry);
+          await bridge.saveItem('work-tracker', 'sessions', completedSession);
         } catch (e) {
           console.error('Cloud sync failed, data kept in local:', e);
         }
@@ -117,20 +122,21 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
     }
   };
 
-  const updateEntry = async (id: number, updates: Partial<TimeEntry>) => {
-    if (currentEntry && currentEntry.id === id) {
-      setCurrentEntry({ ...currentEntry, ...updates });
-    } else {
-      const updatedEntries = entries.map(e =>
-        e.id === id ? { ...e, ...updates } : e
-      );
-      setEntries(updatedEntries);
 
-      // Update cloud if it's a past entry
-      const entryToUpdate = updatedEntries.find(e => e.id === id);
-      if (entryToUpdate && user && bridge?.isAuthenticated()) {
+  const updateSession = async (id: number, updates: Partial<TimeEntry>) => {
+    if (currentSession && currentSession.id === id) {
+      setCurrentSession({ ...currentSession, ...updates });
+    } else {
+      const updatedSessions = sessions.map(s =>
+        s.id === id ? { ...s, ...updates } : s
+      );
+      setSessions(updatedSessions);
+
+      // Update cloud if it's a past session
+      const sessionToUpdate = updatedSessions.find(s => s.id === id);
+      if (sessionToUpdate && user && bridge?.isAuthenticated()) {
          try {
-           await bridge.saveItem('work-tracker', 'sessions', entryToUpdate);
+           await bridge.saveItem('work-tracker', 'sessions', sessionToUpdate);
          } catch (e) {
            console.error('Cloud update failed', e);
          }
@@ -138,51 +144,54 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
     }
   };
 
-  const deleteEntry = async (entryId: number) => {
-      const updatedEntries = entries.filter(e => e.id !== entryId);
-      setEntries(updatedEntries);
+
+  const deleteSession = async (sessionId: number) => {
+      const updatedSessions = sessions.filter(s => s.id !== sessionId);
+      setSessions(updatedSessions);
 
       if (bridge && bridge.isAuthenticated()) {
         try {
-          await bridge.deleteItem('work-tracker', 'sessions', entryId);
+          await bridge.deleteItem('work-tracker', 'sessions', sessionId);
         } catch (e) {
           console.error('Failed to delete cloud item:', e);
         }
       }
   };
 
-  const addEntry = async (newEntry: TimeEntry) => {
-    const updatedEntries = [newEntry, ...entries].sort((a, b) =>
+
+  const addSession = async (newSession: TimeEntry) => {
+    const updatedSessions = [newSession, ...sessions].sort((a, b) =>
       new Date(b.clockIn).getTime() - new Date(a.clockIn).getTime()
     );
-    setEntries(updatedEntries);
+    setSessions(updatedSessions);
 
     if (user && bridge?.isAuthenticated()) {
       try {
-        await bridge.saveItem('work-tracker', 'sessions', newEntry);
+        await bridge.saveItem('work-tracker', 'sessions', newSession);
       } catch (e) {
-        console.error('Failed to sync manual entry:', e);
+        console.error('Failed to sync manual session:', e);
       }
     }
   };
 
+
   const clearAllData = () => {
-    setEntries([]);
-    setCurrentEntry(null);
-    localStorage.removeItem('timeEntries');
-    localStorage.removeItem('currentEntry');
+    setSessions([]);
+    setCurrentSession(null);
+    localStorage.removeItem('timeSessions');
+    localStorage.removeItem('currentSession');
   };
 
   return {
-    entries,
-    setEntries,
-    currentEntry,
+    sessions,
+    setSessions,
+    currentSession,
     isTemporaryData,
     startSession,
     stopSession,
-    addEntry,
-    updateEntry,
-    deleteEntry,
+    addSession,
+    updateSession,
+    deleteSession,
     clearAllData
   };
 }
