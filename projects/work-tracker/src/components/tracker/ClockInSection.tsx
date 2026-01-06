@@ -1,4 +1,4 @@
-import { Plus, Tag } from 'lucide-react';
+import { Plus, Tag, X } from 'lucide-react';
 import type { TimeEntry } from '../../types';
 
 interface ClockInSectionProps {
@@ -104,36 +104,34 @@ export default function ClockInSection({
             </div>
             <div className="flex flex-wrap gap-2">
               {currentEntry.tags.map((tag, idx) => (
-                <button
+                <div
                   key={idx}
-                  onClick={() => onTagClick(tag)}
-                  className="bg-purple-900/40 hover:bg-purple-800/60 text-purple-200 px-3 py-1 rounded-full text-sm font-medium border border-purple-500/20 transition-all flex items-center gap-2"
+                  className="bg-purple-900/40 text-purple-200 pl-3 pr-1 py-1 rounded-full text-sm font-medium border border-purple-500/20 flex items-center gap-1 group hover:border-purple-500/40 transition-all"
                 >
-                  <Tag className="w-3 h-3 text-purple-400" />
-                  {tag}
-                </button>
+                  <button 
+                    onClick={() => onTagClick(tag)}
+                    className="flex items-center gap-2 hover:text-white transition-colors"
+                  >
+                    <Tag className="w-3 h-3 text-purple-400" />
+                    {tag}
+                  </button>
+                  <div className="w-px h-3 bg-purple-500/20 mx-1"></div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRemoveTag(tag);
+                    }}
+                    className="p-1 hover:bg-red-500/20 hover:text-red-400 text-slate-400 rounded-full transition-colors"
+                    title="Remove tag"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
               ))}
               {currentEntry.tags.length === 0 && (
                  <span className="text-slate-500 text-sm italic py-1">No tags added yet</span>
               )}
             </div>
-            
-             {/* Simple Remove List below to declutter buttons */}
-            {currentEntry.tags.length > 0 && (
-              <div className="mt-2 text-xs text-slate-500">
-                <span className="mr-2">Remove:</span> 
-                {currentEntry.tags.map((tag, idx) => (
-                    <button 
-                        key={idx}
-                        onClick={() => onRemoveTag(tag)}
-                        className="hover:text-red-400 hover:underline mr-2 transition-colors"
-                    >
-                        {tag}
-                    </button>
-                ))}
-              </div>
-            )}
-
           </div>
 
           <button
