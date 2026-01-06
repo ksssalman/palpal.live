@@ -111,7 +111,10 @@ export default function TimeTrackerWidget() {
         try {
           const remoteEntries = await bridge.getAllItems('work-tracker', 'sessions');
           if (remoteEntries && remoteEntries.length > 0) {
-            setEntries(remoteEntries as TimeEntry[]);
+             const sortedEntries = (remoteEntries as TimeEntry[]).sort((a, b) => 
+               new Date(b.clockIn).getTime() - new Date(a.clockIn).getTime()
+             );
+            setEntries(sortedEntries);
             setIsTemporaryData(false);
             console.log('Loaded cloud data for authenticated user');
           } else {
@@ -336,7 +339,11 @@ export default function TimeTrackerWidget() {
       isManual: true
     };
 
-    setEntries([newEntry, ...entries]);
+    const updatedEntries = [newEntry, ...entries].sort((a, b) => 
+      new Date(b.clockIn).getTime() - new Date(a.clockIn).getTime()
+    );
+
+    setEntries(updatedEntries);
     setEditingEntry(null);
     setManualTag('');
     setManualClockIn('');
