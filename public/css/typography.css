@@ -6,6 +6,7 @@
   font-size: 4rem;
   font-weight: 800;
   text-transform: lowercase;
+  font-style: italic;
   margin-bottom: 1rem;
   background: linear-gradient(45deg, #541342, #801c63);
   -webkit-background-clip: text;

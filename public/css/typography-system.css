@@ -33,6 +33,7 @@
 
 /* Display Heading - Logo */
 .display-heading {
+  font-family: "Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif;
   font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-extrabold);
   margin-bottom: 1rem;
@@ -42,6 +43,11 @@
   background-clip: text;
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-tight);
+  text-transform: lowercase;
+  font-style: italic;
+  overflow-wrap: break-word; /* Ensure text wraps */
+  hyphens: auto; /* Break words nicely if possible */
+  max-width: 100%; /* Prevent overflow */
 }
 
 /* Section Heading */
