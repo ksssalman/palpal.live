@@ -1,4 +1,4 @@
-import { BarChart3, Cloud, CloudOff, LogIn, LogOut, AlertCircle } from 'lucide-react';
+import { BarChart3, LogIn, LogOut, AlertCircle } from 'lucide-react';
 import type { View } from '../../types';
 
 interface HeaderProps {
