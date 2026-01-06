@@ -13,6 +13,7 @@ interface ReportViewProps {
   tagStats: TagStat[];
   totalDuration: number;
   formatDuration: (ms: number) => string;
+  onTagClick?: (tag: string) => void;
 }
 
 export default function ReportView({
@@ -26,7 +27,8 @@ export default function ReportView({
   exportToCSV,
   tagStats,
   totalDuration,
-  formatDuration
+  formatDuration,
+  onTagClick
 }: ReportViewProps) {
   return (
     <div className="space-y-6">
@@ -101,7 +103,11 @@ export default function ReportView({
 
         <div className="space-y-4">
           {tagStats.map(stat => (
-            <div key={stat.tag} className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
+            <div
+              key={stat.tag}
+              className={`bg-slate-700/50 rounded-lg p-4 border border-slate-600 transition-colors ${onTagClick ? 'cursor-pointer hover:bg-slate-700 hover:border-slate-500' : ''}`}
+              onClick={() => onTagClick?.(stat.tag)}
+            >
               <div className="flex justify-between items-center mb-2">
                 <span className="font-bold text-white">{stat.tag || 'Untagged'}</span>
                 <span className="font-mono text-sm text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">
@@ -111,7 +117,7 @@ export default function ReportView({
               <div className="w-full bg-slate-600 rounded-full h-2 overflow-hidden">
                 <div
                   className="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${(stat.duration / totalDuration) * 100}%` }}
+                  style={{ width: `${totalDuration > 0 ? (stat.duration / totalDuration) * 100 : 0}%` }}
                 ></div>
               </div>
             </div>

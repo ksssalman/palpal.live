@@ -700,6 +700,10 @@ export default function TimeTrackerWidget() {
               formatTime={formatTime}
               formatDate={formatDate}
               calculateDuration={calculateDuration}
+              onTagClick={(tag) => {
+                setSelectedTagForDetails(tag);
+                setShowTagDetails(true);
+              }}
             />
 
             <div className="mt-6 pt-6 border-t border-[#541342]/10 flex items-center justify-between">
@@ -749,6 +753,10 @@ export default function TimeTrackerWidget() {
             tagStats={getTagStats()}
             totalDuration={getTotalDuration()}
             formatDuration={formatDurationMs}
+            onTagClick={(tag) => {
+              setSelectedTagForDetails(tag);
+              setShowTagDetails(true);
+            }}
           />
         )}
       </div>

@@ -16,6 +16,7 @@ interface RecentEntriesListProps {
   formatTime: (iso: string) => string;
   formatDate: (iso: string) => string;
   calculateDuration: (start: string, end: string | null) => string;
+  onTagClick?: (tag: string) => void;
 }
 
 export default function RecentEntriesList({
@@ -32,7 +33,8 @@ export default function RecentEntriesList({
   onAddManualEntry,
   formatTime,
   formatDate,
-  calculateDuration
+  calculateDuration,
+  onTagClick
 }: RecentEntriesListProps) {
   return (
     <div>
@@ -96,10 +98,11 @@ export default function RecentEntriesList({
                   {entry.tags.map((tag, idx) => (
                     <span
                       key={idx}
-                      className={`px-2.5 py-1 rounded-md text-xs font-medium ${entry.isManual
+                      onClick={() => onTagClick?.(tag)}
+                      className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${entry.isManual
                         ? 'bg-purple-600/30 text-purple-300'
                         : 'bg-slate-700 text-slate-300'
-                        }`}
+                        } ${onTagClick ? 'cursor-pointer hover:bg-purple-600 hover:text-white' : ''}`}
                     >
                       {tag}
                     </span>
