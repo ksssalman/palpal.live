@@ -296,6 +296,6 @@ Before deploying to production:
 
 ---
 
-**Document Version:** 1.0  
-**Last Updated:** January 5, 2026  
+**Document Version:** 1.0
+**Last Updated:** January 5, 2026
 **Maintained By:** PalPal Team

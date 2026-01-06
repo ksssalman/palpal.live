@@ -93,10 +93,10 @@ clockIn = (): void => {
     clockOut: null,              // Not finished yet
     tags: []                      // No tags initially
   };
-  
+
   // Step 2: Set as current entry
-  setCurrentEntry(entry);  
-  
+  setCurrentEntry(entry);
+
   // Step 3: Auto-save to localStorage
   // (useEffect listens to currentEntry changes)
 };
@@ -129,13 +129,13 @@ addTag = (): void => {
       ...currentEntry,
       tags: [...currentEntry.tags, tagInput.trim()]
     };
-    
+
     // Step 2: Save to state
     setCurrentEntry(updatedEntry);
-    
+
     // Step 3: Clear input
     setTagInput('');
-    
+
     // Step 4: Auto-save to localStorage
     // (useEffect watches currentEntry)
   }
@@ -168,17 +168,17 @@ clockOut = async (): Promise<void> => {
       ...currentEntry,
       clockOut: new Date().toISOString()  // Add end time
     };
-    
+
     // Step 2: Add to entries history
     const newEntries = [completedEntry, ...entries];
     setEntries(newEntries);
-    
+
     // Step 3: Clear current entry
     setCurrentEntry(null);
-    
+
     // Step 4: Save to localStorage
     // (useEffect watches entries and currentEntry)
-    
+
     // Step 5: CLOUD SYNC (if authenticated)
     if (bridge?.isAuthenticated()) {
       try {
@@ -194,7 +194,7 @@ clockOut = async (): Promise<void> => {
 };
 
 // Timeline:
-// User clicks "Clock Out" 
+// User clicks "Clock Out"
 //   → Entry completed locally (1ms)
 //   → Removed from current view (instant)
 //   → Added to history (instant)
@@ -230,7 +230,7 @@ saveItem: async (projectName, colName, data) => {
     colName,           // "sessions"
     data               // { clockIn, clockOut, tags, id }
   );
-  
+
   // Result: Saves to Firestore path:
   // projects/work-tracker/users/{USER_ID}/sessions/{DOC_ID}
 }
@@ -241,7 +241,7 @@ saveItem: async (projectName, colName, data) => {
   const path = `users/${currentUser.uid}/sessions`;
   const docRef = await addDoc(collection(db, path), data);
   return docRef.id;
-  
+
   // Result: Saves to Firestore path:
   // users/{USER_ID}/sessions/{DOC_ID}
 }
@@ -267,12 +267,12 @@ useEffect(() => {
     if (saved) {
       setEntries(JSON.parse(saved) as TimeEntry[]);
     }
-    
+
     const current = localStorage.getItem('currentEntry');
     if (current) {
       setCurrentEntry(JSON.parse(current) as TimeEntry);
     }
-    
+
     // Step 2: If authenticated, load from cloud
     if (bridge.isAuthenticated()) {
       try {
@@ -289,7 +289,7 @@ useEffect(() => {
       }
     }
   };
-  
+
   loadInitialData();
 }, []);
 
@@ -319,7 +319,7 @@ useEffect(() => {
 handleSignIn = async () => {
   try {
     setIsSigningIn(true);
-    
+
     // ECOSYSTEM MODE: Use shared auth
     if (bridge && !bridge.isDedicated) {
       await (window as any).palpalAuth.signInWithGoogle();
@@ -328,7 +328,7 @@ handleSignIn = async () => {
     else {
       await signInWithPopup(dedicatedAuth, googleProvider);
     }
-    
+
     // ✅ Signed in → auth state listener fires → loads cloud data
   } catch (e) {
     setSignInError(e.message);
@@ -356,7 +356,7 @@ useEffect(() => {
       setUser(user);
       if (user) loadInitialData();  // Load cloud data when signed in
     });
-    
+
     // STANDALONE: Use dedicated listener
     const unsubscribe = onAuthStateChanged(dedicatedAuth, (u) => {
       const user = u ? { uid: u.uid, email: u.email } : null;
@@ -622,6 +622,6 @@ interface TimeTrackerState {
 
 ---
 
-**Version:** 1.0  
-**Last Updated:** January 5, 2026  
+**Version:** 1.0
+**Last Updated:** January 5, 2026
 **Status:** Production Ready ✅
