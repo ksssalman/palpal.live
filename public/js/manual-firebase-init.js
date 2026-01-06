@@ -4,7 +4,7 @@
 (function() {
   const firebaseConfig = {
     apiKey: "AIzaSyAOWDCQ_iT2eyJ9fuDVE5e7NyZvZgNNbbM",
-    authDomain: "palpal.live",
+    authDomain: "palpal-541342.firebaseapp.com",
     projectId: "palpal-541342",
     storageBucket: "palpal-541342.firebasestorage.app",
     messagingSenderId: "155661868786",
