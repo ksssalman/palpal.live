@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react';
 // Hook for reports and stats
+
 import type { TimeEntry, ReportPeriod } from '../types';
 
-export function useReports(entries: TimeEntry[]) {
+export function useReports(sessions: TimeEntry[]) {
   const [reportPeriod, setReportPeriod] = useState<ReportPeriod>('week');
   const [customStartDate, setCustomStartDate] = useState<string>('');
   const [customEndDate, setCustomEndDate] = useState<string>('');
@@ -10,28 +11,28 @@ export function useReports(entries: TimeEntry[]) {
   // Filtering state
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedEntries, setSelectedEntries] = useState<number[]>([]);
+  const [selectedSessionIds, setSelectedSessionIds] = useState<number[]>([]);
 
-  const filteredEntries = useMemo(() => {
+  const filteredSessions = useMemo(() => {
     const now = new Date();
-    let filtered = entries.filter(entry => {
+    let filtered = sessions.filter(session => {
       // 1. Period Filter
-      const entryDate = new Date(entry.clockIn);
+      const sessionDate = new Date(session.clockIn);
       let matchPeriod = true;
 
       if (reportPeriod === 'day') {
-        matchPeriod = entryDate.toDateString() === now.toDateString();
+        matchPeriod = sessionDate.toDateString() === now.toDateString();
       } else if (reportPeriod === 'week') {
         const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        matchPeriod = entryDate >= weekAgo;
+        matchPeriod = sessionDate >= weekAgo;
       } else if (reportPeriod === 'month') {
-        matchPeriod = entryDate.getMonth() === now.getMonth() &&
-          entryDate.getFullYear() === now.getFullYear();
+        matchPeriod = sessionDate.getMonth() === now.getMonth() &&
+          sessionDate.getFullYear() === now.getFullYear();
       } else if (reportPeriod === 'custom' && customStartDate && customEndDate) {
         const start = new Date(customStartDate);
         const end = new Date(customEndDate);
         end.setHours(23, 59, 59, 999);
-        matchPeriod = entryDate >= start && entryDate <= end;
+        matchPeriod = sessionDate >= start && sessionDate <= end;
       }
 
       return matchPeriod;
@@ -39,33 +40,33 @@ export function useReports(entries: TimeEntry[]) {
 
     // 2. Search/Tag Filter
     if (searchTerm || selectedTags.length > 0) {
-      filtered = filtered.filter(entry => {
+      filtered = filtered.filter(session => {
         const searchRaw = searchTerm.trim().toLowerCase();
-        const matchesSearch = !searchRaw || entry.tags.some(t => t.toLowerCase().includes(searchRaw));
+        const matchesSearch = !searchRaw || session.tags.some(t => t.toLowerCase().includes(searchRaw));
 
         // Complex tag logic if needed, for now simplistic "if selectedTags, must have ALL of them"
-        const matchesTags = selectedTags.length === 0 || selectedTags.every(t => entry.tags.includes(t));
+        const matchesTags = selectedTags.length === 0 || selectedTags.every(t => session.tags.includes(t));
 
         return matchesSearch && matchesTags;
       });
     }
 
     return filtered;
-  }, [entries, reportPeriod, customStartDate, customEndDate, searchTerm, selectedTags]);
+  }, [sessions, reportPeriod, customStartDate, customEndDate, searchTerm, selectedTags]);
 
   const tagStats = useMemo(() => {
     const tagMap: Record<string, number> = {};
     let untaggedDuration = 0;
 
-    filteredEntries.forEach(entry => {
-      const start = new Date(entry.clockIn);
-      const end = entry.clockOut ? new Date(entry.clockOut) : new Date();
+    filteredSessions.forEach(session => {
+      const start = new Date(session.clockIn);
+      const end = session.clockOut ? new Date(session.clockOut) : new Date();
       const duration = end.getTime() - start.getTime();
 
-      if (entry.tags.length === 0) {
+      if (session.tags.length === 0) {
         untaggedDuration += duration;
       } else {
-        entry.tags.forEach(tag => {
+        session.tags.forEach(tag => {
           tagMap[tag] = (tagMap[tag] || 0) + duration;
         });
       }
@@ -80,15 +81,15 @@ export function useReports(entries: TimeEntry[]) {
     }
 
     return stats;
-  }, [filteredEntries]);
+  }, [filteredSessions]);
 
   const totalDuration = useMemo(() => {
-    return filteredEntries.reduce((total, entry) => {
-      const start = new Date(entry.clockIn);
-      const end = entry.clockOut ? new Date(entry.clockOut) : new Date();
+    return filteredSessions.reduce((total, session) => {
+      const start = new Date(session.clockIn);
+      const end = session.clockOut ? new Date(session.clockOut) : new Date();
       return total + (end.getTime() - start.getTime());
     }, 0);
-  }, [filteredEntries]);
+  }, [filteredSessions]);
 
   return {
     reportPeriod, setReportPeriod,
@@ -97,9 +98,9 @@ export function useReports(entries: TimeEntry[]) {
 
     searchTerm, setSearchTerm,
     selectedTags, setSelectedTags,
-    selectedEntries, setSelectedEntries,
+    selectedSessionIds, setSelectedSessionIds,
 
-    filteredEntries,
+    filteredSessions,
     tagStats,
     totalDuration
   };

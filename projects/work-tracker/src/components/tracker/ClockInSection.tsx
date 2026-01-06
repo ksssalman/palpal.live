@@ -56,7 +56,7 @@ export default function ClockInSection({
                 </div>
              </div>
 
-            <div className="grid grid-cols-2 gap-0 divide-x divide-slate-700/50">
+            <div className="grid grid-cols-2 gap-0 divide-x divide-slate-700/50 sm:grid-cols-1 sm:divide-x-0">
               {/* Clock In Time */}
               <div className="p-6 text-center flex flex-col items-center justify-center">
                 <div className="text-xs font-bold text-emerald-500/80 uppercase tracking-wider mb-2">Started At</div>

@@ -72,8 +72,8 @@ export default function TagDetailsModal({
             </div>
 
             <h3 className="text-sm font-bold text-slate-300 mb-3 flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                Recent Sessions
+              <Calendar className="w-4 h-4" />
+              Recent Sessions
             </h3>
 
             <div className="space-y-3">

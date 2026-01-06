@@ -1,7 +1,8 @@
+
 import type { TimeEntry } from '../types';
 import { calculateDuration, calculateTotalHours, formatDate, formatTime } from '../utils/dateUtils';
 
-export function useExport(entries: TimeEntry[], timezone: string) {
+export function useExport(sessions: TimeEntry[], timezone: string) {
 
     // Helpers bound to timezone
     const fmtDate = (d: string) => formatDate(d, timezone);
@@ -19,59 +20,62 @@ export function useExport(entries: TimeEntry[], timezone: string) {
         URL.revokeObjectURL(url);
     };
 
-    const exportToCSV = (selectedEntriesIds: number[], filteredEntries: TimeEntry[]) => {
-        const entriesToExport = selectedEntriesIds.length > 0
-          ? entries.filter(e => selectedEntriesIds.includes(e.id))
-          : filteredEntries;
 
-        const csv = [
-          ['Date', 'Clock In', 'Clock Out', 'Duration (hours)', 'Tags'].join(','),
-          ...entriesToExport.map(entry => [
-            fmtDate(entry.clockIn),
-            fmtTime(entry.clockIn),
-            entry.clockOut ? fmtTime(entry.clockOut) : 'N/A',
-            calculateTotalHours(entry.clockIn, entry.clockOut).toFixed(2),
-            entry.tags.join('; ')
-          ].join(','))
-        ].join('\n');
+        const exportToCSV = (selectedSessionIds: number[], filteredSessions: TimeEntry[]) => {
+                const sessionsToExport = selectedSessionIds.length > 0
+                    ? sessions.filter(s => selectedSessionIds.includes(s.id))
+                    : filteredSessions;
 
-        downloadFile(csv, 'work-tracker-export.csv', 'text/csv');
-    };
+                const csv = [
+                    ['Date', 'Clock In', 'Clock Out', 'Duration (hours)', 'Tags'].join(','),
+                    ...sessionsToExport.map(session => [
+                        fmtDate(session.clockIn),
+                        fmtTime(session.clockIn),
+                        session.clockOut ? fmtTime(session.clockOut) : 'N/A',
+                        calculateTotalHours(session.clockIn, session.clockOut).toFixed(2),
+                        session.tags.join('; ')
+                    ].join(','))
+                ].join('\n');
 
-    const exportToJSON = (selectedEntriesIds: number[], filteredEntries: TimeEntry[]) => {
-        const entriesToExport = selectedEntriesIds.length > 0
-            ? entries.filter(e => selectedEntriesIds.includes(e.id))
-            : filteredEntries;
+                downloadFile(csv, 'work-tracker-export.csv', 'text/csv');
+        };
 
-        const json = JSON.stringify(entriesToExport, null, 2);
+
+    const exportToJSON = (selectedSessionIds: number[], filteredSessions: TimeEntry[]) => {
+        const sessionsToExport = selectedSessionIds.length > 0
+            ? sessions.filter(s => selectedSessionIds.includes(s.id))
+            : filteredSessions;
+
+        const json = JSON.stringify(sessionsToExport, null, 2);
         downloadFile(json, 'work-tracker-export.json', 'application/json');
     };
 
+
     const addRecentToCalendar = () => {
-        const recentEntries = entries.slice(0, 10);
-        if (recentEntries.length === 0) {
-            alert('No entries to add to calendar');
+        const recentSessions = sessions.slice(0, 10);
+        if (recentSessions.length === 0) {
+            alert('No sessions to add to calendar');
             return;
         }
         const formatDateForICS = (date: Date): string => {
             return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
         };
-        const events = recentEntries.map(entry => {
-            const startDate = new Date(entry.clockIn);
-            const endDate = entry.clockOut ? new Date(entry.clockOut) : new Date();
+        const events = recentSessions.map(session => {
+            const startDate = new Date(session.clockIn);
+            const endDate = session.clockOut ? new Date(session.clockOut) : new Date();
 
-            const summary = entry.tags.length > 0
-                ? `Session ${entry.tags.map(tag => '#' + tag).join(' ')}`
+            const summary = session.tags.length > 0
+                ? `Session ${session.tags.map(tag => '#' + tag).join(' ')}`
                 : 'Session';
 
             return [
                 'BEGIN:VEVENT',
-                `UID:${entry.id}@timetracker`,
+                `UID:${session.id}@worktracker`,
                 `DTSTAMP:${formatDateForICS(new Date())}`,
                 `DTSTART:${formatDateForICS(startDate)}`,
                 `DTEND:${formatDateForICS(endDate)}`,
                 `SUMMARY:${summary}`,
-                `DESCRIPTION:Tags: ${entry.tags.join(', ') || 'None'}\\nDuration: ${calculateDuration(entry.clockIn, entry.clockOut)}`,
+                `DESCRIPTION:Tags: ${session.tags.join(', ') || 'None'}\\nDuration: ${calculateDuration(session.clockIn, session.clockOut)}`,
                 'END:VEVENT'
             ].join('\r\n');
         }).join('\r\n');

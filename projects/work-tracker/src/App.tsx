@@ -1,10 +1,10 @@
-import TimeTrackerWidget from './TimeTrackerWidget';
+import WorkTrackerWidget from './WorkTrackerWidget';
 
 function App() {
   return (
     <div id="root" className="main-app-container">
       {/* Navigation Bar - PalPal.live style */}
-      <nav className="fixed top-0 left-0 right-0 h-[70px] px-8 flex items-center justify-between bg-gradient-to-r from-[#f9f0f6] to-[#f0e0ec] backdrop-blur-md border-b border-[#541342]/10 z-[1000] transition-all duration-300 shadow-md">
+      <nav className="fixed top-0 left-0 right-0 h-[70px] px-8 sm:px-4 flex items-center justify-between bg-gradient-to-r from-[#f9f0f6] to-[#f0e0ec] backdrop-blur-md border-b border-[#541342]/10 z-[1000] transition-all duration-300 shadow-md">
         <a href="https://palpal.live" className="text-2xl font-extrabold text-[#541342] tracking-tight no-underline flex items-center gap-2 font-brand lowercase italic pr-[0.2em]">
           <img src="/assets/logo.png" alt="PalPal" className="h-8 w-8 rounded-lg mr-2" />
           PalPal
@@ -18,7 +18,9 @@ function App() {
 
       {/* Main Content - Add top padding for fixed navbar */}
       <div className="pt-[70px] flex justify-center w-full">
-        <TimeTrackerWidget />
+        <div className="w-full">
+          <WorkTrackerWidget />
+        </div>
       </div>
     </div>
   );
