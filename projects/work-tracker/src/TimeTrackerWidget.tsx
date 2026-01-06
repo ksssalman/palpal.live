@@ -111,7 +111,7 @@ export default function TimeTrackerWidget() {
         try {
           const remoteEntries = await bridge.getAllItems('work-tracker', 'sessions');
           if (remoteEntries && remoteEntries.length > 0) {
-             const sortedEntries = (remoteEntries as TimeEntry[]).sort((a, b) => 
+             const sortedEntries = (remoteEntries as TimeEntry[]).sort((a, b) =>
                new Date(b.clockIn).getTime() - new Date(a.clockIn).getTime()
              );
             setEntries(sortedEntries);
@@ -339,7 +339,7 @@ export default function TimeTrackerWidget() {
       isManual: true
     };
 
-    const updatedEntries = [newEntry, ...entries].sort((a, b) => 
+    const updatedEntries = [newEntry, ...entries].sort((a, b) =>
       new Date(b.clockIn).getTime() - new Date(a.clockIn).getTime()
     );
 
