@@ -36,28 +36,20 @@ export default function Header({
 
         <div className="flex items-center gap-4">
           {user ? (
-            <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/20 rounded-full border border-emerald-500/40 backdrop-blur-md">
-              <Cloud className="w-4 h-4 text-emerald-400 animate-pulse" />
-              <span className="text-xs font-bold text-emerald-100">Cloud Synced</span>
-              <button
-                onClick={onSignOut}
-                className="ml-2 p-1.5 text-emerald-200 hover:text-white hover:bg-emerald-500/30 rounded-full transition-all duration-200"
-                title="Sign Out"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
+            <button
+              onClick={onSignOut}
+              className="px-5 py-2 rounded-full transition-all duration-200 flex items-center gap-2 font-bold shadow-lg text-sm bg-emerald-500/20 text-emerald-100 hover:bg-emerald-500/30 border border-emerald-500/40 backdrop-blur-md"
+              title="Sign Out"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sign Out</span>
+            </button>
           ) : (
             <div className="flex items-center gap-2">
-              {isTemporaryData ? (
+              {isTemporaryData && (
                 <div className="flex items-center gap-3 px-4 py-2 bg-amber-500/20 rounded-full border border-amber-500/40 backdrop-blur-md">
                   <AlertCircle className="w-4 h-4 text-amber-300" />
                   <span className="text-xs font-bold text-amber-200">Temporary Data</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-3 px-4 py-2 bg-white/10 rounded-full border border-white/20 backdrop-blur-md">
-                  <CloudOff className="w-4 h-4 text-slate-300" />
-                  <span className="text-xs font-bold text-slate-200">Local Only</span>
                 </div>
               )}
               <button
@@ -67,7 +59,7 @@ export default function Header({
                   ? 'bg-white/20 text-white/50 cursor-not-allowed'
                   : 'bg-white text-[#541342] hover:bg-[#541342] hover:text-white hover:shadow-xl hover:-translate-y-0.5'
                   }`}
-                title={isSigningIn ? 'Signing in...' : isTemporaryData ? 'Sign In to Backup Data' : 'Enable Cloud Sync'}
+                title={isSigningIn ? 'Signing in...' : 'Sign In'}
               >
                 {isSigningIn ? (
                   <>
@@ -77,7 +69,7 @@ export default function Header({
                 ) : (
                   <>
                     <LogIn className="w-4 h-4" />
-                    <span>{isTemporaryData ? 'Sign In to Backup' : 'Sign In'}</span>
+                    <span>Sign In</span>
                   </>
                 )}
               </button>
