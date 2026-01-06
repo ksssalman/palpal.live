@@ -22,6 +22,8 @@ The main site serves as the gateway to the ecosystem, providing project discover
 ### Sub-Applications
 
 - **Work Tracker**: A robust time tracking tool with "Local Mode" for privacy and "Cloud Sync" for multi-device productivity.
+  - Accessible at: `palpal.live/projects/work-tracker/`
+  - Subdomain: `work-tracker.palpal.live` (see [SUBDOMAIN_DEPLOYMENT.md](SUBDOMAIN_DEPLOYMENT.md) for setup)
 
 ---
 
