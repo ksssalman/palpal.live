@@ -318,12 +318,12 @@ export default function TimeTrackerWidget() {
       try {
         // We merge with existing profile data if we can, or just set settings
         const currentProfile = await bridge.getUserProfile(user.uid);
-        const updatedProfile = { 
-          ...currentProfile, 
-          settings: { 
-            ...(currentProfile?.settings || {}), 
-            timezone: newTimezone 
-          } 
+        const updatedProfile = {
+          ...currentProfile,
+          settings: {
+            ...(currentProfile?.settings || {}),
+            timezone: newTimezone
+          }
         };
         await bridge.setUserProfile(updatedProfile, user.uid);
       } catch (e) {
@@ -406,12 +406,12 @@ export default function TimeTrackerWidget() {
   // Helpers
   const formatTime = (isoString: string): string => {
     const date = new Date(isoString);
-    return date.toLocaleTimeString('en-US', { 
+    return date.toLocaleTimeString('en-US', {
       timeZone: timezone,
-      hour: '2-digit', 
-      minute: '2-digit', 
-      second: '2-digit', 
-      hour12: true 
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
     });
   };
 
@@ -428,10 +428,20 @@ export default function TimeTrackerWidget() {
     const start = new Date(clockIn);
     const end = clockOut ? new Date(clockOut) : new Date();
     const diff = end.getTime() - start.getTime();
+    
+    // Handle negative duration (e.g. clock drift)
+    if (diff < 0) return '0s';
+
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    return `${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+
+    const parts = [];
+    if (hours > 0) parts.push(`${hours}h`);
+    if (hours > 0 || minutes > 0) parts.push(`${minutes}m`);
+    parts.push(`${seconds}s`);
+
+    return parts.join(' ');
   };
 
   const calculateTotalHours = (clockIn: string, clockOut: string | null): number => {
@@ -444,7 +454,13 @@ export default function TimeTrackerWidget() {
     const hours = Math.floor(ms / (1000 * 60 * 60));
     const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-    return `${hours}h ${minutes}m ${seconds}s`;
+    
+    const parts = [];
+    if (hours > 0) parts.push(`${hours}h`);
+    if (hours > 0 || minutes > 0) parts.push(`${minutes}m`);
+    parts.push(`${seconds}s`);
+
+    return parts.join(' ');
   };
 
   // Reporting Logic

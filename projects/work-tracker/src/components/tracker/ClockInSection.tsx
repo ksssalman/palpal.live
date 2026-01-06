@@ -48,10 +48,10 @@ export default function ClockInSection({
               {/* Current Time */}
               <div className="text-center">
                 <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Current Time</div>
-                <div className="text-3xl font-black text-white">
+                <div className="text-lg font-bold text-slate-300">
                   {currentTime.toLocaleTimeString('en-US', { timeZone: timezone, hour: '2-digit', minute: '2-digit', hour12: true })}
                 </div>
-                <div className="text-xs text-slate-400 mt-1 font-medium">
+                <div className="text-xs text-slate-500 mt-1 font-medium">
                   {currentTime.toLocaleTimeString('en-US', { timeZone: timezone, second: '2-digit' }).split(' ')[0]}
                 </div>
               </div>
@@ -70,7 +70,7 @@ export default function ClockInSection({
               {/* Duration */}
               <div className="text-center">
                 <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Duration</div>
-                <div className="text-2xl font-bold text-purple-400">
+                <div className="text-3xl font-black text-purple-400 tabular-nums">
                   {calculateDuration(currentEntry.clockIn, null)}
                 </div>
                 <div className="text-xs text-purple-300 mt-1">Active Session</div>

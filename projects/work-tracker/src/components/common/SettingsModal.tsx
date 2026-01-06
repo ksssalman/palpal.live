@@ -57,7 +57,7 @@ export default function SettingsModal({
               </div>
             </div>
           </div>
-          
+
            <div className="bg-purple-900/20 border border-purple-500/20 rounded-lg p-4">
             <div className="flex gap-3">
               <div className="text-purple-400 font-mono text-sm">
