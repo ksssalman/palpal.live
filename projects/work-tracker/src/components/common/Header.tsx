@@ -39,7 +39,7 @@ export default function Header({
                 <path d="M3 11h18" stroke="currentColor" strokeWidth="2" />
               </svg>
             </div>
-            <h1 className="text-lg font-bold tracking-tight text-white block">Work Tracker</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-white block" style={{ fontFamily: '"Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif', textTransform: 'lowercase', fontStyle: 'italic', paddingRight: '0.2em' }}>work tracker</h1>
           </div>
 
           {/* Auth Section */}

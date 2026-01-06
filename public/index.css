@@ -166,14 +166,21 @@ body {
 
 /* Logo */
 .logo {
+  font-family: "Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif;
   font-size: 4rem;
   font-weight: 800;
+  text-transform: lowercase;
+  font-style: italic;
   margin-bottom: 1rem;
   background: linear-gradient(45deg, #541342, #801c63);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -2px;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  padding-right: 0.2em;
 }
 
 .logo.section-logo {

@@ -17,6 +17,8 @@ body {
   color: #541342;
   overflow-x: hidden;
   padding-top: 80px;
+  overflow-wrap: break-word; /* Ensure text wraps globally */
+  word-wrap: break-word; /* Legacy support */
 }
 
 .container {

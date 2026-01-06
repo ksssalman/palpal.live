@@ -48,6 +48,7 @@
   overflow-wrap: break-word; /* Ensure text wraps */
   hyphens: auto; /* Break words nicely if possible */
   max-width: 100%; /* Prevent overflow */
+  padding-right: 0.2em;
 }
 
 /* Section Heading */

@@ -9,4 +9,6 @@ body {
   justify-content: center;
   min-height: 100vh;
   padding-top: 40px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
