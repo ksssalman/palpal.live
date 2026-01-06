@@ -1,6 +1,6 @@
 # Session Functionality Overview
 
-The **Work Tracker** session logic is centralized within `TimeTrackerWidget.tsx`. It manages the lifecycle of work sessions, including creation, modification, persistence, and synchronization with the cloud.
+The **Work Tracker** session logic is centralized within `WorkTrackerWidget.tsx`. It manages the lifecycle of work sessions, including creation, modification, persistence, and synchronization with the cloud.
 
 ## 1. Session Lifecycle
 
@@ -11,8 +11,8 @@ The **Work Tracker** session logic is centralized within `TimeTrackerWidget.tsx`
   - `clockIn`: Current ISO string.
   - `clockOut`: `null` (indicates active session).
   - `tags`: Empty array.
-- **State Update**: Sets `currentEntry` state, which triggers a UI update to show the active timer customization view.
-- **Persistence**: `currentEntry` is automatically saved to `localStorage` ('currentEntry') via a `useEffect` hook to survive page reloads.
+- **State Update**: Sets `currentSession` state, which triggers a UI update to show the active timer customization view.
+- **Persistence**: `currentSession` is automatically saved to `localStorage` ('currentSession') via a `useEffect` hook to survive page reloads.
 
 ### Modification (Adding Tags)
 - **Functions**: `addTag()`, `removeTag()`

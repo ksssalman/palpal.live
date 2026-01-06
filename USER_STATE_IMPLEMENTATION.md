@@ -6,7 +6,7 @@ This document describes the implementation of user state-aware data management a
 
 ## Key Changes
 
-### 1. State Management (`TimeTrackerWidget.tsx`)
+### 1. State Management (`WorkTrackerWidget.tsx`)
 
 **New State Variable:**
 - `isTemporaryData: boolean` - Tracks whether current data belongs to an unauthenticated user (temporary) or authenticated user (persistent)
@@ -17,7 +17,7 @@ This document describes the implementation of user state-aware data management a
 
 **Existing State Variables (Updated):**
 - `user` - Authentication user object
-- `entries` - All time entries
+- `sessions` - All work sessions
 - `currentEntry` - Active clock-in session
 
 ### 2. Data Loading Logic (Refactored)
@@ -265,14 +265,14 @@ Display: "Temporary Data" badge
 
 ## Code Files Modified
 
-### TimeTrackerWidget.tsx
+### WorkTrackerWidget.tsx
 **Lines Changed:**
 - State variables: Lines 16-27
 - handleSignIn(): Lines 48-72
 - handleSignOut(): Lines 74-84
 - useEffect (data loading): Lines 104-197
 - clockOut(): Lines 255-272
-- addManualTagEntry(): Lines 357-379
+- addManualTagSession(): Lines 357-379
 
 **Key Logic:**
 - User state checking moved to first priority
