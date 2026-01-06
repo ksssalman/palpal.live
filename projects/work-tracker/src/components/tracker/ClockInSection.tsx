@@ -13,6 +13,7 @@ interface ClockInSectionProps {
   formatTime: (iso: string) => string;
   calculateDuration: (start: string, end: string | null) => string;
   timezone: string;
+  onTagClick: (tag: string) => void;
 }
 
 export default function ClockInSection({
@@ -26,7 +27,8 @@ export default function ClockInSection({
   onRemoveTag,
   formatTime,
   calculateDuration,
-  timezone
+  timezone,
+  onTagClick
 }: ClockInSectionProps) {
   return (
     <div className="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700 shadow-lg">
@@ -102,27 +104,43 @@ export default function ClockInSection({
             </div>
             <div className="flex flex-wrap gap-2">
               {currentEntry.tags.map((tag, idx) => (
-                <span
+                <button
                   key={idx}
-                  className="bg-purple-600/30 text-purple-300 px-2 py-0.5 rounded text-xs flex items-center gap-2"
+                  onClick={() => onTagClick(tag)}
+                  className="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold shadow-sm transition-all flex items-center gap-2 group border border-purple-400/30"
                 >
+                  <Tag className="w-4 h-4 text-purple-200" />
                   {tag}
-                  <button
-                    onClick={() => onRemoveTag(tag)}
-                    className="hover:text-red-400 transition"
-                    title="Remove tag"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
+                </button>
               ))}
+              {currentEntry.tags.length === 0 && (
+                 <span className="text-slate-500 text-sm italic py-1">No tags added yet</span>
+              )}
             </div>
+            
+             {/* Simple Remove List below to declutter buttons */}
+            {currentEntry.tags.length > 0 && (
+              <div className="mt-2 text-xs text-slate-500">
+                <span className="mr-2">Remove:</span> 
+                {currentEntry.tags.map((tag, idx) => (
+                    <button 
+                        key={idx}
+                        onClick={() => onRemoveTag(tag)}
+                        className="hover:text-red-400 hover:underline mr-2 transition-colors"
+                    >
+                        {tag}
+                    </button>
+                ))}
+              </div>
+            )}
+
           </div>
 
           <button
             onClick={onClockOut}
-            className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-semibold py-3 rounded-lg transition transform hover:scale-105"
+            className="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 rounded-xl transition transform active:scale-95 shadow-lg border border-slate-600 flex items-center justify-center gap-2"
           >
+            <div className="w-3 h-3 bg-red-500 rounded-sm animate-pulse" />
             Clock Out
           </button>
         </div>

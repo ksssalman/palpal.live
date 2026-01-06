@@ -8,6 +8,7 @@ import type { TimeEntry, TagStat, View, ReportPeriod } from './types';
 import Header from './components/common/Header';
 import ClearDataModal from './components/common/ClearDataModal';
 import SettingsModal from './components/common/SettingsModal';
+import TagDetailsModal from './components/common/TagDetailsModal';
 import ClockInSection from './components/tracker/ClockInSection';
 import RecentEntriesList from './components/tracker/RecentEntriesList';
 import ReportView from './components/report/ReportView';
@@ -42,7 +43,11 @@ export default function TimeTrackerWidget() {
 
   // Modal State
   const [showClearModal, setShowClearModal] = useState<boolean>(false);
-
+  
+  // Tag Details Modal State
+  const [showTagDetails, setShowTagDetails] = useState(false);
+  const [selectedTagForDetails, setSelectedTagForDetails] = useState<string>('');
+  
   // Auth State
   const [signInError, setSignInError] = useState<string | null>(null);
   const [isSigningIn, setIsSigningIn] = useState(false);
@@ -638,6 +643,15 @@ export default function TimeTrackerWidget() {
         timezone={timezone}
         onTimezoneChange={handleTimezoneChange}
       />
+      
+      <TagDetailsModal
+        isOpen={showTagDetails}
+        onClose={() => setShowTagDetails(false)}
+        tagName={selectedTagForDetails}
+        entries={entries.filter(e => e.tags.includes(selectedTagForDetails))} // Pass ALL entries for this tag, modal can handle logic
+        formatDuration={formatDurationMs}
+        formatDate={formatDate}
+      />
 
       <Header
         user={user}
@@ -665,6 +679,10 @@ export default function TimeTrackerWidget() {
               formatTime={formatTime}
               calculateDuration={calculateDuration}
               timezone={timezone}
+              onTagClick={(tag) => {
+                 setSelectedTagForDetails(tag);
+                 setShowTagDetails(true);
+              }}
             />
 
             <RecentEntriesList
