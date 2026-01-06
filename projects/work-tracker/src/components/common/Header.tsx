@@ -99,7 +99,7 @@ export default function Header({
                   )}
                   <span>Sign In</span>
                 </button>
-                
+
                  {signInError && (
                   <div className="absolute top-full right-0 mt-3 p-3 bg-red-500 text-white text-xs rounded-xl shadow-xl w-48 border border-red-400 animate-in fade-in slide-in-from-top-2">
                     <div className="absolute -top-1.5 right-4 w-3 h-3 bg-red-500 rotate-45 border-l border-t border-red-400"></div>
