@@ -107,9 +107,9 @@ export default function ClockInSection({
                 <button
                   key={idx}
                   onClick={() => onTagClick(tag)}
-                  className="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold shadow-sm transition-all flex items-center gap-2 group border border-purple-400/30"
+                  className="bg-purple-900/40 hover:bg-purple-800/60 text-purple-200 px-3 py-1 rounded-full text-sm font-medium border border-purple-500/20 transition-all flex items-center gap-2"
                 >
-                  <Tag className="w-4 h-4 text-purple-200" />
+                  <Tag className="w-3 h-3 text-purple-400" />
                   {tag}
                 </button>
               ))}
