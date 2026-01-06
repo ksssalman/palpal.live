@@ -9,6 +9,29 @@
   display: block;
 }
 
+/* Projects Section Header - Match About Page Style */
+.projects-section .section-heading {
+  font-family: "Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif;
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: lowercase;
+  font-style: italic;
+  background: linear-gradient(45deg, #541342, #8a266f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 1rem;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  padding-right: 0.2em;
+}
+
+.projects-section .description-text {
+  text-align: center;
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -35,7 +58,7 @@
 }
 
 .project-card.coming-soon {
-  opacity: 0.6;
+  opacity: 0.8;
   cursor: not-allowed;
 }
 
@@ -52,7 +75,7 @@
 
 .project-description {
   font-size: 1rem;
-  color: rgba(84, 19, 66, 0.7);
+  color: rgba(84, 19, 66, 0.85);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -76,7 +99,7 @@
 
 .projects-section-description {
   font-size: 1.1rem;
-  color: rgba(84, 19, 66, 0.7);
+  color: rgba(84, 19, 66, 0.85);
   margin-bottom: 2rem;
 }
 

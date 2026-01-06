@@ -11,8 +11,8 @@
   align-items: center;
   justify-content: space-between;
   background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
   border-bottom: 1px solid rgba(84, 19, 66, 0.1);
   z-index: 1000;
   transition: all 0.3s ease;
@@ -47,7 +47,7 @@
 }
 
 .nav-link {
-  color: rgba(84, 19, 66, 0.7);
+  color: rgba(84, 19, 66, 0.85);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;

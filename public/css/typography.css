@@ -44,7 +44,7 @@
 /* Tagline - Legacy */
 .tagline {
   font-size: 1.5rem;
-  color: rgba(84, 19, 66, 0.7);
+  color: rgba(84, 19, 66, 0.85);
   margin-bottom: 3rem;
   font-weight: 300;
   letter-spacing: 1px;
@@ -54,7 +54,7 @@
 /* Project Description Text */
 .project-description {
   font-size: 1rem;
-  color: rgba(84, 19, 66, 0.7);
+  color: rgba(84, 19, 66, 0.85);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -62,7 +62,7 @@
 /* Projects Section Description */
 .projects-section-description {
   font-size: 1.1rem;
-  color: rgba(84, 19, 66, 0.7);
+  color: rgba(84, 19, 66, 0.85);
   margin-bottom: 2rem;
   line-height: 1.75;
 }
