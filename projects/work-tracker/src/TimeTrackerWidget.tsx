@@ -428,7 +428,7 @@ export default function TimeTrackerWidget() {
     const start = new Date(clockIn);
     const end = clockOut ? new Date(clockOut) : new Date();
     const diff = end.getTime() - start.getTime();
-    
+
     // Handle negative duration (e.g. clock drift)
     if (diff < 0) return '0s';
 
@@ -454,7 +454,7 @@ export default function TimeTrackerWidget() {
     const hours = Math.floor(ms / (1000 * 60 * 60));
     const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-    
+
     const parts = [];
     if (hours > 0) parts.push(`${hours}h`);
     if (hours > 0 || minutes > 0) parts.push(`${minutes}m`);

@@ -43,23 +43,22 @@ export default function ClockInSection({
         </button>
       ) : (
         <div>
-          <div className="bg-gradient-to-r from-slate-800/50 to-slate-700/50 rounded-xl p-6 mb-6 border border-slate-700/50 backdrop-blur-sm">
-            <div className="grid grid-cols-3 gap-4">
-              {/* Current Time */}
-              <div className="text-center">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Current Time</div>
-                <div className="text-lg font-bold text-slate-300">
-                  {currentTime.toLocaleTimeString('en-US', { timeZone: timezone, hour: '2-digit', minute: '2-digit', hour12: true })}
+          <div className="bg-gradient-to-r from-slate-800/50 to-slate-700/50 rounded-xl mb-6 border border-slate-700/50 backdrop-blur-sm overflow-hidden">
+             {/* Header Bar: Current Time */}
+             <div className="bg-slate-900/40 px-6 py-2 flex items-center justify-between border-b border-slate-700/50">
+                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Active Session</div>
+                <div className="flex items-center gap-2">
+                  <div className="text-xs text-slate-400 font-medium">
+                    {currentTime.toLocaleTimeString('en-US', { timeZone: timezone, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
+                  </div>
                 </div>
-                <div className="text-xs text-slate-500 mt-1 font-medium">
-                  {currentTime.toLocaleTimeString('en-US', { timeZone: timezone, second: '2-digit' }).split(' ')[0]}
-                </div>
-              </div>
+             </div>
 
+            <div className="grid grid-cols-2 gap-0 divide-x divide-slate-700/50">
               {/* Clock In Time */}
-              <div className="text-center border-l border-r border-slate-600">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Clocked In</div>
-                <div className="text-3xl font-black text-emerald-400">
+              <div className="p-6 text-center flex flex-col items-center justify-center">
+                <div className="text-xs font-bold text-emerald-500/80 uppercase tracking-wider mb-2">Started At</div>
+                <div className="text-3xl font-black text-emerald-400 whitespace-nowrap">
                   {formatTime(currentEntry.clockIn)}
                 </div>
                 <div className="text-xs text-slate-400 mt-1 font-medium">
@@ -68,12 +67,12 @@ export default function ClockInSection({
               </div>
 
               {/* Duration */}
-              <div className="text-center">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Duration</div>
-                <div className="text-3xl font-black text-purple-400 tabular-nums">
+              <div className="p-6 text-center flex flex-col items-center justify-center">
+                <div className="text-xs font-bold text-purple-400/80 uppercase tracking-wider mb-2">Duration</div>
+                <div className="text-3xl font-black text-purple-400 tabular-nums whitespace-nowrap">
                   {calculateDuration(currentEntry.clockIn, null)}
                 </div>
-                <div className="text-xs text-purple-300 mt-1">Active Session</div>
+                <div className="text-xs text-purple-300/50 mt-1">running</div>
               </div>
             </div>
           </div>
