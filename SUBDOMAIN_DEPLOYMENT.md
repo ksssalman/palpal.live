@@ -2,40 +2,30 @@
 
 ## Overview
 
-Work Tracker is now configured to be deployed to **both**:
-- **Subdirectory**: `palpal.live/projects/work-tracker/`
+Work Tracker is configured to be deployed exclusively to the subdomain:
 - **Subdomain**: `work-tracker.palpal.live`
 
-This guide explains the setup and how to complete the deployment.
+This dedicated subdomain deployment provides better isolation and independent deployment capabilities.
 
 ## Architecture
 
 ### Build Configuration
 
-The build process now creates two separate builds:
+The build process creates a single output for subdomain deployment:
 
 ```
 npm run build
-├── npm run build:subdirectory  → dist/ (base path: /projects/work-tracker/)
-└── npm run build:subdomain     → dist-subdomain/ (base path: /)
+└── dist/ (base path: /)
 ```
 
-### Firebase Hosting Targets
+### Firebase Hosting Target
 
-Two Firebase hosting targets are configured in `firebase.json`:
+Single Firebase hosting target configured in `firebase.json`:
 
 ```json
 {
   "target": "work-tracker",
   "public": "projects/work-tracker/dist",
-  ...
-}
-```
-
-```json
-{
-  "target": "work-tracker-subdomain",
-  "public": "projects/work-tracker/dist-subdomain",
   ...
 }
 ```
@@ -49,31 +39,24 @@ cd projects/work-tracker
 npm install
 ```
 
-### Step 2: Build Both Versions
+### Step 2: Build
 
 ```bash
 npm run build
 ```
 
-This will generate:
-- `projects/work-tracker/dist/` - For subdirectory deployment
-- `projects/work-tracker/dist-subdomain/` - For subdomain deployment
+This generates:
+- `projects/work-tracker/dist/` - For subdomain deployment
 
 ### Step 3: Configure DNS for Subdomain (One-time)
 
-To activate `work-tracker.palpal.live`, you need to add a DNS CNAME record:
+To activate `work-tracker.palpal.live`, add a DNS CNAME record:
 
 **In your DNS provider (e.g., Cloudflare, Route53, GoDaddy):**
 
 | Type | Name | Value |
 |------|------|-------|
-| CNAME | `work-tracker` | `work-tracker-subdomain.web.app` |
-
-Or if using a subdomain wildcard:
-
-| Type | Name | Value |
-|------|------|-------|
-| CNAME | `*.palpal.live` | `palpal-541342.web.app` |
+| CNAME | `work-tracker` | `work-tracker-132026.web.app` |
 
 ### Step 4: Configure Custom Domain in Firebase
 
@@ -86,42 +69,31 @@ Or if using a subdomain wildcard:
 
 ### Step 5: Deploy
 
-**Deploy all targets:**
+**Deploy work-tracker hosting:**
+
+```bash
+firebase deploy --only hosting:work-tracker
+```
+
+**Or deploy all hosting targets:**
 
 ```bash
 firebase deploy --only hosting
 ```
 
-**Or deploy specific targets:**
-
-```bash
-# Deploy main domain + subdirectory
-firebase deploy --only hosting:palpal-live,hosting:work-tracker
-
-# Deploy subdomain only
-firebase deploy --only hosting:work-tracker-subdomain
-```
-
 ## Verification
 
-After deployment, verify both URLs work:
+After deployment, verify the subdomain works:
 
-- ✅ `https://palpal.live/projects/work-tracker/`
 - ✅ `https://work-tracker.palpal.live/`
 
-Both should serve the same application with identical functionality.
+The application should load with full functionality.
 
 ## Environment Variables
 
-The build uses `VITE_BASE_PATH` environment variable:
+The build uses a fixed base path of `/` for subdomain deployment.
 
-```bash
-# For subdirectory build
-VITE_BASE_PATH=/projects/work-tracker/ npm run build:subdirectory
-
-# For subdomain build
-VITE_BASE_PATH=/ npm run build:subdomain
-```
+No environment variables are required for standard deployment.
 
 ## Troubleshooting
 
@@ -163,20 +135,14 @@ For local development, use:
 npm run dev
 ```
 
-This uses the subdirectory base path by default (`/projects/work-tracker/`).
-
-To test with subdomain paths:
-
-```bash
-VITE_BASE_PATH=/ npm run dev
-```
+This serves the application at `http://localhost:5173/` with the correct base path for subdomain deployment.
 
 ## CI/CD Integration
 
 If using GitHub Actions or similar, update your workflow to:
 
-1. Build all targets: `npm run build`
-2. Deploy all hosting targets: `firebase deploy --only hosting`
+1. Build: `npm run build`
+2. Deploy: `firebase deploy --only hosting`
 
 Example workflow snippet:
 
