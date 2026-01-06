@@ -135,6 +135,8 @@ export default function Header({
               <span>Report</span>
             </button>
           </div>
+        </div>
+      </div>
     </div>
   );
 }
