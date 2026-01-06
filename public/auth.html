@@ -84,6 +84,7 @@
             text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(84, 19, 66, 0.2);
+            white-space: nowrap;
         }
 
         .nav-auth-btn:hover {
@@ -96,6 +97,55 @@
             background: transparent;
             color: #541342;
             border: 1px solid rgba(84, 19, 66, 0.2);
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #541342;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 1rem;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 999;
+            border-bottom: 1px solid rgba(84, 19, 66, 0.1);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            padding: 0.75rem 1rem;
+            color: #541342;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            background: rgba(84, 19, 66, 0.05);
+            padding-left: 1.5rem;
         }
 
 
@@ -333,6 +383,61 @@
         .back-home-link a:hover {
             color: white;
         }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                height: 65px;
+            }
+
+            .nav-logo {
+                font-size: 1.25rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            body {
+                padding-top: 70px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 0 0.75rem;
+                height: 60px;
+            }
+
+            .nav-logo {
+                font-size: 1.1rem;
+            }
+
+            .mobile-menu {
+                top: 60px;
+            }
+
+            .mobile-menu-btn {
+                font-size: 1.25rem;
+            }
+
+            .nav-auth-btn {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.8rem;
+            }
+
+            body {
+                padding-top: 65px;
+            }
+
+            .auth-form-container {
+                padding: 2rem 1rem;
+            }
+        }
     </style>
 </head>
 
@@ -349,7 +454,17 @@
                 <a href="auth.html" class="nav-auth-btn">Sign In</a>
             </div>
         </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="about.html" class="mobile-menu-link">About</a>
+        <a href="index.html#projects" class="mobile-menu-link">Projects</a>
+        <div id="mobileAuthContainer">
+            <a href="auth.html" class="nav-auth-btn" style="display: block; text-align: center;">Sign In</a>
+        </div>
+    </div>
 
     <div class="auth-container">
         <!-- About Section -->
@@ -574,9 +689,9 @@
             if (document.getElementById('signUpForm').classList.contains('active')) {
                 errorDiv = document.getElementById('signUpError');
             }
-            
+
             errorDiv.classList.remove('show');
-            
+
             try {
                 const provider = new firebase.auth.GoogleAuthProvider();
                 const result = await firebase.auth().signInWithPopup(provider);
@@ -689,10 +804,34 @@
             document.getElementById('signUpSuccess').classList.remove('show');
         }
 
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
 
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close menu when clicking on a link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        }
 
         // Seamless Auth Logic for Navbar
         const navAuthContainer = document.getElementById('navAuthContainer');
+        const mobileAuthContainer = document.getElementById('mobileAuthContainer');
 
         function updateNavAuth(user) {
             if (user) {
@@ -702,11 +841,15 @@
                         <a href="javascript:void(0)" class="nav-auth-btn secondary" onclick="handleSignOut()">Sign Out</a>
                     </div>
                 `;
+                mobileAuthContainer.innerHTML = `
+                    <a href="javascript:void(0)" class="nav-auth-btn" onclick="handleSignOut()" style="display: block; text-align: center;">Sign Out</a>
+                `;
             } else {
                 navAuthContainer.innerHTML = `
                     <a href="auth.html" class="nav-auth-btn">Sign In</a>
                 `;
-            }
+                mobileAuthContainer.innerHTML = `
+                    <a href="auth.html" class="nav-auth-btn" style="display: block; text-align: center;">Sign In</a>
         }
 
         // Initialize Navbar Auth
