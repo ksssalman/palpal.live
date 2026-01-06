@@ -18,6 +18,7 @@ export default function TimeTrackerWidget() {
   const [currentEntry, setCurrentEntry] = useState<TimeEntry | null>(null);
   const bridge = getPalPalBridge();
   const [user, setUser] = useState<any>(null);
+  const [isTemporaryData, setIsTemporaryData] = useState(false);
   const [tagInput, setTagInput] = useState<string>('');
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [view, setView] = useState<View>('tracker');
@@ -49,11 +50,17 @@ export default function TimeTrackerWidget() {
       setIsSigningIn(true);
       setSignInError(null);
 
+      // Logging for debugging temp data state
+      if (isTemporaryData) {
+        console.log('User signing in with temporary data in state');
+      }
+
       if (bridge && !bridge.isDedicated) {
         await (window as any).palpalAuth.signInWithGoogle();
       } else {
         await signInWithPopup(dedicatedAuth, googleProvider);
       }
+      // Auth state change listener will handle loading cloud data
     } catch (e: any) {
       const errorMessage = e?.message || 'Sign in failed. Please try again.';
       setSignInError(errorMessage);
@@ -70,6 +77,8 @@ export default function TimeTrackerWidget() {
       } else {
         await signOut(dedicatedAuth);
       }
+      // Temp data will be cleared on next auth state change
+      setIsTemporaryData(false);
     } catch (e) {
       console.error('Sign out failed:', e);
     }
@@ -91,18 +100,57 @@ export default function TimeTrackerWidget() {
   useEffect(() => {
     const bridge = getPalPalBridge();
 
-    const loadInitialData = async () => {
+    const loadInitialData = async (authenticatedUser: any) => {
       if (!bridge) return;
 
-      const saved = localStorage.getItem('timeEntries');
-      if (saved) {
+      // Check if user is authenticated
+      const isAuthenticated = authenticatedUser !== null;
+
+      if (isAuthenticated) {
+        // USER IS AUTHENTICATED: Load from cloud first
         try {
-          setEntries(JSON.parse(saved) as TimeEntry[]);
+          const remoteEntries = await bridge.getAllItems('work-tracker', 'sessions');
+          if (remoteEntries && remoteEntries.length > 0) {
+            setEntries(remoteEntries as TimeEntry[]);
+            setIsTemporaryData(false);
+            console.log('Loaded cloud data for authenticated user');
+          } else {
+            // No cloud data, start fresh
+            setEntries([]);
+            setIsTemporaryData(false);
+            console.log('No cloud data found for new authenticated user');
+          }
         } catch (e) {
-          console.error('Failed to load entries from localStorage:', e);
+          // Cloud load failed, fall back to local backup
+          const saved = localStorage.getItem('timeEntries');
+          if (saved) {
+            try {
+              setEntries(JSON.parse(saved) as TimeEntry[]);
+              setIsTemporaryData(false);
+              console.log('Cloud load failed, using local backup');
+            } catch (err) {
+              console.error('Failed to load entries:', err);
+            }
+          }
+        }
+      } else {
+        // USER NOT AUTHENTICATED: Load from local storage (temporary data)
+        const saved = localStorage.getItem('timeEntries');
+        if (saved) {
+          try {
+            setEntries(JSON.parse(saved) as TimeEntry[]);
+            setIsTemporaryData(true);
+            console.log('Loaded temporary data from local storage');
+          } catch (e) {
+            console.error('Failed to load entries from localStorage:', e);
+          }
+        } else {
+          setEntries([]);
+          setIsTemporaryData(false);
         }
       }
 
+      // Load current entry from local (works for both auth states)
       const current = localStorage.getItem('currentEntry');
       if (current) {
         try {
@@ -111,53 +159,51 @@ export default function TimeTrackerWidget() {
           console.error('Failed to load current entry from localStorage:', e);
         }
       }
-
-      if (bridge.isAuthenticated()) {
-        try {
-          const remoteEntries = await bridge.getAllItems('work-tracker', 'sessions');
-          if (remoteEntries && remoteEntries.length > 0) {
-            setEntries(remoteEntries as TimeEntry[]);
-          }
-        } catch (e) {
-          console.error('Failed to load cloud data:', e);
-        }
-      }
     };
 
     if (bridge) {
-      setUser(bridge.getUser());
+      const currentUser = bridge.getUser();
+      setUser(currentUser);
+      loadInitialData(currentUser);
+
+      // Setup auth state listener for future changes
       let unsubscribe: (() => void) | undefined;
 
       if (!bridge.isDedicated) {
         unsubscribe = (window as any).palpalAuth?.onAuthStateChanged((u: any) => {
           const user = u ? { uid: u.uid, email: u.email } : null;
           setUser(user);
-          if (user) loadInitialData();
+          loadInitialData(user);
         });
       } else {
         unsubscribe = onAuthStateChanged(dedicatedAuth, (u) => {
           const user = u ? { uid: u.uid, email: u.email } : null;
           setUser(user);
-          if (user) loadInitialData();
+          loadInitialData(user);
         });
       }
 
-      loadInitialData();
       return () => {
         if (unsubscribe) unsubscribe();
       };
     } else {
+      // Fallback for no bridge
       const saved = localStorage.getItem('timeEntries');
       if (saved) {
         try {
           setEntries(JSON.parse(saved) as TimeEntry[]);
-        } catch (e) { console.error(e); }
+          setIsTemporaryData(true);
+        } catch (e) {
+          console.error(e);
+        }
       }
       const current = localStorage.getItem('currentEntry');
       if (current) {
         try {
           setCurrentEntry(JSON.parse(current) as TimeEntry);
-        } catch (e) { console.error(e); }
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }, []);
@@ -195,12 +241,18 @@ export default function TimeTrackerWidget() {
       setEntries(newEntries);
       setCurrentEntry(null);
 
-      if (bridge?.isAuthenticated()) {
+      // Always sync to cloud if user is authenticated
+      if (user && bridge?.isAuthenticated()) {
         try {
           await bridge.saveItem('work-tracker', 'sessions', completedEntry);
+          console.log('Entry synced to cloud', completedEntry.id);
         } catch (e) {
-          console.error('Cloud sync failed', e);
+          console.error('Cloud sync failed, data kept in local:', e);
+          // Data is still in localStorage via useEffect
         }
+      } else if (isTemporaryData) {
+        // Temporary data - notify user they should sign in to backup
+        console.warn('Entry saved locally as temporary data. Sign in to backup to cloud.');
       }
     }
   };
@@ -281,11 +333,14 @@ export default function TimeTrackerWidget() {
     setManualClockIn('');
     setManualClockOut('');
 
-    if (bridge?.isAuthenticated()) {
+    // Sync to cloud if authenticated
+    if (user && bridge?.isAuthenticated()) {
       try {
         await bridge.saveItem('work-tracker', 'sessions', newEntry);
+        console.log('Manual entry synced to cloud', newEntry.id);
       } catch (e) {
         console.error('Failed to sync manual entry to cloud:', e);
+        // Data is kept in localStorage via useEffect
       }
     }
   };
@@ -507,6 +562,7 @@ export default function TimeTrackerWidget() {
         user={user}
         isSigningIn={isSigningIn}
         signInError={signInError}
+        isTemporaryData={isTemporaryData}
         view={view}
         setView={setView}
         onSignIn={handleSignIn}
