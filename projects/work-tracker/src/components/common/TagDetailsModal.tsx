@@ -1,4 +1,4 @@
-import { X, Clock, Calendar, BarChart2 } from 'lucide-react';
+import { X, Calendar } from 'lucide-react';
 import type { TimeEntry } from '../../types';
 
 interface TagDetailsModalProps {

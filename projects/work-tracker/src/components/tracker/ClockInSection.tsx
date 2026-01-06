@@ -1,4 +1,4 @@
-import { Plus, Tag, X } from 'lucide-react';
+import { Plus, Tag } from 'lucide-react';
 import type { TimeEntry } from '../../types';
 
 interface ClockInSectionProps {
