@@ -19,8 +19,10 @@
 }
 
 .nav-logo {
+  font-family: "Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif;
   font-size: 1.5rem;
   font-weight: 800;
+  text-transform: lowercase;
   color: #541342;
   text-decoration: none;
   letter-spacing: -1px;

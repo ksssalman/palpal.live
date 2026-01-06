@@ -2,8 +2,10 @@
 
 /* Logo - Uses new system */
 .logo {
+  font-family: "Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif;
   font-size: 4rem;
   font-weight: 800;
+  text-transform: lowercase;
   margin-bottom: 1rem;
   background: linear-gradient(45deg, #541342, #801c63);
   -webkit-background-clip: text;
