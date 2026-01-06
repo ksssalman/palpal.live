@@ -120,7 +120,7 @@ export default function TimeTrackerWidget() {
             setIsTemporaryData(false);
             console.log('No cloud data found for new authenticated user');
           }
-        } catch (e) {
+        } catch {
           // Cloud load failed, fall back to local backup
           const saved = localStorage.getItem('timeEntries');
           if (saved) {

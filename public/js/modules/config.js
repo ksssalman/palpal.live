@@ -29,10 +29,12 @@ class FirebaseConfig {
    * Get environment variable with fallback support
    */
   getEnvVar(key) {
-    if (typeof import !== 'undefined' && import.meta?.env?.[key]) {
-      return import.meta.env[key];
+    // Try import.meta.env (Vite/ESM)
+    if (typeof globalThis !== 'undefined' && globalThis.import && globalThis.import.meta && globalThis.import.meta.env && globalThis.import.meta.env[key]) {
+      return globalThis.import.meta.env[key];
     }
-    if (typeof process !== 'undefined' && process.env?.[key]) {
+    // Try process.env (Node.js)
+    if (typeof process !== 'undefined' && process.env && process.env[key]) {
       return process.env[key];
     }
     return null;

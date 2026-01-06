@@ -94,6 +94,7 @@ export default function ClockInSection({
               <button
                 onClick={onAddTag}
                 className="bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-lg transition"
+                title="Add tag"
               >
                 <Plus className="w-5 h-5" />
               </button>
@@ -108,6 +109,7 @@ export default function ClockInSection({
                   <button
                     onClick={() => onRemoveTag(tag)}
                     className="hover:text-red-400 transition"
+                    title="Remove tag"
                   >
                     <X className="w-3 h-3" />
                   </button>
