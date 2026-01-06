@@ -1,5 +1,5 @@
 import { auth as dedicatedAuth, db as dedicatedDb } from './firebase';
-import { collection, addDoc, getDocs, query } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where, deleteDoc } from 'firebase/firestore';
 
 export interface PalPalUser {
     uid: string;
@@ -11,6 +11,7 @@ export interface PalPalBridge {
     getUser: () => PalPalUser | null;
     saveItem: (projectName: string, colName: string, data: any) => Promise<string | null>;
     getAllItems: (projectName: string, colName: string) => Promise<any[]>;
+    deleteItem: (projectName: string, colName: string, itemId: number) => Promise<void>;
     // New methods for dedicated auth
     isDedicated?: boolean;
 }
@@ -36,6 +37,10 @@ export const getPalPalBridge = (): PalPalBridge | null => {
             getAllItems: async (projectName, colName) => {
                 return await sharedDb.getAllProjectData(projectName, colName);
             },
+            deleteItem: async (_projectName, _colName, _itemId) => {
+                 // Shared DB doesn't support delete yet in this bridge version, or simple no-op
+                 console.warn("Delete not implemented for shared bridge yet");
+            },
             isDedicated: false
         };
     }
@@ -47,18 +52,29 @@ export const getPalPalBridge = (): PalPalBridge | null => {
             const user = dedicatedAuth.currentUser;
             return user ? { uid: user.uid, email: user.email } : null;
         },
-        saveItem: async (_projectName, colName, data) => {
+        saveItem: async (projectName, colName, data) => {
             if (!dedicatedAuth.currentUser) return null;
-            const path = `users/${dedicatedAuth.currentUser.uid}/${colName}`;
+            const path = `projects/${projectName}/users/${dedicatedAuth.currentUser.uid}/${colName}`;
             const docRef = await addDoc(collection(dedicatedDb, path), data);
             return docRef.id;
         },
-        getAllItems: async (_projectName, colName) => {
+        getAllItems: async (projectName, colName) => {
             if (!dedicatedAuth.currentUser) return [];
-            const path = `users/${dedicatedAuth.currentUser.uid}/${colName}`;
+            const path = `projects/${projectName}/users/${dedicatedAuth.currentUser.uid}/${colName}`;
             const q = query(collection(dedicatedDb, path));
             const querySnapshot = await getDocs(q);
             return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        },
+        deleteItem: async (projectName, colName, itemId) => {
+            if (!dedicatedAuth.currentUser) return;
+            const path = `projects/${projectName}/users/${dedicatedAuth.currentUser.uid}/${colName}`;
+
+            // Query by 'id' field (which is the timestamp number)
+            const q = query(collection(dedicatedDb, path), where('id', '==', itemId));
+            const querySnapshot = await getDocs(q);
+
+            const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
+            await Promise.all(deletePromises);
         },
         isDedicated: true
     };

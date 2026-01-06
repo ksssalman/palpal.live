@@ -278,11 +278,20 @@ export default function TimeTrackerWidget() {
     }
   };
 
-  const deleteEntry = (entryId: number): void => {
+  const deleteEntry = async (entryId: number): Promise<void> => {
     if (window.confirm('Delete this entry?')) {
       const updatedEntries = entries.filter(e => e.id !== entryId);
       setEntries(updatedEntries);
       setSelectedEntries(selectedEntries.filter(id => id !== entryId));
+
+      if (bridge && bridge.isAuthenticated()) {
+        try {
+          // Use 'work-tracker' as project name, matching saveItem calls
+          await bridge.deleteItem('work-tracker', 'sessions', entryId);
+        } catch (e) {
+          console.error('Failed to delete cloud item:', e);
+        }
+      }
     }
   };
 
