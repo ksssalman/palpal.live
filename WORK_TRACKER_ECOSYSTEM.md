@@ -1,4 +1,7 @@
+
 # Work Tracker Ecosystem - Architecture & Operations Guide
+
+**Note:** All references to "entry/entries" and "currentEntry" have been updated to "session/sessions" and "currentSession" throughout the codebase and UI. Type/interface names may still use "Entry" for legacy/type reasons.
 
 ## 🎯 Overview
 
@@ -23,24 +26,24 @@
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                       │
 │  ┌────────────────────────────────────────────────────────────┐    │
-│  │            TimeTrackerWidget.tsx (Main Component)          │    │
+│  │            WorkTrackerWidget.tsx (Main Component)          │    │
 │  │                                                            │    │
 │  │  State Management:                                        │    │
-│  │  - entries[] (all time entries)                          │    │
-│  │  - currentEntry (active session)                         │    │
+│  │  - sessions[] (all work sessions)                        │    │
+│  │  - currentSession (active session)                       │    │
 │  │  - user (auth state)                                     │    │
 │  │  - view (tracker/report)                                 │    │
 │  └────────────────────────────────────────────────────────────┘    │
 │           ↓              ↓               ↓              ↓            │
 │    ┌────────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐       │
 │    │  Header    │  │ClockIn   │  │ Recent   │  │ Report   │       │
-│    │ (Auth UI)  │  │Section   │  │ Entries  │  │ View     │       │
+│    │ (Auth UI)  │  │Section   │  │ Sessions │  │ View     │       │
 │    └────────────┘  └──────────┘  └──────────┘  └──────────┘       │
 │         ↓              ↓               ↓              ↓              │
 │    ┌────────────────────────────────────────────────────────┐    │
 │    │           Local Storage (Browser)                      │    │
-│    │  - timeEntries (all sessions)                         │    │
-│    │  - currentEntry (active session)                      │    │
+│    │  - timeSessions (all sessions)                        │    │
+│    │  - currentSession (active session)                    │    │
 │    └────────────────────────────────────────────────────────┘    │
 │         ↓                      ↓                      ↓             │
 │    ┌─────────────────────────────────────────────────────────┐   │
@@ -86,23 +89,23 @@
 // Location: ClockInSection.tsx → onClick={onClockIn}
 
 clockIn = (): void => {
-  // Step 1: Create new entry
-  const entry: TimeEntry = {
+  // Step 1: Create new session
+  const session: TimeEntry = {
     id: Date.now(),              // Unique ID
     clockIn: new Date().toISOString(),  // Start time
     clockOut: null,              // Not finished yet
     tags: []                      // No tags initially
   };
 
-  // Step 2: Set as current entry
-  setCurrentEntry(entry);
+  // Step 2: Set as current session
+  setCurrentSession(session);
 
   // Step 3: Auto-save to localStorage
   // (useEffect listens to currentEntry changes)
 };
 
 // Timeline:
-// Browser → setCurrentEntry() → UI Updates → localStorage saved
+// Browser → setCurrentSession() → UI Updates → localStorage saved
 // NO cloud sync yet (user must clock out first)
 ```
 
@@ -123,21 +126,21 @@ clockIn = (): void => {
 
 addTag = (): void => {
   // Validation
-  if (tagInput.trim() && currentEntry) {
-    // Step 1: Update current entry with new tag
-    const updatedEntry: TimeEntry = {
-      ...currentEntry,
-      tags: [...currentEntry.tags, tagInput.trim()]
+  if (tagInput.trim() && currentSession) {
+    // Step 1: Update current session with new tag
+    const updatedSession: TimeEntry = {
+      ...currentSession,
+      tags: [...currentSession.tags, tagInput.trim()]
     };
 
     // Step 2: Save to state
-    setCurrentEntry(updatedEntry);
+    setCurrentSession(updatedSession);
 
     // Step 3: Clear input
     setTagInput('');
 
     // Step 4: Auto-save to localStorage
-    // (useEffect watches currentEntry)
+    // (useEffect watches currentSession)
   }
 };
 
@@ -162,28 +165,28 @@ addTag = (): void => {
 // Location: ClockInSection.tsx → onClick={onClockOut}
 
 clockOut = async (): Promise<void> => {
-  if (currentEntry) {
-    // Step 1: Create completed entry
-    const completedEntry: TimeEntry = {
-      ...currentEntry,
+  if (currentSession) {
+    // Step 1: Create completed session
+    const completedSession: TimeEntry = {
+      ...currentSession,
       clockOut: new Date().toISOString()  // Add end time
     };
 
-    // Step 2: Add to entries history
-    const newEntries = [completedEntry, ...entries];
-    setEntries(newEntries);
+    // Step 2: Add to sessions history
+    const newSessions = [completedSession, ...sessions];
+    setSessions(newSessions);
 
-    // Step 3: Clear current entry
-    setCurrentEntry(null);
+    // Step 3: Clear current session
+    setCurrentSession(null);
 
     // Step 4: Save to localStorage
-    // (useEffect watches entries and currentEntry)
+    // (useEffect watches sessions and currentSession)
 
     // Step 5: CLOUD SYNC (if authenticated)
     if (bridge?.isAuthenticated()) {
       try {
         // Save to cloud database
-        await bridge.saveItem('work-tracker', 'sessions', completedEntry);
+        await bridge.saveItem('work-tracker', 'sessions', completedSession);
         // ✅ Cloud synced successfully
       } catch (e) {
         // ❌ Cloud sync failed (data still local)
@@ -195,7 +198,7 @@ clockOut = async (): Promise<void> => {
 
 // Timeline:
 // User clicks "Clock Out"
-//   → Entry completed locally (1ms)
+//   → Session completed locally (1ms)
 //   → Removed from current view (instant)
 //   → Added to history (instant)
 //   → Sent to cloud (async, may fail)
@@ -216,7 +219,7 @@ clockOut = async (): Promise<void> => {
 ```typescript
 // Triggered by Clock Out
 if (bridge?.isAuthenticated()) {
-  await bridge.saveItem('work-tracker', 'sessions', completedEntry);
+  await bridge.saveItem('work-tracker', 'sessions', completedSession);
 }
 
 // Inside PalPalBridge.saveItem():
@@ -263,25 +266,25 @@ saveItem: async (projectName, colName, data) => {
 useEffect(() => {
   const loadInitialData = async () => {
     // Step 1: Load from localStorage (always)
-    const saved = localStorage.getItem('timeEntries');
+    const saved = localStorage.getItem('timeSessions');
     if (saved) {
-      setEntries(JSON.parse(saved) as TimeEntry[]);
+      setSessions(JSON.parse(saved) as TimeEntry[]);
     }
 
-    const current = localStorage.getItem('currentEntry');
+    const current = localStorage.getItem('currentSession');
     if (current) {
-      setCurrentEntry(JSON.parse(current) as TimeEntry);
+      setCurrentSession(JSON.parse(current) as TimeEntry);
     }
 
     // Step 2: If authenticated, load from cloud
     if (bridge.isAuthenticated()) {
       try {
-        const remoteEntries = await bridge.getAllItems(
+        const remoteSessions = await bridge.getAllItems(
           'work-tracker',  // projectName
           'sessions'       // collectionName
         );
-        if (remoteEntries && remoteEntries.length > 0) {
-          setEntries(remoteEntries);  // Merge/override with cloud data
+        if (remoteSessions && remoteSessions.length > 0) {
+          setSessions(remoteSessions);  // Merge/override with cloud data
         }
       } catch (e) {
         // Cloud load failed, use local data only
@@ -375,8 +378,8 @@ useEffect(() => {
 
 | Key | Data | Persists | Purpose |
 |-----|------|----------|---------|
-| `timeEntries` | Array of completed sessions | ✅ Yes (until cleared) | Main data store |
-| `currentEntry` | Active session object | ✅ Yes | Resume interrupted sessions |
+| `timeSessions` | Array of completed sessions | ✅ Yes (until cleared) | Main data store |
+| `currentSession` | Active session object | ✅ Yes | Resume interrupted sessions |
 
 **Behavior:**
 - Automatically saved via useEffect
@@ -407,14 +410,14 @@ useEffect(() => {
 
 | Button | Location | Trigger | Local Effect | Cloud Effect |
 |--------|----------|---------|--------------|--------------|
-| **Clock In** | ClockInSection | Creates session | Current entry set | None |
+| **Clock In** | ClockInSection | Creates session | Current session set | None |
 | **Add Tag** | ClockInSection | Adds tag to session | Tags updated | None |
 | **Remove Tag** | ClockInSection | Removes tag | Tags updated | None |
 | **Clock Out** | ClockInSection | Completes session | Moved to history | Synced if auth |
 | **Sign In** | Header | Auth popup | User state set | Triggers cloud load |
 | **Sign Out** | Header | Logout | User state cleared | Clears auth |
-| **Delete Entry** | RecentEntriesList | Removes entry | Entry deleted locally | Not deleted cloud |
-| **Add Manual Entry** | RecentEntriesList | Creates sub-entry | Added with tag | Synced if auth |
+| **Delete Session** | RecentSessionsList | Removes session | Session deleted locally | Not deleted cloud |
+| **Add Manual Session** | RecentSessionsList | Creates sub-session | Added with tag | Synced if auth |
 | **Export CSV/JSON** | ReportView | Downloads data | Creates file | None |
 | **Clear All** | Header | Deletes everything | All data wiped | None (local only) |
 
@@ -424,28 +427,28 @@ useEffect(() => {
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│           TIME TRACKER DATA LIFECYCLE                   │
+│           WORK TRACKER DATA LIFECYCLE                   │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │  1. USER CLOCKS IN                                     │
 │     ├─ Creates TimeEntry (id, clockIn, clockOut:null) │
-│     ├─ setCurrentEntry() called                       │
+│     ├─ setCurrentSession() called                     │
 │     ├─ useEffect auto-saves to localStorage           │
 │     └─ Cloud: ❌ NOT synced (incomplete)              │
 │                                                         │
 │  2. USER ADDS TAGS                                    │
-│     ├─ Appends tag to currentEntry.tags[]            │
-│     ├─ setCurrentEntry() called                       │
+│     ├─ Appends tag to currentSession.tags[]          │
+│     ├─ setCurrentSession() called                     │
 │     ├─ useEffect auto-saves to localStorage           │
 │     └─ Cloud: ❌ NOT synced (session incomplete)      │
 │                                                         │
 │  3. USER CLOCKS OUT                                   │
-│     ├─ Completes entry (adds clockOut time)          │
-│     ├─ Moves to entries[] array                       │
+│     ├─ Completes session (adds clockOut time)        │
+│     ├─ Moves to sessions[] array                      │
 │     ├─ useEffect auto-saves to localStorage           │
 │     ├─ Cloud: ✅ SYNCED if authenticated              │
 │     │   └─ Path: projects/work-tracker/users/{UID}/  │
-│     │     └─ sessions/{ENTRY_ID}                      │
+│     │     └─ sessions/{SESSION_ID}                    │
 │     └─ Returns to original tag form                   │
 │                                                         │
 │  4. PAGE REFRESH                                      │
@@ -456,8 +459,8 @@ useEffect(() => {
 │     └─ UI updates with cloud data                     │
 │                                                         │
 │  5. USER SIGNS OUT                                    │
-│     ├─ currentEntry cleared                          │
-│     ├─ entries[] persists in localStorage             │
+│     ├─ currentSession cleared                        │
+│     ├─ sessions[] persists in localStorage            │
 │     ├─ User can still see history (offline)           │
 │     └─ Cloud: No new syncs until signed in again      │
 │                                                         │
@@ -530,8 +533,8 @@ https://palpal.live/projects/work-tracker/
 1. Click "Clock In" → Timer starts ✅
 2. Add 3 tags → All appear ✅
 3. Click "Clock Out" → Moved to history ✅
-4. Refresh page → Entry still there ✅
-5. Check localStorage ("timeEntries") → Entry visible ✅
+4. Refresh page → Session still there ✅
+5. Check localStorage ("timeSessions") → Session visible ✅
 ```
 
 ### 2. Cloud Sync Test
@@ -539,8 +542,8 @@ https://palpal.live/projects/work-tracker/
 ```typescript
 // Test Steps:
 1. Sign in with Google ✅
-2. Clock in/out → Entry created ✅
-3. Check Firestore console → Entry exists ✅
+2. Clock in/out → Session created ✅
+3. Check Firestore console → Session exists ✅
 4. Sign out, clear localStorage ❌
 5. Refresh page, sign in → Cloud data loaded ✅
 ```
@@ -552,7 +555,7 @@ https://palpal.live/projects/work-tracker/
 1. Clock in while online
 2. Go offline (DevTools → Network → Offline)
 3. Clock out → Saved locally ✅
-4. Go back online → Entry synced to cloud ✅
+4. Go back online → Session synced to cloud ✅
 ```
 
 ---
@@ -563,7 +566,7 @@ https://palpal.live/projects/work-tracker/
 |-------|-------|----------|
 | Data lost on refresh | Unauthenticated, not in localStorage | Sign in to enable cloud sync |
 | Cloud sync fails | Network error | Check console, data stays local |
-| "Add Tag" not working | currentEntry is null (not clocked in) | Clock in first |
+| "Add Tag" not working | currentSession is null (not clocked in) | Clock in first |
 | Tags not showing | Tags added but not persisted | Check localStorage in DevTools |
 | Cloud data not loading | Auth not initialized | Sign in again, refresh page |
 | Bridge returns null | Neither shared nor standalone available | Check Firebase config |
@@ -588,8 +591,8 @@ interface PalPalUser {
 }
 
 interface TimeTrackerState {
-  entries: TimeEntry[];         // All completed sessions
-  currentEntry: TimeEntry | null; // Currently running session
+  sessions: TimeEntry[];         // All completed sessions
+  currentSession: TimeEntry | null; // Currently running session
   user: PalPalUser | null;      // Authenticated user
   view: 'tracker' | 'report';  // Current view mode
 }

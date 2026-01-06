@@ -1,5 +1,7 @@
 # Work Tracker - Button Operations Verification Checklist
 
+**Note:** All references to "entry/entries" and "currentEntry" have been updated to "session/sessions" and "currentSession" throughout the codebase and UI. Type/interface names may still use "Entry" for legacy/type reasons.
+
 ## ✅ Button Operation Tests
 
 ### Clock In Button
@@ -16,7 +18,7 @@
 - [ ] Tag appears as badge below
 - [ ] Input field clears
 - [ ] Multiple tags allowed
-- [ ] Tags stored in currentEntry.tags[]
+- [ ] Tags stored in currentSession.tags[]
 - [ ] localStorage updated
 - [ ] Cloud NOT synced (session incomplete)
 
@@ -24,19 +26,19 @@
 - [ ] Click X on any tag → Tag removed
 - [ ] Badge disappears
 - [ ] Remaining tags stay
-- [ ] currentEntry.tags updated
+- [ ] currentSession.tags updated
 - [ ] localStorage updated
 - [ ] Cloud NOT affected
 
 ### Clock Out Button
 - [ ] Click "Clock Out" → Completes session
 - [ ] clockOut timestamp recorded
-- [ ] Entry moved to "Recent Entries" list
+- [ ] Session moved to "Recent Sessions" list
 - [ ] Duration calculated and displayed
-- [ ] currentEntry cleared (timer stops)
+- [ ] currentSession cleared (timer stops)
 - [ ] localStorage updated
 - [ ] **Cloud synced if authenticated** ✅ CRITICAL
-- [ ] Entry visible in Firestore (if signed in)
+- [ ] Session visible in Firestore (if signed in)
 
 ### Sign In Button
 - [ ] Click "Sign In" → Google popup appears
@@ -44,45 +46,45 @@
 - [ ] Popup closes automatically
 - [ ] Header shows user email
 - [ ] Cloud data loads (if any exists)
-- [ ] Previous entries merge from cloud
-- [ ] New entries sync to cloud on clock-out
+- [ ] Previous sessions merge from cloud
+- [ ] New sessions sync to cloud on clock-out
 
 ### Sign Out Button
 - [ ] Click "Sign Out" → User logged out
 - [ ] Header shows "Sign In" button again
 - [ ] Local data still visible (not deleted)
 - [ ] Cloud sync disabled
-- [ ] New entries stay local only
+- [ ] New sessions stay local only
 - [ ] No data loss
 
-### Delete Entry Button
-- [ ] Click trash icon on entry → Confirm dialog
-- [ ] Entry removed from list
-- [ ] Entry deleted from localStorage
-- [ ] Cloud entry NOT deleted (data inconsistency)
-- [ ] ID removed from selectedEntries[]
+### Delete Session Button
+- [ ] Click trash icon on session → Confirm dialog
+- [ ] Session removed from list
+- [ ] Session deleted from localStorage
+- [ ] Cloud session NOT deleted (data inconsistency)
+- [ ] ID removed from selectedSessions[]
 
-### Add Manual Entry (During Clock Session)
+### Add Manual Session (During Clock Session)
 - [ ] Click "+" during active clock-in
 - [ ] Modal appears with time fields
 - [ ] Enter clock-in and clock-out times
-- [ ] Select tag for this sub-entry
-- [ ] Click "Save" → New entry created
-- [ ] New entry linked via parentId
+- [ ] Select tag for this sub-session
+- [ ] Click "Save" → New session created
+- [ ] New session linked via parentId
 - [ ] Synced to cloud if authenticated
-- [ ] Appears in entry list
+- [ ] Appears in session list
 
 ### Export CSV Button
 - [ ] Click "Download CSV"
-- [ ] File downloads (time-tracker-{date}.csv)
+- [ ] File downloads (work-tracker-{date}.csv)
 - [ ] CSV contains headers: ID, Clock In, Clock Out, Duration, Tags
-- [ ] All visible entries included
+- [ ] All visible sessions included
 - [ ] Can open in Excel/Sheets
 
 ### Export JSON Button
 - [ ] Click "Download JSON"
-- [ ] File downloads (time-tracker-{date}.json)
-- [ ] JSON contains all entry objects
+- [ ] File downloads (work-tracker-{date}.json)
+- [ ] JSON contains all session objects
 - [ ] Can parse and process
 - [ ] Preserves all field types
 
@@ -91,8 +93,8 @@
 - [ ] Modal asks for confirmation
 - [ ] If confirmed: All local data deleted
 - [ ] localStorage cleared
-- [ ] currentEntry cleared
-- [ ] entries[] = []
+- [ ] currentSession cleared
+- [ ] sessions[] = []
 - [ ] UI resets to empty state
 - [ ] Cloud data NOT deleted
 
@@ -114,27 +116,27 @@
         projects/work-tracker/users/{UID}/sessions/
 4. [ ] Check console → No errors
 5. [ ] Refresh page
-   └─ [ ] Entry still visible (cloud loaded)
+   └─ [ ] Session still visible (cloud loaded)
 ```
 
-### Manual Entry → Cloud Sync Test
+### Manual Session → Cloud Sync Test
 ```
 1. [ ] Clock in
-2. [ ] Click "Add Manual Entry"
+2. [ ] Click "Add Manual Session"
 3. [ ] Fill form and save
    └─ [ ] Document appears in Firestore
 4. [ ] Check console for sync logs
-5. [ ] Verify parentId matches clock-in entry
+5. [ ] Verify parentId matches clock-in session
 ```
 
 ### Offline Sync Fallback
 ```
 1. [ ] Clock in work session
 2. [ ] Disable network (DevTools → Offline)
-3. [ ] Clock out → Entry saved locally
-4. [ ] Check localStorage → Entry present
+3. [ ] Clock out → Session saved locally
+4. [ ] Check localStorage → Session present
 5. [ ] Enable network
-6. [ ] Check Firestore → Entry synced (if supported)
+6. [ ] Check Firestore → Session synced (if supported)
 ```
 
 ---
@@ -144,8 +146,8 @@
 ### localStorage Check
 ```javascript
 // In browser console:
-console.log(JSON.parse(localStorage.getItem('timeEntries')))
-console.log(JSON.parse(localStorage.getItem('currentEntry')))
+console.log(JSON.parse(localStorage.getItem('timeSessions')))
+console.log(JSON.parse(localStorage.getItem('currentSession')))
 
 // Expected: Array of TimeEntry objects with:
 // - id (number)
@@ -159,8 +161,8 @@ console.log(JSON.parse(localStorage.getItem('currentEntry')))
 1. Open Firebase Console
 2. Go to Firestore Database
 3. Path: projects/work-tracker/users/{USER_ID}/sessions
-4. [ ] Documents visible for each clocked-out entry
-5. [ ] Data matches localStorage entries
+4. [ ] Documents visible for each clocked-out session
+5. [ ] Data matches localStorage sessions
 6. [ ] Timestamps correct (ISO format)
 7. [ ] Tags array present
 ```
@@ -181,9 +183,9 @@ console.log(JSON.parse(localStorage.getItem('currentEntry')))
 ### Network Error Handling
 ```
 1. [ ] Clock out while network unavailable
-2. [ ] Entry saved to localStorage ✅
+2. [ ] Session saved to localStorage ✅
 3. [ ] Error message NOT shown (graceful fail)
-4. [ ] Entry marked as "synced" = false (optional)
+4. [ ] Session marked as "synced" = false (optional)
 5. [ ] Console shows error details
 ```
 
@@ -200,7 +202,7 @@ console.log(JSON.parse(localStorage.getItem('currentEntry')))
 1. [ ] Clock out with no tags → Allowed ✅
 2. [ ] Clock out with tags → All tags saved ✅
 3. [ ] Clock in time > Clock out time → Rejected ❌
-4. [ ] Manual entry outside session bounds → Rejected ❌
+4. [ ] Manual session outside session bounds → Rejected ❌
 ```
 
 ---
@@ -210,7 +212,7 @@ console.log(JSON.parse(localStorage.getItem('currentEntry')))
 ### Device 1 (Computer A)
 ```
 1. [ ] Sign in with Google
-2. [ ] Clock in → Work → Clock out → Entry synced
+2. [ ] Clock in → Work → Clock out → Session synced
 3. [ ] Leave tab open
 ```
 
@@ -218,14 +220,14 @@ console.log(JSON.parse(localStorage.getItem('currentEntry')))
 ```
 1. [ ] Sign in with same Google account
 2. [ ] Wait 2-3 seconds
-3. [ ] [ ] Previous entry appears (cloud loaded)
-4. [ ] Clock in → Work → Clock out → Entry synced
+3. [ ] [ ] Previous session appears (cloud loaded)
+4. [ ] Clock in → Work → Clock out → Session synced
 ```
 
 ### Device 1 (Again)
 ```
 1. [ ] Refresh page
-2. [ ] [ ] Both entries visible (merged from cloud)
+2. [ ] [ ] Both sessions visible (merged from cloud)
 3. [ ] No duplicates or conflicts
 ```
 
@@ -240,7 +242,7 @@ console.log(JSON.parse(localStorage.getItem('currentEntry')))
 | Cloud sync on authenticated clock-out | ✅ Must Work |
 | localStorage as fallback | ✅ Must Work |
 | Multi-device sync | ✅ Should Work |
-| Offline entries sync when online | ⏳ Optional |
+| Offline sessions sync when online | ⏳ Optional |
 | Real-time sync (no refresh needed) | ⏳ Future |
 | Conflict resolution | ⏳ Not Implemented |
 
@@ -250,12 +252,12 @@ console.log(JSON.parse(localStorage.getItem('currentEntry')))
 
 ### Browser Console Watch
 ```javascript
-// Add to TimeTrackerWidget.tsx for debugging:
+// Add to WorkTrackerWidget.tsx for debugging:
 useEffect(() => {
-  console.log('Current entries:', entries);
-  console.log('Active session:', currentEntry);
-  console.log('Authenticated:', !!user);
-}, [entries, currentEntry, user]);
+   console.log('Current sessions:', sessions);
+   console.log('Active session:', currentSession);
+   console.log('Authenticated:', !!user);
+}, [sessions, currentSession, user]);
 
 // Watch localStorage changes
 window.addEventListener('storage', (e) => {
