@@ -43,11 +43,11 @@ export default function TimeTrackerWidget() {
 
   // Modal State
   const [showClearModal, setShowClearModal] = useState<boolean>(false);
-  
+
   // Tag Details Modal State
   const [showTagDetails, setShowTagDetails] = useState(false);
   const [selectedTagForDetails, setSelectedTagForDetails] = useState<string>('');
-  
+
   // Auth State
   const [signInError, setSignInError] = useState<string | null>(null);
   const [isSigningIn, setIsSigningIn] = useState(false);
@@ -643,7 +643,7 @@ export default function TimeTrackerWidget() {
         timezone={timezone}
         onTimezoneChange={handleTimezoneChange}
       />
-      
+
       <TagDetailsModal
         isOpen={showTagDetails}
         onClose={() => setShowTagDetails(false)}

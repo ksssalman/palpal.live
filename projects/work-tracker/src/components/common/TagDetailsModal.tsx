@@ -28,9 +28,9 @@ export default function TagDetailsModal({
   }, 0);
 
   const sessionCount = entries.length;
-  
+
   // Sort entries recent first
-  const sortedEntries = [...entries].sort((a, b) => 
+  const sortedEntries = [...entries].sort((a, b) =>
     new Date(b.clockIn).getTime() - new Date(a.clockIn).getTime()
   );
 
@@ -74,7 +74,7 @@ export default function TagDetailsModal({
                 <Calendar className="w-4 h-4" />
                 Recent Sessions
             </h3>
-            
+
             <div className="space-y-3">
                 {sortedEntries.slice(0, 10).map(entry => {
                     const duration = (entry.clockOut ? new Date(entry.clockOut).getTime() : new Date().getTime()) - new Date(entry.clockIn).getTime();
