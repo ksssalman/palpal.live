@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BarChart3, LogIn, LogOut, User, Clock, ChevronDown } from 'lucide-react';
+import { BarChart3, LogIn, LogOut, User, Clock, ChevronDown, Settings } from 'lucide-react';
 import type { View } from '../../types';
 
 interface HeaderProps {
@@ -10,6 +10,7 @@ interface HeaderProps {
   setView: (view: View) => void;
   onSignIn: () => void;
   onSignOut: () => void;
+  onOpenSettings: () => void;
 }
 
 export default function Header({
@@ -19,7 +20,8 @@ export default function Header({
   view,
   setView,
   onSignIn,
-  onSignOut
+  onSignOut,
+  onOpenSettings
 }: HeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -67,6 +69,16 @@ export default function Header({
                         <p className="text-sm font-medium text-slate-900 truncate" title={user.email}>{user.email}</p>
                       </div>
                       <div className="p-1">
+                        <button
+                          onClick={() => {
+                            setShowUserMenu(false);
+                            onOpenSettings();
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+                        >
+                          <Settings className="w-4 h-4" />
+                          Settings
+                        </button>
                         <button
                           onClick={() => {
                             onSignOut();

@@ -7,6 +7,7 @@ import type { TimeEntry, TagStat, View, ReportPeriod } from './types';
 // Components
 import Header from './components/common/Header';
 import ClearDataModal from './components/common/ClearDataModal';
+import SettingsModal from './components/common/SettingsModal';
 import ClockInSection from './components/tracker/ClockInSection';
 import RecentEntriesList from './components/tracker/RecentEntriesList';
 import ReportView from './components/report/ReportView';
@@ -22,6 +23,8 @@ export default function TimeTrackerWidget() {
   const [tagInput, setTagInput] = useState<string>('');
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [view, setView] = useState<View>('tracker');
+  const [timezone, setTimezone] = useState<string>(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const [showSettings, setShowSettings] = useState(false);
 
   // Report State
   const [reportPeriod, setReportPeriod] = useState<ReportPeriod>('week');
@@ -109,6 +112,12 @@ export default function TimeTrackerWidget() {
       if (isAuthenticated) {
         // USER IS AUTHENTICATED: Load from cloud first
         try {
+          // Load settings (timezone)
+          const profile = await bridge.getUserProfile(authenticatedUser.uid);
+          if (profile?.settings?.timezone) {
+            setTimezone(profile.settings.timezone);
+          }
+
           const remoteEntries = await bridge.getAllItems('work-tracker', 'sessions');
           if (remoteEntries && remoteEntries.length > 0) {
              const sortedEntries = (remoteEntries as TimeEntry[]).sort((a, b) =>
@@ -138,6 +147,9 @@ export default function TimeTrackerWidget() {
         }
       } else {
         // USER NOT AUTHENTICATED: Load from local storage (temporary data)
+        const savedTz = localStorage.getItem('work_tracker_timezone');
+        if (savedTz) setTimezone(savedTz);
+
         const saved = localStorage.getItem('timeEntries');
         if (saved) {
           try {
@@ -298,6 +310,28 @@ export default function TimeTrackerWidget() {
     }
   };
 
+  const handleTimezoneChange = async (newTimezone: string) => {
+    setTimezone(newTimezone);
+    localStorage.setItem('work_tracker_timezone', newTimezone);
+
+    if (user && bridge?.isAuthenticated()) {
+      try {
+        // We merge with existing profile data if we can, or just set settings
+        const currentProfile = await bridge.getUserProfile(user.uid);
+        const updatedProfile = { 
+          ...currentProfile, 
+          settings: { 
+            ...(currentProfile?.settings || {}), 
+            timezone: newTimezone 
+          } 
+        };
+        await bridge.setUserProfile(updatedProfile, user.uid);
+      } catch (e) {
+        console.error('Failed to save settings to cloud:', e);
+      }
+    }
+  };
+
   const addManualTagEntry = async (parentEntry: TimeEntry): Promise<void> => {
     if (!manualTag.trim() || !manualClockIn || !manualClockOut) {
       alert('Please fill in all fields');
@@ -372,11 +406,18 @@ export default function TimeTrackerWidget() {
   // Helpers
   const formatTime = (isoString: string): string => {
     const date = new Date(isoString);
-    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+    return date.toLocaleTimeString('en-US', { 
+      timeZone: timezone,
+      hour: '2-digit', 
+      minute: '2-digit', 
+      second: '2-digit', 
+      hour12: true 
+    });
   };
 
   const formatDate = (isoString: string): string => {
     return new Date(isoString).toLocaleDateString('en-US', {
+      timeZone: timezone,
       month: 'short',
       day: 'numeric',
       year: 'numeric'
@@ -575,6 +616,12 @@ export default function TimeTrackerWidget() {
         onClose={() => setShowClearModal(false)}
         onConfirm={clearAllData}
       />
+      <SettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        timezone={timezone}
+        onTimezoneChange={handleTimezoneChange}
+      />
 
       <Header
         user={user}
@@ -584,6 +631,7 @@ export default function TimeTrackerWidget() {
         setView={setView}
         onSignIn={handleSignIn}
         onSignOut={handleSignOut}
+        onOpenSettings={() => setShowSettings(true)}
       />
 
       <div className="p-6">
@@ -600,6 +648,7 @@ export default function TimeTrackerWidget() {
               onRemoveTag={removeTag}
               formatTime={formatTime}
               calculateDuration={calculateDuration}
+              timezone={timezone}
             />
 
             <RecentEntriesList

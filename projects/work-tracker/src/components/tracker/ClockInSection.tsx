@@ -12,6 +12,7 @@ interface ClockInSectionProps {
   onRemoveTag: (tag: string) => void;
   formatTime: (iso: string) => string;
   calculateDuration: (start: string, end: string | null) => string;
+  timezone: string;
 }
 
 export default function ClockInSection({
@@ -24,7 +25,8 @@ export default function ClockInSection({
   onAddTag,
   onRemoveTag,
   formatTime,
-  calculateDuration
+  calculateDuration,
+  timezone
 }: ClockInSectionProps) {
   return (
     <div className="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700 shadow-lg">
@@ -47,10 +49,10 @@ export default function ClockInSection({
               <div className="text-center">
                 <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Current Time</div>
                 <div className="text-3xl font-black text-white">
-                  {currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                  {currentTime.toLocaleTimeString('en-US', { timeZone: timezone, hour: '2-digit', minute: '2-digit', hour12: true })}
                 </div>
                 <div className="text-xs text-slate-400 mt-1 font-medium">
-                  {currentTime.toLocaleTimeString('en-US', { second: '2-digit' }).split(' ')[0]}
+                  {currentTime.toLocaleTimeString('en-US', { timeZone: timezone, second: '2-digit' }).split(' ')[0]}
                 </div>
               </div>
 
