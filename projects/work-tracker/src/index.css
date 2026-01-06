@@ -3,12 +3,78 @@
 @tailwind utilities;
 
 body {
-  background: linear-gradient(135deg, #f9f0f6 0%, #f0e0ec 100%);
+  background: #334155;
+  /* solid dark slate background */
   color: #541342;
+  font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
   min-height: 100vh;
   padding-top: 40px;
   overflow-wrap: break-word;
   word-wrap: break-word;
+}
+
+#root, .main-app-container {
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.bg-white\/80 {
+  background-color: #23263a !important;
+  /* Even darker card for clean contrast */
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.12);
+  border-radius: 1.5rem !important;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+/***** Optionally, tweak the card border for more contrast *****/
+.border-white\/20 {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* Clean UI tweaks */
+input, button, select, textarea {
+  font-family: Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl {
+  border-radius: 1rem !important;
+}
+
+.shadow-2xl, .shadow-xl {
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.10) !important;
+}
+
+input, select, textarea {
+  border-radius: 0.5rem !important;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #23263a;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px #6366f133;
+  outline: none;
+}
+
+button {
+  border-radius: 0.5rem !important;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }

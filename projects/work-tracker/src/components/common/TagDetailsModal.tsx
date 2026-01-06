@@ -49,6 +49,7 @@ export default function TagDetailsModal({
             </div>
           </div>
           <button
+            aria-label="Close"
             onClick={onClose}
             className="text-slate-400 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg"
           >

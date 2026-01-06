@@ -4,7 +4,7 @@ import App from './App'
 
 /**
  * PalPal Auth Integration Wrapper
- * 
+ *
  * Handles two modes:
  * 1. ECOSYSTEM: Running within palpal.live (uses shared auth/db)
  * 2. STANDALONE: Running independently (uses dedicated Firebase)
@@ -71,18 +71,11 @@ export default function AppWithAuth() {
 
   if (loading) {
     return (
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white'
-      }}>
-        <div style={{ textAlign: 'center' }}>
-          <div className="palpal-loading" style={{ margin: '0 auto 1rem' }}></div>
+      <div className="flex items-center justify-center min-h-screen bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white">
+        <div className="text-center">
+          <div className="palpal-loading mx-auto mb-4"></div>
           <p>Loading Work Tracker...</p>
-          <small style={{ opacity: 0.8 }}>Mode: {mode}</small>
+          <small className="opacity-80">Mode: {mode}</small>
         </div>
       </div>
     )
@@ -90,15 +83,8 @@ export default function AppWithAuth() {
 
   if (error) {
     return (
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)',
-        color: 'white'
-      }}>
-        <div style={{ textAlign: 'center', maxWidth: '400px' }}>
+      <div className="flex items-center justify-center min-h-screen bg-[linear-gradient(135deg,#ff6b6b_0%,#ee5a6f_100%)] text-white">
+        <div className="text-center max-w-[400px]">
           <h2>⚠️ Initialization Error</h2>
           <p>{error}</p>
           <small>Check console for details</small>

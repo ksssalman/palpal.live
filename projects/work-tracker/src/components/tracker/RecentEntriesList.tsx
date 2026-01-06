@@ -136,6 +136,7 @@ export default function RecentEntriesList({
                       <label className="text-xs font-bold text-slate-300 block mb-1.5">Clock In</label>
                       <input
                         type="time"
+                        aria-label="Clock In Time"
                         value={manualClockIn}
                         onChange={(e) => setManualClockIn(e.target.value)}
                         className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30 transition-all"
@@ -145,6 +146,7 @@ export default function RecentEntriesList({
                       <label className="text-xs font-bold text-slate-300 block mb-1.5">Clock Out</label>
                       <input
                         type="time"
+                        aria-label="Clock Out Time"
                         value={manualClockOut}
                         onChange={(e) => setManualClockOut(e.target.value)}
                         className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30 transition-all"

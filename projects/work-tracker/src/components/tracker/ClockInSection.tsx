@@ -87,6 +87,7 @@ export default function ClockInSection({
             </label>
             <div className="flex gap-2 mb-3">
               <input
+                aria-label="Add a tag"
                 type="text"
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
@@ -95,6 +96,7 @@ export default function ClockInSection({
                 className="flex-1 bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30 transition-all"
               />
               <button
+                aria-label="Add Tag"
                 onClick={onAddTag}
                 className="bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-lg transition"
                 title="Add tag"

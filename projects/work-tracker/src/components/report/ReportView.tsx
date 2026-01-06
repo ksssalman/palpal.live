@@ -1,5 +1,44 @@
+import { useRef, useEffect } from 'react';
 import { BarChart2, Download, Filter } from 'lucide-react';
 import type { ReportPeriod, TagStat } from '../../types';
+
+interface TagStatRowProps {
+  stat: TagStat;
+  totalDuration: number;
+  formatDuration: (ms: number) => string;
+  onTagClick?: (tag: string) => void;
+}
+
+const TagStatRow = ({ stat, totalDuration, formatDuration, onTagClick }: TagStatRowProps) => {
+  const barRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (barRef.current) {
+      const percentage = totalDuration > 0 ? (stat.duration / totalDuration) * 100 : 0;
+      barRef.current.style.width = `${percentage}%`;
+    }
+  }, [stat.duration, totalDuration]);
+
+  return (
+    <div
+      className={`bg-slate-700/50 rounded-lg p-4 border border-slate-600 transition-colors ${onTagClick ? 'cursor-pointer hover:bg-slate-700 hover:border-slate-500' : ''}`}
+      onClick={() => onTagClick?.(stat.tag)}
+    >
+      <div className="flex justify-between items-center mb-2">
+        <span className="font-bold text-white">{stat.tag || 'Untagged'}</span>
+        <span className="font-mono text-sm text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">
+          {formatDuration(stat.duration)}
+        </span>
+      </div>
+      <div className="w-full bg-slate-600 rounded-full h-2 overflow-hidden">
+        <div
+          ref={barRef}
+          className="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+        />
+      </div>
+    </div>
+  );
+};
 
 interface ReportViewProps {
   reportPeriod: ReportPeriod;
@@ -41,6 +80,7 @@ export default function ReportView({
           <div>
             <label className="text-xs font-bold text-slate-300 block mb-1.5">Period</label>
             <select
+              aria-label="Report Period"
               value={reportPeriod}
               onChange={(e) => setReportPeriod(e.target.value as ReportPeriod)}
               className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30 transition-all"
@@ -56,6 +96,7 @@ export default function ReportView({
               <div>
                 <label className="text-xs font-bold text-slate-300 block mb-1.5">Start</label>
                 <input
+                  aria-label="Start Date"
                   type="date"
                   value={customStartDate}
                   onChange={(e) => setCustomStartDate(e.target.value)}
@@ -65,6 +106,7 @@ export default function ReportView({
               <div>
                 <label className="text-xs font-bold text-slate-300 block mb-1.5">End</label>
                 <input
+                  aria-label="End Date"
                   type="date"
                   value={customEndDate}
                   onChange={(e) => setCustomEndDate(e.target.value)}
@@ -103,24 +145,13 @@ export default function ReportView({
 
         <div className="space-y-4">
           {tagStats.map(stat => (
-            <div
+            <TagStatRow
               key={stat.tag}
-              className={`bg-slate-700/50 rounded-lg p-4 border border-slate-600 transition-colors ${onTagClick ? 'cursor-pointer hover:bg-slate-700 hover:border-slate-500' : ''}`}
-              onClick={() => onTagClick?.(stat.tag)}
-            >
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-bold text-white">{stat.tag || 'Untagged'}</span>
-                <span className="font-mono text-sm text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">
-                  {formatDuration(stat.duration)}
-                </span>
-              </div>
-              <div className="w-full bg-slate-600 rounded-full h-2 overflow-hidden">
-                <div
-                  className="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${totalDuration > 0 ? (stat.duration / totalDuration) * 100 : 0}%` }}
-                ></div>
-              </div>
-            </div>
+              stat={stat}
+              totalDuration={totalDuration}
+              formatDuration={formatDuration}
+              onTagClick={onTagClick}
+            />
           ))}
           {tagStats.length === 0 && (
             <div className="text-center py-8 text-slate-400">

@@ -39,7 +39,7 @@ export const getPalPalBridge = (): PalPalBridge | null => {
             getAllItems: async (projectName, colName) => {
                 return await sharedDb.getAllProjectData(projectName, colName);
             },
-            deleteItem: async (_projectName, _colName, _itemId) => {
+            deleteItem: async () => {
                  // Shared DB doesn't support delete yet in this bridge version, or simple no-op
                  console.warn("Delete not implemented for shared bridge yet");
             },

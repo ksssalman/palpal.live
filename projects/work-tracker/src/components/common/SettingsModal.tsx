@@ -28,6 +28,7 @@ export default function SettingsModal({
             <h2 className="text-lg font-bold text-white">Settings</h2>
           </div>
           <button
+            aria-label="Close"
             onClick={onClose}
             className="text-slate-400 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg"
           >
@@ -42,6 +43,7 @@ export default function SettingsModal({
             <p className="text-xs text-slate-400 mb-2">Select your preferred timezone for tracking and reporting.</p>
             <div className="relative">
               <select
+                aria-label="Timezone"
                 value={timezone}
                 onChange={(e) => onTimezoneChange(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-600 text-white text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block p-3 pr-8 appearance-none"
