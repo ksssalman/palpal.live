@@ -1,0 +1,11 @@
+/* Footer Styles */
+
+.footer {
+  margin-top: 4rem;
+  color: rgba(84, 19, 66, 0.6);
+  font-size: 0.9rem;
+}
+
+.footer.projects-footer {
+  margin-top: 3rem;
+}

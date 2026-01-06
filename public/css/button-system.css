@@ -1,0 +1,314 @@
+/* Button System - Consistent Button Types & Behaviors */
+
+:root {
+  /* Button Colors */
+  --button-primary-bg: #541342;
+  --button-primary-hover: #3d0e30;
+  --button-primary-text: white;
+
+  --button-secondary-bg: rgba(84, 19, 66, 0.1);
+  --button-secondary-hover: rgba(84, 19, 66, 0.15);
+  --button-secondary-text: #541342;
+  --button-secondary-border: rgba(84, 19, 66, 0.2);
+
+  --button-ghost-bg: rgba(255, 255, 255, 0.2);
+  --button-ghost-hover: rgba(255, 255, 255, 0.3);
+  --button-ghost-text: white;
+  --button-ghost-border: rgba(255, 255, 255, 0.3);
+
+  /* Button Sizes */
+  --button-sm-padding: 0.5rem 1rem;
+  --button-sm-font: var(--font-size-sm);
+
+  --button-md-padding: 0.75rem 1.5rem;
+  --button-md-font: var(--font-size-base);
+
+  --button-lg-padding: 1rem 2rem;
+  --button-lg-font: var(--font-size-lg);
+
+  --button-xl-padding: 1.25rem 3rem;
+  --button-xl-font: var(--font-size-xl);
+
+  /* Button Shadows */
+  --button-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --button-shadow-md: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --button-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --button-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Base Button Styles */
+.btn {
+  display: inline-block;
+  padding: var(--button-md-padding);
+  font-size: var(--button-md-font);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  text-align: center;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  line-height: var(--line-height-tight);
+  outline: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Primary Button */
+.btn-primary {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  box-shadow: var(--button-shadow-md);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--button-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--button-shadow-hover);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: var(--button-secondary-bg);
+  color: var(--button-secondary-text);
+  border: 1px solid var(--button-secondary-border);
+  box-shadow: var(--button-shadow-sm);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--button-secondary-hover);
+  border-color: var(--button-secondary-text);
+  transform: translateY(-2px);
+  box-shadow: var(--button-shadow-md);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Ghost Button */
+.btn-ghost {
+  background-color: var(--button-ghost-bg);
+  color: var(--button-ghost-text);
+  border: 2px solid var(--button-ghost-border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background-color: var(--button-ghost-hover);
+  transform: translateY(-2px);
+}
+
+.btn-ghost:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Button Sizes */
+.btn-sm {
+  padding: var(--button-sm-padding);
+  font-size: var(--button-sm-font);
+}
+
+.btn-md {
+  padding: var(--button-md-padding);
+  font-size: var(--button-md-font);
+}
+
+.btn-lg {
+  padding: var(--button-lg-padding);
+  font-size: var(--button-lg-font);
+}
+
+.btn-xl {
+  padding: var(--button-xl-padding);
+  font-size: var(--button-xl-font);
+}
+
+/* Block Button (Full Width) */
+.btn-block {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Rounded Icon Button */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+}
+
+/* Navigation Auth Button - Primary */
+.nav-auth-btn {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-sm;
+}
+
+.nav-auth-btn.secondary {
+  @extend .btn-secondary;
+}
+
+.nav-auth-btn.mobile-block {
+  @extend .btn-block;
+  padding: var(--button-md-padding);
+}
+
+/* CTA Button - Extra Large Primary */
+.cta-button {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-xl;
+  margin-bottom: 4rem;
+}
+
+/* Back Button - Ghost Style */
+.back-button {
+  @extend .btn;
+  @extend .btn-ghost;
+  @extend .btn-md;
+  margin-bottom: 2rem;
+}
+
+.back-button:hover:not(:disabled) {
+  transform: translateX(-5px);
+}
+
+/* Text Button - No Background */
+.btn-text {
+  background: none;
+  box-shadow: none;
+  color: var(--button-primary-bg);
+  font-weight: var(--font-weight-semibold);
+  padding: 0.5rem 0;
+  text-decoration: underline;
+}
+
+.btn-text:hover:not(:disabled) {
+  color: var(--button-primary-hover);
+}
+
+/* Icon Button */
+.btn-icon-primary {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-icon;
+}
+
+.btn-icon-secondary {
+  @extend .btn;
+  @extend .btn-secondary;
+  @extend .btn-icon;
+}
+
+/* Button Group */
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn-group.vertical {
+  flex-direction: column;
+}
+
+.btn-group.stacked {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Loading State */
+.btn.loading {
+  opacity: 0.8;
+  cursor: wait;
+}
+
+.btn.loading::after {
+  content: '';
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-left: 0.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Focus State for Accessibility */
+.btn:focus-visible {
+  outline: 2px solid #541342;
+  outline-offset: 2px;
+}
+
+/* Responsive Button Adjustments */
+@media (max-width: 768px) {
+  .btn-group {
+    gap: 0.75rem;
+  }
+
+  .btn-lg {
+    padding: 0.875rem 1.75rem;
+    font-size: var(--button-lg-font);
+  }
+
+  .cta-button {
+    padding: 1rem 2rem;
+    font-size: var(--font-size-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: var(--button-md-padding);
+    font-size: var(--button-md-font);
+  }
+
+  .btn-lg {
+    padding: var(--button-md-padding);
+    font-size: var(--button-md-font);
+  }
+
+  .btn-xl {
+    padding: 0.9rem 1.8rem;
+    font-size: var(--font-size-base);
+  }
+
+  .cta-button {
+    padding: 0.9rem 1.8rem;
+    font-size: var(--font-size-base);
+    margin-bottom: 2rem;
+  }
+
+  .btn-block {
+    display: block;
+    width: 100%;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn-group:not(.vertical) {
+    flex-direction: column;
+  }
+}

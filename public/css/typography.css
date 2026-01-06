@@ -1,0 +1,61 @@
+/* Logo and Typography Styles - Legacy Compatibility */
+
+/* Logo - Uses new system */
+.logo {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #541342, #801c63);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -2px;
+  line-height: 1.2;
+}
+
+.logo.section-logo {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #541342;
+}
+
+/* Logo Container */
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-container img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(84, 19, 66, 0.1);
+}
+
+/* Tagline - Legacy */
+.tagline {
+  font-size: 1.5rem;
+  color: rgba(84, 19, 66, 0.7);
+  margin-bottom: 3rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  line-height: 1.75;
+}
+
+/* Project Description Text */
+.project-description {
+  font-size: 1rem;
+  color: rgba(84, 19, 66, 0.7);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Projects Section Description */
+.projects-section-description {
+  font-size: 1.1rem;
+  color: rgba(84, 19, 66, 0.7);
+  margin-bottom: 2rem;
+  line-height: 1.75;
+}

@@ -1,0 +1,164 @@
+/* Typography System - Consistent Text Types */
+
+/* Font Sizes & Weights */
+:root {
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2.5rem;
+  --font-size-4xl: 4rem;
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -1px;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 1px;
+}
+
+/* Display Heading - Logo */
+.display-heading {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-extrabold);
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #541342, #801c63);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
+}
+
+/* Section Heading */
+.section-heading {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 1rem;
+  color: #541342;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
+}
+
+/* Heading 1 */
+.heading-1 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 0.75rem;
+  color: #541342;
+  line-height: var(--line-height-tight);
+}
+
+/* Heading 2 */
+.heading-2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 0.5rem;
+  color: #541342;
+  line-height: var(--line-height-normal);
+}
+
+/* Tagline / Subtitle */
+.tagline {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-light);
+  color: rgba(84, 19, 66, 0.7);
+  margin-bottom: 3rem;
+  letter-spacing: var(--letter-spacing-wide);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Body Text */
+.body-text {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  color: #541342;
+  line-height: var(--line-height-relaxed);
+}
+
+/* Body Text - Secondary */
+.body-text-secondary {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  color: rgba(84, 19, 66, 0.7);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Small Text */
+.small-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: rgba(84, 19, 66, 0.6);
+  line-height: var(--line-height-normal);
+}
+
+/* Extra Small Text */
+.xs-text {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+  color: rgba(84, 19, 66, 0.5);
+  line-height: var(--line-height-tight);
+}
+
+/* Description Text */
+.description-text {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-normal);
+  color: rgba(84, 19, 66, 0.7);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: 2rem;
+}
+
+/* Caption Text */
+.caption-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: rgba(84, 19, 66, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: var(--line-height-tight);
+}
+
+/* Link Text */
+.link-text {
+  color: #541342;
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  transition: color 0.3s ease;
+}
+
+.link-text:hover {
+  color: #801c63;
+  text-decoration: underline;
+}
+
+/* Legacy Classes - Map to new system */
+.logo {
+  @extend .display-heading;
+}
+
+.logo.section-logo {
+  @extend .section-heading;
+}
+
+.project-description {
+  @extend .body-text-secondary;
+}
+
+.projects-section-description {
+  @extend .description-text;
+}
