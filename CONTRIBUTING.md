@@ -16,13 +16,15 @@ Thank you for considering contributing to PalPal.live! This document provides gu
 1. **Fork and Clone the Repository**
 
    First, fork the repository on GitHub by clicking the "Fork" button at the top right of the repository page.
-   
+
    Then clone your fork:
 
    ```bash
    git clone https://github.com/YOUR_USERNAME/palpal.live
    cd palpal.live
    ```
+
+   > **Note on Directory Naming**: We recommend cloning the project into a directory without spaces to avoid potential path conflicts with build tools. A PascalCase name like `PalPalLiveFiles` or `PalPalLive` is recommended for your workspace container.
 
 2. **Configure Git (Required)**
 
@@ -66,6 +68,7 @@ Thank you for considering contributing to PalPal.live! This document provides gu
    ```
 
    **Commit Message Format:**
+
    - `feat:` - New feature
    - `fix:` - Bug fix
    - `docs:` - Documentation changes
@@ -95,6 +98,7 @@ If you're experiencing commit failures in VS Code, try these solutions:
 **Error:** `Author identity unknown` or similar
 
 **Solution:**
+
 ```bash
 # Set your git identity (required)
 git config user.name "Your Name"
@@ -123,16 +127,19 @@ git config --global commit.gpgsign false
 If you **want** to use GPG signing, follow these steps:
 
 1. **Generate a GPG key** (if you don't have one):
+
    ```bash
    gpg --full-generate-key
    ```
 
 2. **List your GPG keys**:
+
    ```bash
    gpg --list-secret-keys --keyid-format=long
    ```
 
 3. **Configure git to use your GPG key**:
+
    ```bash
    git config user.signingkey YOUR_GPG_KEY_ID
    git config commit.gpgsign true
@@ -148,6 +155,7 @@ If you **want** to use GPG signing, follow these steps:
 **Solution:**
 
 The repository includes `.vscode/settings.json` with recommended settings:
+
 - Commit signing is disabled by default (`"git.enableCommitSigning": false`)
 - Smart commits are enabled for easier workflow
 
@@ -162,6 +170,7 @@ If you're still having issues:
 **Error:** Files showing changes due to line endings
 
 **Solution:**
+
 ```bash
 # Configure git to handle line endings automatically
 git config core.autocrlf true   # Windows
@@ -178,6 +187,7 @@ npm run build
 ```
 
 Check for:
+
 - Missing dependencies: `npm install`
 - TypeScript errors: `npm run validate`
 - Vite configuration issues
@@ -210,11 +220,13 @@ Check for:
 Before submitting a pull request:
 
 1. **Run linting** (if applicable):
+
    ```bash
    cd projects/work-tracker && npm run lint
    ```
 
 2. **Build the project**:
+
    ```bash
    npm run build:all
    ```

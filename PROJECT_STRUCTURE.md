@@ -2,6 +2,8 @@
 
 ## Quick Reference
 
+> **Workspace Note**: The project root should ideally be placed in a directory without spaces (e.g., `.../PalPalLiveFiles/PalPal.live`) to ensure compatibility with all build scripts.
+
 ```
 PalPal.live/
 │
@@ -100,9 +102,11 @@ PalPal.live/
 ## Key Directories Explained
 
 ### /public
+
 The main landing page and public-facing assets. This is deployed to the root domain.
 
 **What's here:**
+
 - Landing page (index.html)
 - CSS modules
 - Shared JavaScript modules
@@ -110,23 +114,25 @@ The main landing page and public-facing assets. This is deployed to the root dom
 - Public assets (images, etc.)
 
 ### /projects
+
 Multi-project workspace for different applications.
 
 **What's here:**
+
 - work-tracker/ - Time tracking application
 - shared/ - Code shared across all projects
 
 ### Key Files
 
-| File | Purpose |
-|------|---------|
-| `package.json` | Root dependencies and scripts |
-| `.env.example` | Template for environment variables |
-| `firebase.json` | Firebase project configuration |
-| `firestore.rules` | Database security rules |
-| `Dockerfile` | Container image definition |
-| `docker-compose.yml` | Multi-container orchestration |
-| `nginx.conf` | Web server configuration |
+| File                 | Purpose                            |
+| -------------------- | ---------------------------------- |
+| `package.json`       | Root dependencies and scripts      |
+| `.env.example`       | Template for environment variables |
+| `firebase.json`      | Firebase project configuration     |
+| `firestore.rules`    | Database security rules            |
+| `Dockerfile`         | Container image definition         |
+| `docker-compose.yml` | Multi-container orchestration      |
+| `nginx.conf`         | Web server configuration           |
 
 ## Module Loading Order
 
@@ -149,6 +155,7 @@ Multi-project workspace for different applications.
 ### Common Tasks
 
 **Working on landing page:**
+
 ```bash
 # Edit HTML
 → public/index.html
@@ -163,6 +170,7 @@ Multi-project workspace for different applications.
 ```
 
 **Working on work-tracker:**
+
 ```bash
 cd projects/work-tracker
 npm install
@@ -170,6 +178,7 @@ npm run dev
 ```
 
 **Shared code:**
+
 ```bash
 # Used by all projects
 → projects/shared/
@@ -178,12 +187,14 @@ npm run dev
 ## Important Notes
 
 ⚠️ **Deprecated Files** - Don't use these anymore:
+
 - ❌ `public/firebase-config.js` → Use `public/js/modules/config.js`
 - ❌ `public/firebase-auth.js` → Use `public/js/modules/auth.js`
 - ❌ `public/firebase-db.js` → Use `public/js/modules/database.js`
 - ❌ `public/index.css` → Use `public/css/main.css`
 
 ✅ **Best Practices**:
+
 - Always use modular files
 - Keep modules focused on single responsibility
 - Use environment variables for secrets
