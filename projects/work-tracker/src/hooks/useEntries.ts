@@ -89,8 +89,13 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
   // Actions
 
   const startSession = (initialTags: string[] = []) => {
-    // If already running, do nothing or user should have stopped it
-    if (currentSession) return;
+    console.log('⏱️  START SESSION:', { initialTags });
+
+    // If already running, do nothing
+    if (currentSession) {
+      console.warn('⚠️  SESSION ALREADY RUNNING:', { id: currentSession.id });
+      return;
+    }
 
     const session: TimeEntry = {
       id: Date.now(),
@@ -98,27 +103,47 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
       clockOut: null,
       tags: initialTags
     };
+
     setCurrentSession(session);
+    console.log('✅ SESSION STARTED:', { session });
   };
 
-
   const stopSession = async () => {
-    if (currentSession) {
-      const completedSession: TimeEntry = {
-        ...currentSession,
-        clockOut: new Date().toISOString()
-      };
-      const newSessions = [completedSession, ...sessions];
-      setSessions(newSessions);
-      setCurrentSession(null);
+    console.log('🛑 STOP SESSION: Checking currentSession...', { currentSession });
 
-      if (user && bridge?.isAuthenticated()) {
-        try {
-          await bridge.saveItem('work-tracker', 'sessions', completedSession);
-        } catch (e) {
-          console.error('Cloud sync failed, data kept in local:', e);
-        }
+    if (!currentSession) {
+      console.warn('❌ STOP SESSION FAILED: No active session');
+      return;
+    }
+
+    // Step 1: Create completed session
+    const completedSession: TimeEntry = {
+      ...currentSession,
+      clockOut: new Date().toISOString()
+    };
+    console.log('📝 SESSION COMPLETED:', { completedSession });
+
+    // Step 2: Move to sessions history (local state)
+    const updatedSessions = [completedSession, ...sessions];
+    setSessions(updatedSessions);
+    console.log('📚 ADDED TO HISTORY:', { count: updatedSessions.length });
+
+    // Step 3: Clear current session
+    setCurrentSession(null);
+    console.log('🗑️  CLEARED CURRENT SESSION');
+
+    // Step 4: Cloud sync (async, non-blocking)
+    if (user && bridge?.isAuthenticated()) {
+      try {
+        console.log('☁️  SYNCING TO CLOUD...');
+        await bridge.saveItem('work-tracker', 'sessions', completedSession);
+        console.log('✅ CLOUD SYNC COMPLETE');
+      } catch (e) {
+        console.error('❌ CLOUD SYNC FAILED (local data preserved):', e);
+        // Data is still saved locally, cloud sync just failed
       }
+    } else {
+      console.log('ℹ️  NOT AUTHENTICATED - CLOUD SYNC SKIPPED');
     }
   };
 

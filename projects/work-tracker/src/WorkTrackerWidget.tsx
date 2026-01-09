@@ -92,20 +92,37 @@ export default function WorkTrackerWidget() {
 		setTagInput('');
 	};
 
-	const handleAddTag = () => {
-		if (!currentSession) return;
-		const newTags = tagInput.split(',').map(t => t.trim()).filter(Boolean);
-		if (newTags.length === 0) return;
+	const handleClockOut = () => {
+		console.log('� CLOCK OUT BUTTON CLICKED');
+		stopSession().catch((error) => {
+			console.error('❌ Clock out error:', error);
+		});
+	};
 
-		// Check dupe
+	const handleAddTag = () => {
+		if (!currentSession) {
+			console.warn('⚠️  Cannot add tag: No active session');
+			return;
+		}
+		const newTags = tagInput.split(',').map(t => t.trim()).filter(Boolean);
+		if (newTags.length === 0) {
+			console.warn('⚠️  No valid tags to add');
+			return;
+		}
+
 		const updatedTags = Array.from(new Set([...currentSession.tags, ...newTags]));
+		console.log('🏷️  ADDING TAGS:', { newTags, total: updatedTags });
 		updateSession(currentSession.id, { tags: updatedTags });
 		setTagInput('');
 	};
 
 	const handleRemoveTag = (tagToRemove: string) => {
-		if (!currentSession) return;
+		if (!currentSession) {
+			console.warn('⚠️  Cannot remove tag: No active session');
+			return;
+		}
 		const updatedTags = currentSession.tags.filter((t: string) => t !== tagToRemove);
+		console.log('🗑️  REMOVING TAG:', { removed: tagToRemove, remaining: updatedTags });
 		updateSession(currentSession.id, { tags: updatedTags });
 	};
 
@@ -168,7 +185,7 @@ export default function WorkTrackerWidget() {
 								tagInput={tagInput}
 								setTagInput={setTagInput}
 								onClockIn={handleClockIn}
-								onClockOut={stopSession}
+								onClockOut={handleClockOut}
 								onAddTag={handleAddTag}
 								onRemoveTag={handleRemoveTag}
 								formatTime={formatTimeBound}
