@@ -113,7 +113,7 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
 
     if (!currentSession) {
       console.warn('❌ STOP SESSION FAILED: No active session');
-      return;
+      return Promise.resolve();
     }
 
     // Step 1: Create completed session
@@ -145,6 +145,8 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
     } else {
       console.log('ℹ️  NOT AUTHENTICATED - CLOUD SYNC SKIPPED');
     }
+
+    return Promise.resolve();
   };
 
 

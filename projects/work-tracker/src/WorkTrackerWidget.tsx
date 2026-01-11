@@ -92,11 +92,14 @@ export default function WorkTrackerWidget() {
 		setTagInput('');
 	};
 
-	const handleClockOut = () => {
-		console.log('� CLOCK OUT BUTTON CLICKED');
-		stopSession().catch((error) => {
+	const handleClockOut = async () => {
+		console.log('🔴 CLOCK OUT BUTTON CLICKED');
+		try {
+			await stopSession();
+			console.log('✅ CLOCK OUT COMPLETED SUCCESSFULLY');
+		} catch (error) {
 			console.error('❌ Clock out error:', error);
-		});
+		}
 	};
 
 	const handleAddTag = () => {
