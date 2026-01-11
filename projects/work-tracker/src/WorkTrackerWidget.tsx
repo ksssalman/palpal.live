@@ -32,7 +32,9 @@ export default function WorkTrackerWidget() {
 		startSession,
 		stopSession,
 		clearAllData,
-		isTemporaryData
+		isTemporaryData,
+		loadDemoData,
+		deleteAllDemoSessions
 	} = useEntries(user, bridge);
 
 	// --- 2. Settings & Timezone ---
@@ -168,7 +170,7 @@ export default function WorkTrackerWidget() {
 					onSignOut={handleSignOut}
 
 					// Data
-					isTemporaryData={isTemporaryData}
+
 					setShowClearModal={setShowClearModal}
 					setShowSettings={setShowSettings}
 					exportToCSV={() => exportToCSV([], filteredSessions)}
@@ -179,62 +181,87 @@ export default function WorkTrackerWidget() {
 				{/* --- View Content --- */}
 				<div className="p-6 md:p-8 space-y-8">
 
-					{view === 'tracker' && (
-						<div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-							{/* Clock In / Activity Section */}
-							<ClockInSection
-								currentEntry={currentSession}
-								currentTime={currentTime}
-								tagInput={tagInput}
-								setTagInput={setTagInput}
-								onClockIn={handleClockIn}
-								onClockOut={handleClockOut}
-								onAddTag={handleAddTag}
-								onRemoveTag={handleRemoveTag}
-								formatTime={formatTimeBound}
-								calculateDuration={calculateDurationBound}
-								timezone={timezone}
-								onTagClick={handleTagClick}
-							/>
-
-							{/* Sessions List */}
-							<RecentSessionsList
-								sessions={sessions}
-								editingSession={editingSession}
-								setEditingSession={setEditingSession}
-								manualTag={manualTag}
-								setManualTag={setManualTag}
-								manualClockIn={manualClockIn}
-								setManualClockIn={setManualClockIn}
-								manualClockOut={manualClockOut}
-								setManualClockOut={setManualClockOut}
-								onDeleteSession={deleteSession}
-								onAddManualSession={handleAddManualSession}
-								formatTime={formatTimeBound}
-								formatDate={formatDateBound}
-								calculateDuration={calculateDurationBound}
-								onTagClick={handleTagClick}
-							/>
+					{!user ? (
+						<div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in zoom-in-95 duration-500">
+							<div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-purple-500/20">
+								<svg className="w-10 h-10 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+								</svg>
+							</div>
+							<h2 className="text-3xl font-bold text-slate-800 mb-3">Sign In Required</h2>
+							<p className="text-slate-500 max-w-md mx-auto mb-8 text-lg">
+								Please sign in with your Google account to access your work tracker and sync your sessions across devices.
+							</p>
+							<button
+								onClick={() => handleSignIn(false)}
+								className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg shadow-purple-600/30 flex items-center gap-2"
+							>
+								<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+								</svg>
+								Sign In with Google
+							</button>
 						</div>
-					)}
+					) : (
+						<>
+							{view === 'tracker' && (
+								<div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+									{/* Clock In / Activity Section */}
+									<ClockInSection
+										currentEntry={currentSession}
+										currentTime={currentTime}
+										tagInput={tagInput}
+										setTagInput={setTagInput}
+										onClockIn={handleClockIn}
+										onClockOut={handleClockOut}
+										onAddTag={handleAddTag}
+										onRemoveTag={handleRemoveTag}
+										formatTime={formatTimeBound}
+										calculateDuration={calculateDurationBound}
+										timezone={timezone}
+										onTagClick={handleTagClick}
+									/>
 
-					{view === 'report' && (
-						<div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-							<ReportView
-								reportPeriod={reportPeriod}
-								setReportPeriod={setReportPeriod}
-								customStartDate={customStartDate}
-								setCustomStartDate={setCustomStartDate}
-								customEndDate={customEndDate}
-								setCustomEndDate={setCustomEndDate}
-								generateReport={() => {}} // Auto-handled by hook logic now
-								exportToCSV={() => exportToCSV([], filteredSessions)}
-								tagStats={tagStats}
-								totalDuration={totalDuration}
-								formatDuration={(ms) => (ms / (1000 * 60 * 60)).toFixed(2) + 'h'}
-								onTagClick={handleTagClick}
-							/>
-						</div>
+									{/* Sessions List */}
+									<RecentSessionsList
+										sessions={sessions}
+										editingSession={editingSession}
+										setEditingSession={setEditingSession}
+										manualTag={manualTag}
+										setManualTag={setManualTag}
+										manualClockIn={manualClockIn}
+										setManualClockIn={setManualClockIn}
+										manualClockOut={manualClockOut}
+										setManualClockOut={setManualClockOut}
+										onDeleteSession={deleteSession}
+										onAddManualSession={handleAddManualSession}
+										formatTime={formatTimeBound}
+										formatDate={formatDateBound}
+										calculateDuration={calculateDurationBound}
+										onTagClick={handleTagClick}
+									/>
+								</div>
+							)}
+
+							{view === 'report' && (
+								<div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+									<ReportView
+										reportPeriod={reportPeriod}
+										setReportPeriod={setReportPeriod}
+										customStartDate={customStartDate}
+										setCustomStartDate={setCustomStartDate}
+										customEndDate={customEndDate}
+										setCustomEndDate={setCustomEndDate}
+										generateReport={() => {}} // Auto-handled by hook logic now
+										exportToCSV={() => exportToCSV([], filteredSessions)}
+										tagStats={tagStats}
+										totalDuration={totalDuration}
+										formatDuration={(ms) => (ms / (1000 * 60 * 60)).toFixed(2) + 'h'}
+										onTagClick={handleTagClick}
+									/>
+								</div>
+							)}
+						</>
 					)}
 				</div>
 			</div>
@@ -246,6 +273,8 @@ export default function WorkTrackerWidget() {
 				onClose={() => setShowSettings(false)}
 				timezone={timezone}
 				onTimezoneChange={setTimezone}
+				onLoadDemoData={loadDemoData}
+				onRemoveDemoData={deleteAllDemoSessions}
 			/>
 
 			<ClearDataModal

@@ -11,7 +11,7 @@ interface HeaderProps {
   onSignIn: () => void;
   onSignOut: () => void;
   // New Data Props
-  isTemporaryData: boolean;
+
   setShowClearModal: (show: boolean) => void;
   setShowSettings: (show: boolean) => void;
   exportToCSV: () => void;
@@ -27,7 +27,7 @@ export default function Header({
   setView,
   onSignIn,
   onSignOut,
-  isTemporaryData,
+
   setShowClearModal,
   setShowSettings,
   exportToCSV,
@@ -203,14 +203,7 @@ export default function Header({
       )}
 
       {/* Temporary Data Warning */}
-      {isTemporaryData && !isSigningIn && (
-        <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-1.5 flex items-center justify-center gap-2 backdrop-blur-sm">
-          <div className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></div>
-          <span className="text-xs font-medium text-amber-200">
-            Using temporary local storage. Sign in to save your progress.
-          </span>
-        </div>
-      )}
+      {/* Temporary Data Warning removed as local usage is disabled */}
     </div>
   );
 }

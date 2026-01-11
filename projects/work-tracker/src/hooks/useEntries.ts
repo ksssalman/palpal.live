@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 // Hook for managing work sessions
 import type { TimeEntry } from '../types';
 import type { PalPalBridge } from '../utils/palpalBridge';
+import { generateDemoData } from '../utils/demoData';
 
 export function useEntries(user: any, bridge: PalPalBridge | null) {
   const [sessions, setSessions] = useState<TimeEntry[]>([]);
@@ -199,6 +200,43 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
         console.error('Failed to sync manual session:', e);
       }
     }
+
+  };
+
+  const loadDemoData = async () => {
+    const demoEntries = generateDemoData();
+    const updatedSessions = [...demoEntries, ...sessions].sort((a, b) =>
+      new Date(b.clockIn).getTime() - new Date(a.clockIn).getTime()
+    );
+    setSessions(updatedSessions);
+
+    if (user && bridge?.isAuthenticated()) {
+      try {
+        // Sync incrementally to avoid spamming / hitting limits too hard
+        // For better performance, we could batch, but simple loop is safer for now
+        for (const entry of demoEntries) {
+           await bridge.saveItem('work-tracker', 'sessions', entry);
+        }
+      } catch (e) {
+        console.error('Failed to sync demo data:', e);
+      }
+    }
+  };
+
+  const deleteAllDemoSessions = async () => {
+    const idsToDelete = sessions.filter(s => s.isDemo).map(s => s.id);
+    const updatedSessions = sessions.filter(s => !s.isDemo);
+    setSessions(updatedSessions);
+
+    if (user && bridge?.isAuthenticated()) {
+      try {
+        for (const id of idsToDelete) {
+           await bridge.deleteItem('work-tracker', 'sessions', id);
+        }
+      } catch (e) {
+        console.error('Failed to delete demo data from cloud:', e);
+      }
+    }
   };
 
 
@@ -219,6 +257,9 @@ export function useEntries(user: any, bridge: PalPalBridge | null) {
     addSession,
     updateSession,
     deleteSession,
-    clearAllData
+
+    clearAllData,
+    loadDemoData,
+    deleteAllDemoSessions
   };
 }

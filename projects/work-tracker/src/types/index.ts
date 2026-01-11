@@ -5,6 +5,7 @@ export interface TimeEntry {
   tags: string[];
   parentId?: number;
   isManual?: boolean;
+  isDemo?: boolean;
 }
 
 export interface TagStat {
