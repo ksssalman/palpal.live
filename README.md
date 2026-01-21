@@ -47,32 +47,27 @@ The main site serves as the gateway to the ecosystem, providing project discover
    firebase deploy
    ```
 
-### Docker Setup
 
-The ecosystem is container-ready. To run the entire platform locally:
+## Local Setup
 
-```bash
-docker compose up --build
-```
+Docker is no longer used for this project. Please follow these steps to run locally:
 
-Access the application at `http://localhost:8080`.
+1. Install Node.js and npm.
+2. Run `npm install` in the project root.
+3. Use `npm run dev` or the appropriate script to start the app.
 
----
+Refer to individual project folders for more details.
+
 
 ## 🤝 Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
-- Development setup instructions
-- Coding guidelines and best practices
-- How to submit pull requests
-- Troubleshooting common issues (including git commit problems)
 
----
 
-## 🔒 Security
+## Deployment
 
-We prioritize your data security and privacy:
+Cloud deployment is no longer active. Please use local or alternative hosting as needed.
 
 - **Mandatory Email Verification**: All cloud accounts require a verified email.
 - **Data Isolation**: Firestore rules ensure that you only ever access your own data.
