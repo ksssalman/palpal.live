@@ -25,6 +25,7 @@
   <script src="js/modules/navigation.js"></script>
   <script src="js/modules/mobile-menu.js"></script>
   <script src="js/modules/nav-auth.js"></script>
+  <script src="js/modules/support.js"></script>
   <script src="js/app-init.js"></script>
 
   <nav class="navbar">
@@ -35,6 +36,7 @@
     <div class="nav-links">
       <a href="about.html" class="nav-link" id="aboutLink">About</a>
       <a href="#projects" class="nav-link" id="navProjectsLink">Projects</a>
+      <a href="#" class="nav-link support-btn-trigger" id="navSupportLink">Support Us</a>
       <div id="navAuthContainer">
         <!-- Will be populated by JS -->
         <a href="auth.html" class="nav-auth-btn">Sign In</a>
@@ -47,6 +49,7 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="about.html" class="mobile-menu-link">About</a>
     <a href="#projects" class="mobile-menu-link">Projects</a>
+    <a href="#" class="mobile-menu-link support-btn-trigger">Support Us</a>
     <div id="mobileAuthContainer">
       <a href="auth.html" class="nav-auth-btn mobile-block">Sign In</a>
     </div>
@@ -117,6 +120,32 @@
 
       <div class="footer projects-footer">
         More projects on the way!
+      </div>
+    </div>
+  </div>
+
+  <!-- Support Modal Overlay -->
+  <div id="supportModalOverlay" class="modal-overlay">
+    <div class="support-modal">
+      <button class="modal-close" id="closeSupportModal">&times;</button>
+      <div class="support-header">
+        <h2>Support PalPal</h2>
+        <p>Your support helps us keep building amazing tools.</p>
+      </div>
+
+      <div class="support-options">
+        <a href="https://cash.app/$palpallive" target="_blank" rel="noopener noreferrer" class="bmc-link">
+          <div class="cashapp-pill">
+            Support via Cash App
+          </div>
+        </a>
+
+        <div class="bmc-section">
+          <p class="bmc-text">Or support us directly via</p>
+          <a href="https://buymeacoffee.com/salmankhimani" target="_blank" rel="noopener noreferrer" class="bmc-link">
+            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" class="bmc-img">
+          </a>
+        </div>
       </div>
     </div>
   </div>

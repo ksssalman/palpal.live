@@ -1,0 +1,129 @@
+/* Support Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(84, 19, 66, 0.4);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.support-modal {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 15px 35px rgba(84, 19, 66, 0.2);
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  position: relative;
+  text-align: left;
+}
+
+.modal-overlay.active .support-modal {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #541342;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  opacity: 1;
+}
+
+.support-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.support-header h2 {
+  font-family: "Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif;
+  color: #541342;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.support-header p {
+  color: rgba(84, 19, 66, 0.7);
+}
+
+.support-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.cashapp-pill {
+  height: 50px;
+  background-color: #00D632;
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .support-modal {
+    padding: 1.5rem;
+  }
+}
+
+/* Buy Me a Coffee Support Link */
+.bmc-section {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.bmc-text {
+  margin-bottom: 1rem;
+  color: rgba(84, 19, 66, 0.7);
+  font-size: 0.95rem;
+}
+
+.bmc-link {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  text-decoration: none;
+}
+
+.bmc-link:hover {
+  transform: translateY(-2px);
+}
+
+.bmc-img {
+  height: 50px !important;
+  border-radius: 8px;
+}
