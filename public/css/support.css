@@ -64,9 +64,20 @@
 
 .support-header h2 {
   font-family: "Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif;
-  color: #541342;
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: lowercase;
+  font-style: italic;
   margin-bottom: 0.5rem;
+  background: linear-gradient(45deg, #541342, #8a266f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #541342;
+  background-clip: text;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  padding-right: 0.2em;
 }
 
 .support-header p {
