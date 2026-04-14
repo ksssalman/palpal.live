@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Work Tracker</string>
+    <string name="title_activity_main">Work Tracker</string>
+    <string name="package_name">live.palpal.worktracker</string>
+    <string name="custom_url_scheme">live.palpal.worktracker</string>
+</resources>
