@@ -10,12 +10,11 @@
 </head>
 
 <body>
-  <!-- Firebase SDK (auto-configured by Firebase Hosting) -->
-  <script defer src="/__/firebase/10.7.0/firebase-app-compat.js"></script>
-  <script defer src="/__/firebase/10.7.0/firebase-auth-compat.js"></script>
-  <script defer src="/__/firebase/10.7.0/firebase-firestore-compat.js"></script>
-  <!-- <script defer src="/__/firebase/init.js"></script> -->
-  <script defer src="js/manual-firebase-init.js"></script>
+  <!-- Firebase SDK (using absolute CDN URLs for universal compatibility) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+  <script src="js/manual-firebase-init.js"></script>
 
   <!-- PalPal Modules - Load in correct dependency order -->
   <script src="js/modules/config.js"></script>

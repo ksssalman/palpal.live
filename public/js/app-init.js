@@ -8,12 +8,37 @@ class AppInitializer {
     // Initialize modules in dependency order
     console.log('Initializing PalPal application...');
 
-    // UI components
-    window.navController = new UINavigation();
-    window.mobileMenuController = new MobileMenu();
-    window.navAuthController = new NavAuthentication();
+    // Wait for Firebase to be ready before initializing auth modules
+    this.waitForFirebase(() => {
+      // UI components
+      window.navController = new UINavigation();
+      window.mobileMenuController = new MobileMenu();
+      window.navAuthController = new NavAuthentication();
+      
+      console.log('Application initialized successfully');
+    });
+  }
 
-    console.log('Application initialized successfully');
+  /**
+   * Wait for Firebase to be available
+   */
+  static waitForFirebase(callback) {
+    let attempts = 0;
+    const maxAttempts = 50; // Wait up to 5 seconds
+    
+    const checkFirebase = setInterval(() => {
+      attempts++;
+      if (typeof firebase !== 'undefined' && firebase.auth && window.firebaseInitialized) {
+        clearInterval(checkFirebase);
+        callback();
+      } else if (attempts >= maxAttempts) {
+        clearInterval(checkFirebase);
+        console.warn('⚠ Firebase not ready, initializing without auth');
+        // Still initialize UI modules even if Firebase failed
+        window.navController = new UINavigation();
+        window.mobileMenuController = new MobileMenu();
+      }
+    }, 100);
   }
 }
 

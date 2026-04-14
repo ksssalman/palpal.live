@@ -19,9 +19,12 @@ class NavAuthentication {
   initializeAuthListeners() {
     // Wait for Firebase to load
     this.waitForFirebase(() => {
-      FirebaseAuth.onAuthStateChanged((user) => {
-        this.updateNavAuth(user);
-      });
+      if (typeof firebase !== 'undefined' && firebase.auth) {
+        firebase.auth().onAuthStateChanged((user) => {
+          this.updateNavAuth(user);
+        });
+        console.log('✓ Nav auth listeners initialized');
+      }
     });
   }
 
@@ -29,10 +32,17 @@ class NavAuthentication {
    * Wait for Firebase to be available
    */
   waitForFirebase(callback) {
+    let attempts = 0;
+    const maxAttempts = 50; // Wait up to 5 seconds
+    
     const checkFirebase = setInterval(() => {
-      if (typeof firebase !== 'undefined' && firebase.auth) {
+      attempts++;
+      if (typeof firebase !== 'undefined' && firebase.auth && window.firebaseInitialized) {
         clearInterval(checkFirebase);
         callback();
+      } else if (attempts >= maxAttempts) {
+        clearInterval(checkFirebase);
+        console.error('✗ Firebase failed to load in nav-auth module');
       }
     }, 100);
   }

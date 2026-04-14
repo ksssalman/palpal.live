@@ -1,0 +1,85 @@
+/* About Page Specific Styles */
+
+.about-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-title {
+  font-family: "Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif;
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: lowercase;
+  font-style: italic;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #541342, #8a266f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #541342;
+  background-clip: text;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  padding-right: 0.2em;
+}
+
+.about-subtitle {
+  font-size: 1.25rem;
+  color: rgba(84, 19, 66, 0.7);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.content-card {
+  background: white;
+  border: 1px solid rgba(84, 19, 66, 0.1);
+  border-radius: 20px;
+  padding: 3rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 20px 40px rgba(84, 19, 66, 0.05);
+}
+
+.content-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #541342;
+  margin-bottom: 1.5rem;
+}
+
+.content-text:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive Design - Tablets and Medium Screens */
+@media (max-width: 768px) {
+  .about-title {
+    font-size: 2.5rem;
+  }
+
+  .container {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* Responsive Design - Small Screens and Mobile */
+@media (max-width: 480px) {
+  .about-title {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 1rem 0.75rem;
+  }
+
+  .content-card {
+    padding: 1.5rem;
+  }
+
+  .about-subtitle {
+    font-size: 1rem;
+  }
+
+  .content-text {
+    font-size: 1rem;
+  }
+}

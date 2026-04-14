@@ -1,5 +1,5 @@
-// Manual Firebase Initialization to enforce custom Auth Domain
-// This replaces the auto-generated /__/firebase/init.js to ensure authDomain is set to palpal.live
+// Manual Firebase Initialization
+// Uses absolute CDN URLs for universal compatibility (local dev, staging, production)
 
 (function() {
   const firebaseConfig = {
@@ -12,10 +12,39 @@
     measurementId: "G-WGBMFMB0MP"
   };
 
-  if (typeof firebase !== 'undefined') {
-    firebase.initializeApp(firebaseConfig);
-    console.log('Firebase initialized manually with custom domain: palpal.live');
-  } else {
-    console.error('Firebase SDK not loaded before initialization script');
+  let retryCount = 0;
+  const maxRetries = 30; // Retry for up to 3 seconds (30 * 100ms)
+
+  function initializeFirebase() {
+    retryCount++;
+    
+    if (typeof firebase !== 'undefined' && firebase.initializeApp) {
+      try {
+        firebase.initializeApp(firebaseConfig);
+        console.log('✓ Firebase initialized successfully');
+        window.firebaseInitialized = true;
+        return;
+      } catch (error) {
+        if (error.code === 'app/duplicate-app') {
+          console.log('✓ Firebase already initialized');
+          window.firebaseInitialized = true;
+          return;
+        } else {
+          console.error('✗ Firebase initialization failed:', error.message);
+          window.firebaseInitialized = false;
+          return;
+        }
+      }
+    }
+    
+    if (retryCount < maxRetries) {
+      setTimeout(initializeFirebase, 100);
+    } else {
+      console.error('✗ Firebase SDK failed to load after', maxRetries * 100, 'ms');
+      window.firebaseInitialized = false;
+    }
   }
+
+  // Start initialization immediately
+  initializeFirebase();
 })();
