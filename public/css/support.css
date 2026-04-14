@@ -76,54 +76,69 @@
 .support-options {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
   align-items: center;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+  justify-content: center;
 }
 
-.cashapp-pill {
-  height: 50px;
-  background-color: #00D632;
-  color: white;
-  border-radius: 8px;
+@media (min-width: 600px) {
+  .support-options {
+    flex-direction: row;
+    gap: 3rem;
+  }
+}
+
+.qr-option {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.qr-link {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 1.5rem;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 8px;
+  background: rgba(84, 19, 66, 0.05);
+}
+
+.qr-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(84, 19, 66, 0.15);
+}
+
+.qr-code {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  display: block;
+  object-fit: contain;
+}
+
+.qr-label {
   font-weight: 600;
-  font-size: 1.1rem;
-  white-space: nowrap;
+  color: #541342;
+  font-size: 1rem;
+  margin: 0;
 }
 
 @media (max-width: 480px) {
   .support-modal {
     padding: 1.5rem;
   }
-}
-
-/* Buy Me a Coffee Support Link */
-.bmc-section {
-  margin-top: 0.5rem;
-  text-align: center;
-}
-
-.bmc-text {
-  margin-bottom: 1rem;
-  color: rgba(84, 19, 66, 0.7);
-  font-size: 0.95rem;
-}
-
-.bmc-link {
-  display: inline-block;
-  transition: transform 0.3s ease;
-  text-decoration: none;
-}
-
-.bmc-link:hover {
-  transform: translateY(-2px);
-}
-
-.bmc-img {
-  height: 50px !important;
-  border-radius: 8px;
+  
+  .support-options {
+    gap: 1.5rem;
+  }
+  
+  .qr-code {
+    width: 160px;
+    height: 160px;
+  }
 }
