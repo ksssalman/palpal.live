@@ -24,6 +24,7 @@
   <script src="js/modules/navigation.js"></script>
   <script src="js/modules/mobile-menu.js"></script>
   <script src="js/modules/nav-auth.js"></script>
+  <script src="js/modules/auth-guard.js"></script>
   <script src="js/modules/support.js"></script>
   <script src="js/app-init.js"></script>
 
@@ -79,7 +80,7 @@
       </p>
 
       <div class="projects-grid">
-        <a href="https://work-tracker.palpal.live" class="project-card">
+        <div class="project-card" data-requires-auth="true" id="workTrackerCard" style="cursor: pointer;">
           <div class="project-icon">💼</div>
           <div class="project-title">Work Tracker</div>
           <div class="project-description">
@@ -88,7 +89,7 @@
           </div>
           <span class="project-status">🟢 Live</span>
           <!-- APK download link removed -->
-        </a>
+        </div>
 
         <div class="project-card coming-soon">
           <div class="project-icon">📝</div>
@@ -149,6 +150,65 @@
       </div>
     </div>
   </div>
+
+  <!-- Work Tracker Auth Handler -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const workTrackerCard = document.getElementById('workTrackerCard');
+      
+      if (workTrackerCard) {
+        workTrackerCard.addEventListener('click', (e) => {
+          // Create a temporary auth guard if not already initialized
+          if (typeof window.authGuard === 'undefined') {
+            setTimeout(() => {
+              handleWorkTrackerClick();
+            }, 100);
+          } else {
+            handleWorkTrackerClick();
+          }
+        });
+      }
+      
+      function handleWorkTrackerClick() {
+        const isAuthenticated = window.authGuard && window.authGuard.isAuthenticated();
+        
+        if (isAuthenticated) {
+          // Redirect to Work Tracker
+          window.location.href = 'https://work-tracker.palpal.live';
+        } else {
+          // Show sign-in modal
+          if (window.authGuard) {
+            window.authGuard.showSignInPrompt('Work Tracker');
+          } else {
+            // Fallback modal
+            showSignInModal('Work Tracker');
+          }
+        }
+      }
+      
+      function showSignInModal(featureName) {
+        const modal = document.createElement('div');
+        modal.className = 'auth-guard-modal-overlay';
+        modal.innerHTML = `
+          <div class="auth-guard-modal">
+            <button class="modal-close" onclick="this.closest('.auth-guard-modal-overlay').remove()">&times;</button>
+            <div class="auth-guard-header">
+              <h2>Sign In Required</h2>
+            </div>
+            <div class="auth-guard-content">
+              <p>${featureName} is available for signed-in users only.</p>
+              <p>Sign in to your PalPal account to access this feature and unlock all the tools we've built for you.</p>
+            </div>
+            <div class="auth-guard-actions">
+              <a href="auth.html" class="btn btn-primary auth-guard-sign-in">Sign In</a>
+              <button class="btn btn-secondary" onclick="this.closest('.auth-guard-modal-overlay').remove()">Maybe Later</button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+      }
+    });
+  </script>
 </body>
 
 </html>

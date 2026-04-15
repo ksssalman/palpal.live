@@ -1,0 +1,202 @@
+/* Authentication Guard Styles */
+
+.auth-restricted {
+  cursor: pointer;
+  position: relative;
+}
+
+.auth-restricted:not(:disabled) {
+  opacity: 0.75;
+}
+
+.auth-restricted::after {
+  content: '🔒';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.2rem;
+  background: rgba(84, 19, 66, 0.9);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.auth-restricted:hover::after {
+  opacity: 1;
+}
+
+/* Auth Guard Modal */
+.auth-guard-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+.auth-guard-modal {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: rgba(84, 19, 66, 0.5);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  color: #541342;
+}
+
+.auth-guard-header {
+  margin-bottom: 1.5rem;
+}
+
+.auth-guard-header h2 {
+  font-family: "Adobe Garamond Pro", Garamond, Georgia, "Times New Roman", serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-transform: lowercase;
+  font-style: italic;
+  color: #541342;
+}
+
+.auth-guard-content {
+  margin-bottom: 2rem;
+}
+
+.auth-guard-content p {
+  color: rgba(84, 19, 66, 0.8);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.auth-guard-content p:last-child {
+  margin-bottom: 0;
+}
+
+.auth-guard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-guard-sign-in {
+  background: #541342;
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.auth-guard-sign-in:hover {
+  background: #3d0e30;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(84, 19, 66, 0.2);
+}
+
+.auth-guard-actions .btn {
+  padding: 0.875rem 1rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.auth-guard-actions .btn.btn-primary {
+  background: #541342;
+  color: white;
+}
+
+.auth-guard-actions .btn.btn-primary:hover {
+  background: #3d0e30;
+}
+
+.auth-guard-actions .btn.btn-secondary {
+  background: rgba(84, 19, 66, 0.1);
+  color: #541342;
+  border: 1px solid rgba(84, 19, 66, 0.2);
+}
+
+.auth-guard-actions .btn.btn-secondary:hover {
+  background: rgba(84, 19, 66, 0.05);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-guard-modal {
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+
+  .auth-guard-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .auth-guard-actions {
+    flex-direction: column;
+  }
+
+  .auth-guard-actions .btn {
+    width: 100%;
+  }
+}

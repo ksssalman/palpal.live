@@ -15,6 +15,9 @@ class AppInitializer {
       window.mobileMenuController = new MobileMenu();
       window.navAuthController = new NavAuthentication();
       
+      // Auth guard for restricted features
+      window.authGuard = new AuthGuard();
+      
       console.log('Application initialized successfully');
     });
   }

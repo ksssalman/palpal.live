@@ -15,6 +15,7 @@
 @import url('projects.css');
 @import url('footer.css');
 @import url('support.css');
+@import url('auth-guard.css');
 
 /* Responsive Design */
 @import url('responsive.css');
