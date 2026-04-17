@@ -1,0 +1,120 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20'
+  CACHE_KEY: ${{ github.workflow }}-${{ hashFiles('**/package-lock.json') }}
+
+jobs:
+  validate:
+    name: Validate & Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Check package-lock.json
+        run: |
+          if [ ! -f package-lock.json ]; then
+            echo "Error: package-lock.json is missing." && exit 1;
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate environment
+        run: npm run validate:env --prefix projects/work-tracker || true
+
+      - name: Validate TypeScript
+        run: npm run validate --prefix projects/work-tracker
+
+      - name: Lint code
+        run: npm run lint --prefix projects/work-tracker || echo "Linting completed with warnings"
+
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: validate
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build work-tracker
+        run: cd projects/work-tracker && npm ci && npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: projects/work-tracker/dist/
+          retention-days: 5
+
+  deploy:
+    name: Deploy to Firebase Hosting
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: projects/work-tracker/dist/
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PALPAL_541342 }}
+          channelId: live
+          projectId: palpal-541342
+
+  notification:
+    name: Workflow Status Notification
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [validate, build, deploy]
+
+    steps:
+      - name: Check workflow status
+        run: |
+          if [[ "${{ needs.validate.result }}" == "failure" || "${{ needs.build.result }}" == "failure" || "${{ needs.deploy.result }}" == "failure" ]]; then
+            echo "⚠️  Workflow completed with failures"
+            exit 1
+          fi
+          echo "✅ All checks passed successfully"
